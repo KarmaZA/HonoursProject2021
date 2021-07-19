@@ -29,19 +29,23 @@ def templateMatching_leastSquares(source_image, template_image):
     bottom_right = (top_left[0] + width, top_left[1] + height)
     cv2.rectangle(source_image, top_left, bottom_right, (255, 0, 0), 2)
 
-    cv2.imshow("Matched image", source_image)
+    cv2.namedWindow("Matched image", cv2.WINDOW_NORMAL)
+    window_show_sized = cv2.resize(source_image, (960, 540));
+    cv2.imshow("Matched image", window_show_sized)
     cv2.waitKey()
     cv2.destroyAllWindows()
 
 
 def loadImageFromFile(file_name):
     print("Loading the image file.")
-    image = cv2.imread(file_name, 1)
+    image = cv2.imread(file_name, 0)
     if not image.any():
         print("Error image not loaded")
 
     if flag_check:
-        cv2.imshow('image', image)
+        cv2.namedWindow("Image", cv2.WINDOW_NORMAL)
+        window_show_sized = cv2.resize(image, (960, 540));
+        cv2.imshow("Matched image", window_show_sized)
         cv2.waitKey(0)
         cv2.destroyAllWindows()
     print("Image loaded.")
