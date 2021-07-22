@@ -4,10 +4,24 @@
 import cv2
 from matplotlib import pyplot as plt
 
+
 # Template matching using normalized Cross Correlation
 def templateMatching_correlation(source_image, template_image):
     print("First function called.")
-    correlation = 1
+    height, width = template_image.shape[::]
+    correlation = cv2.matchTemplate(source_image, template_image, cv2.TM_SQDIFF)
+    plt.imshow(correlation, cmap='gray')
+
+    min_val, max_val, min_loc, max_loc = cv2.minMaxLoc(res)
+    top_left = max_loc  # Maximum Correlation
+    bottom_right = (top_left[0] + width, top_left[1] + height)
+    cv2.rectangle(source_image, top_left, bottom_right, (255, 0, 0), 2)
+
+    cv2.namedWindow("Matched image", cv2.WINDOW_NORMAL)
+    window_show_sized = cv2.resize(source_image, (960, 540));
+    cv2.imshow("Matched image", window_show_sized)
+    cv2.waitKey()
+    cv2.destroyAllWindows()
     return correlation
 
 
