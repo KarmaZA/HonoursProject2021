@@ -3,11 +3,12 @@
 
 # Import modules
 import cv2
-# import numpy as np
 
 
 # Import my classes
 import SimilarityMeasures
+
+# import numpy as np
 
 # Global Variables
 display_image_on_load = False
@@ -30,6 +31,7 @@ def loadImageFromFile(file_name):
 
 
 if __name__ == '__main__':
+
     print("The program has started.")
     flag_check = input("Do you want to see the image loaded (Y/N)?\n")
     if flag_check == 'Y':

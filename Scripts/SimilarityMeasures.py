@@ -4,7 +4,6 @@
 import cv2
 from matplotlib import pyplot as plt
 
-
 # Template matching using normalized Cross Correlation
 def templateMatching_correlation(source_image, template_image):
     print("First function called.")
