@@ -8,10 +8,10 @@ from matplotlib import pyplot as plt
 def templateMatching_correlation(source_image, template_image):
     print("First function called.")
     height, width = template_image.shape[::]
-    correlation = cv2.matchTemplate(source_image, template_image, cv2.TM_SQDIFF)
+    correlation = cv2.matchTemplate(source_image, template_image, cv2.TM_)
     plt.imshow(correlation, cmap='gray')
 
-    min_val, max_val, min_loc, max_loc = cv2.minMaxLoc(res)
+    min_val, max_val, min_loc, max_loc = cv2.minMaxLoc(correlation)
     top_left = max_loc  # Maximum Correlation
     bottom_right = (top_left[0] + width, top_left[1] + height)
     cv2.rectangle(source_image, top_left, bottom_right, (255, 0, 0), 2)
