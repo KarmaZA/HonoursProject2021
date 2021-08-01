@@ -8,7 +8,7 @@ from matplotlib import pyplot as plt
 def templateMatching_correlation(source_image, template_image):
     print("First function called.")
     height, width = template_image.shape[::]
-    correlation = cv2.matchTemplate(source_image, template_image, cv2.TM_)
+    correlation = 1 #  cv2.matchTemplate(source_image, template_image, cv2.TM_C)
     plt.imshow(correlation, cmap='gray')
 
     min_val, max_val, min_loc, max_loc = cv2.minMaxLoc(correlation)

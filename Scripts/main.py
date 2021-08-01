@@ -3,27 +3,17 @@
 
 # Import modules
 import cv2
-import rasterio
-import shapely
-import pandas
-import fiona
 
 
 # Import my classes
 import SimilarityMeasures
+import importData
 
 # import numpy as np
 
 # Global Variables
 display_image_on_load = False
 
-
-def importDataFromFile(file_name):
-    # https://rasterio.readthedocs.io/en/latest/
-    print("loading the geojson and tfif files")
-    with rasterio.open('example.tif') as dataset:
-
-        mask = dataset.dataset_mask();
 
 
 def loadImageFromFile(file_name):
@@ -43,6 +33,8 @@ def loadImageFromFile(file_name):
 
 
 if __name__ == '__main__':
+    print('Testing the importData class')
+    testVar = importData.importGeoJSONData('Test36507.geojson')
 
     print("The program has started.")
     flag_check = input("Do you want to see the image loaded (Y/N)?\n")
