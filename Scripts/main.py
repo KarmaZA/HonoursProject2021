@@ -10,7 +10,6 @@ import SimilarityMeasures
 import importData
 import genImages
 
-# import numpy as np
 
 # Global Variables
 display_image_on_load = False
@@ -34,14 +33,17 @@ def loadImageFromFile(file_name):
 
 
 if __name__ == '__main__':
-    genImages.genImageFromIdealisedData()
+    
     # Data Import testing
     print('Testing the importData class')
     testVar = importData.importGeoPandasJSon('Test36507.geojson')
     
     testPointSet = importData.importGeoJSonAsPoints('Test36507.geojson')
     testPointSet = importData.importIdealisedData('SquareIdeal3.txt')
+    print("Drawing the image call on main")
+    genImages.genImageFromIdealisedData(testPointSet)
     # importData.displayPointSet(testPointSet)
+    
 
     ##################################
     print("The program has started.")
