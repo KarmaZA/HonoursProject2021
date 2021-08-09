@@ -8,6 +8,7 @@ import cv2
 # Import my classes
 import SimilarityMeasures
 import importData
+import genImages
 
 # import numpy as np
 
@@ -33,9 +34,16 @@ def loadImageFromFile(file_name):
 
 
 if __name__ == '__main__':
+    genImages.genImageFromIdealisedData()
+    # Data Import testing
     print('Testing the importData class')
-    testVar = importData.importGeoJSONData('Test36507.geojson')
+    testVar = importData.importGeoPandasJSon('Test36507.geojson')
+    
+    testPointSet = importData.importGeoJSonAsPoints('Test36507.geojson')
+    testPointSet = importData.importIdealisedData('SquareIdeal3.txt')
+    # importData.displayPointSet(testPointSet)
 
+    ##################################
     print("The program has started.")
     flag_check = input("Do you want to see the image loaded (Y/N)?\n")
     if flag_check == 'Y':
