@@ -41,9 +41,8 @@ if __name__ == '__main__':
     testPointSet = importData.importGeoJSonAsPoints('Test36507.geojson')
     testPointSet = importData.importIdealisedData('SquareIdeal3.txt')
     print("Drawing the image call on main")
-    genImages.genImageFromIdealisedData(testPointSet)
+    genImages.genImageIdealised(testPointSet)
     # importData.displayPointSet(testPointSet)
-    
 
     ##################################
     print("The program has started.")
