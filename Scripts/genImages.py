@@ -4,8 +4,8 @@ import numpy as np
 import imageio
 
 def genImageIdealised(PointSet):
-    width = 400
-    height = 300
+    width = 512
+    height = 512
     nrChannels = 3
     ImageToGen = np.zeros(shape=[height, width, nrChannels], dtype=np.uint8)
     imageio.imsave('template.png', ImageToGen)

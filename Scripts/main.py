@@ -39,7 +39,7 @@ if __name__ == '__main__':
     testVar = importData.importGeoPandasJSon('Test36507.geojson')
     
     testPointSet = importData.importGeoJSonAsPoints('Test36507.geojson')
-    testPointSet = importData.importIdealisedData('SquareIdeal3.txt')
+    testPointSet = importData.importIdealisedData('TriIdeal3.txt')
     print("Drawing the image call on main")
     genImages.genImageIdealised(testPointSet)
     # importData.displayPointSet(testPointSet)

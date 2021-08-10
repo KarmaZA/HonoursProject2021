@@ -10,16 +10,20 @@ using namespace std;
 int main(){
 	int count = 0;
 	int toReturn[100][2];
+	int offset = 2;
 	for (int x = 0; x < 10; x++){
 		for (int y = 0; y < 10; y++){
-			toReturn[count][0] = x * 3;
-			toReturn[count][1] = y * 3;
+			toReturn[count][0] = x * 4;
+			toReturn[count][1] = y * 4;
+			if(count % 2 == 0){
+				toReturn[count][0] += offset;
+			} 
 			count++;
 		}
 	}
 	//write code to output to a file
 	ofstream MyFile;
-	MyFile.open("SquareIdeal3.txt");
+	MyFile.open("TriIdeal3.txt");
 	for (int x = 0; x < count; x++){
 		MyFile << toReturn[x][0] << " " << toReturn[x][1] << endl;
 	}
