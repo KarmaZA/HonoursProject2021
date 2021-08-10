@@ -39,7 +39,7 @@ if __name__ == '__main__':
     testVar = importData.importGeoPandasJSon('Test36507.geojson')
     
     testPointSet = importData.importGeoJSonAsPoints('Test36507.geojson')
-    testPointSet = importData.importIdealisedData('TriIdeal3.txt')
+    testPointSet = importData.importIdealisedData('SquareIdeal3.txt')
     print("Drawing the image call on main")
     genImages.genImageIdealised(testPointSet)
     # importData.displayPointSet(testPointSet)
@@ -52,12 +52,12 @@ if __name__ == '__main__':
 
     file_input_name = input("What is the image name(0 for default)?\n")
     if file_input_name == '0':
-        file_input_name = '695787.png'
+        file_input_name = 'MainImage.png'
         print("Using default")
 
     source_image = loadImageFromFile(file_input_name)
     print("Image loaded")
-    template_image = loadImageFromFile('Template695.png')
+    template_image = loadImageFromFile('TemplateImage.png')
     print("Template loaded")
     # SimilarityMeasures.correlation_measure = templateMatching_leastSquares(source_image, template_image)
     SimilarityMeasures.templateMatching_leastSquares(source_image, template_image)
