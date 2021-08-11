@@ -33,30 +33,37 @@ def loadImageFromFile(file_name):
 
 
 if __name__ == '__main__':
-    
-    # Data Import testing
+    print('The program has started.')
     print('Testing the importData class')
-    testVar = importData.importGeoPandasJSon('Test36507.geojson')
+    # testVar = importData.importGeoPandasJSon('Test36507.geojson')
+    # Change to GeoJSON file name
+    file_input_name = input("What is the image name(0 for default)?\n")
+    if file_input_name == '0':
+        file_input_name = 'SquareIdeal3.txt'
+        print("Using default")
+    # testPointSet = importData.importGeoJSonAsPoints('Test36507.geojson')
+    PointSet = importData.importIdealisedData(file_input_name)
+    print('The data has been imported into the program')
     
-    testPointSet = importData.importGeoJSonAsPoints('Test36507.geojson')
-    testPointSet = importData.importIdealisedData('SquareIdeal3.txt')
-    print("Drawing the image call on main")
-    genImages.genImageIdealised(testPointSet)
-    # importData.displayPointSet(testPointSet)
+    genImages.genImageIdealised(PointSet)
 
+    print("The Templates haven been generated")
     ##################################
     print("The program has started.")
     flag_check = input("Do you want to see the image loaded (Y/N)?\n")
     if flag_check == 'Y':
         display_image_on_load = True
 
-    file_input_name = input("What is the image name(0 for default)?\n")
-    if file_input_name == '0':
-        file_input_name = 'MainImage.png'
-        print("Using default")
-
-    source_image = loadImageFromFile(file_input_name)
+    source_image = loadImageFromFile('MainImage.png')
     print("Image loaded")
-    template_image = loadImageFromFile('TemplateImage.png')
+    template_image_square = loadImageFromFile('TemplateSquare.png')
+    template_image_rectangle = loadImageFromFile('TemplateRectangle.png')
+    template_image_triangle = loadImageFromFile('TemplateTriangle.png')
     print("Template loaded")
-    SimilarityMeasures.templateMatching_correlation(source_image, template_image)
+    
+    count = SimilarityMeasures.templateMatching_correlation(source_image, template_image_rectangle)
+    print("The number of template matches for rectangle template is: " + str(count))
+    count = SimilarityMeasures.templateMatching_correlation(source_image, template_image_triangle)
+    print("The number of template matches for triangle template is: " + str(count))
+    count = SimilarityMeasures.templateMatching_correlation(source_image, template_image_square)
+    print("The number of template matches for square template is: " + str(count))

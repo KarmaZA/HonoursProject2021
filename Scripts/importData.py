@@ -26,7 +26,7 @@ def importGeoPandasJSon(filename):
         return error
     
 def importIdealisedData(filename):
-    with open(filename) as dataFile:
+    with open("Data/IdealData/" + filename) as dataFile:
         point_set = []
         for line in dataFile:
             coords = line.split()

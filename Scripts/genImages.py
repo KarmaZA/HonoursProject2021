@@ -28,8 +28,6 @@ def genImageIdealised(PointSet):
         y = offset + int(point.y*10)
         print(x, y)
         ImageToGen[x][y][0:3] = 255
-        #ImageToGen[point.x*10][point.y+10][1] = 255
-        #ImageToGen[point.x*10][point.y+10][2] = 255
         
     imageio.imsave('MainImage.png', ImageToGen)
     
