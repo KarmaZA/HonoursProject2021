@@ -22,7 +22,7 @@ def loadImageFromFile(file_name):
     if not image.any():
         print("Error image not loaded")
 
-    if flag_check:
+    if display_image_on_load:
         cv2.namedWindow("Image", cv2.WINDOW_NORMAL)
         window_show_sized = cv2.resize(image, (960, 540))
         cv2.imshow("Image", window_show_sized)
@@ -32,17 +32,10 @@ def loadImageFromFile(file_name):
     return image
 
 
-if __name__ == '__main__':
-    print('The program has started.')
-    print('Testing the importData class')
-    # testVar = importData.importGeoPandasJSon('Test36507.geojson')
-    # Change to GeoJSON file name
-    file_input_name = input("What is the image name(0 for default)?\n")
-    if file_input_name == '0':
-        file_input_name = 'SquareIdeal3.txt'
-        print("Using default")
+def Run_File(filename):
+    
     # testPointSet = importData.importGeoJSonAsPoints('Test36507.geojson')
-    PointSet = importData.importIdealisedData(file_input_name)
+    PointSet = importData.importIdealisedData(filename)
     print('The data has been imported into the program')
     
     genImages.genImageIdealised(PointSet)
@@ -67,3 +60,22 @@ if __name__ == '__main__':
     print("The number of template matches for triangle template is: " + str(count))
     count = SimilarityMeasures.templateMatching_correlation(source_image, template_image_square)
     print("The number of template matches for square template is: " + str(count))
+
+
+if __name__ == '__main__':
+    print('The program has started.')
+    # testVar = importData.importGeoPandasJSon('Test36507.geojson')
+    # Change to GeoJSON file name
+    file_input_name = input("What is the image name(0 for default)?\n")
+    if file_input_name == '0':
+        file_input_name = 'SquareIdeal3.txt'
+        print("Using default")
+    
+    Run_File(file_input_name)
+    print("Running for rectangle")
+    file_input_name = 'RectIdeal3.txt'
+    Run_File(file_input_name)
+    print("Running for Triangle")
+    file_input_name = 'TriIdeal3.txt'
+    Run_File(file_input_name)
+    

@@ -7,8 +7,8 @@ import imageio
 Template_Square = [[0,0],[0,1],[1,0],[1,1]]
 
 def genImageIdealised(PointSet):
-    width = 512
-    height = 512
+    width = 768
+    height = 768
     nrChannels = 3
     ImageToGen = np.zeros(shape=[height, width, nrChannels], dtype=np.uint8)
     imageio.imsave('MainImage.png', ImageToGen)
@@ -33,7 +33,7 @@ def genImageIdealised(PointSet):
     
     # Generate Template
     genSquareTemplate(30)
-    genRectangleTemplate(15,45)
+    genRectangleTemplate(60,30)
     genTriangleTemplate(30)
     
     

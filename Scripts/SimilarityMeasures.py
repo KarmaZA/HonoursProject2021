@@ -29,6 +29,7 @@ def templateMatching_correlation(source_image, template_image):
     cv2.imshow("Matched image", window_show_sized)
     cv2.waitKey()
     cv2.destroyAllWindows()
+    source_image_gray = None
     return count
 
 
