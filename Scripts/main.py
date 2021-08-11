@@ -59,5 +59,4 @@ if __name__ == '__main__':
     print("Image loaded")
     template_image = loadImageFromFile('TemplateImage.png')
     print("Template loaded")
-    # SimilarityMeasures.correlation_measure = templateMatching_leastSquares(source_image, template_image)
-    SimilarityMeasures.templateMatching_leastSquares(source_image, template_image)
+    SimilarityMeasures.templateMatching_correlation(source_image, template_image)
