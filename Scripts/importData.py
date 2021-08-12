@@ -25,7 +25,11 @@ def importGeoPandasJSon(filename):
         print("File not found")
         return error
     
+    
+### TODO 
+    #AT READ IN CALC X AND Y MIN AND MAX
 def importIdealisedData(filename):
+    
     with open("Data/IdealData/" + filename) as dataFile:
         point_set = []
         for line in dataFile:

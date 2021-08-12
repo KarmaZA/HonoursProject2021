@@ -19,8 +19,8 @@ def genImageIdealised(PointSet):
         
     width *= 10 
     height *= 10
-    width += (offset + 2)
-    height += (offset + 2)
+    width += (2*offset)
+    height += (offset*2)
     nrChannels = 3
     
     ImageToGen = np.zeros(shape=[height, width, nrChannels], dtype=np.uint8)

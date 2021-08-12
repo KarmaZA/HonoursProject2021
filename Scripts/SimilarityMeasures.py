@@ -5,6 +5,7 @@ from PIL.Image import NONE
 import cv2
 from matplotlib import pyplot as plt
 import numpy as np
+from shapely.geometry.point import Point
 
 # Template matching using normalized Cross Correlation
 def templateMatching_correlation(source_image, template_image):
@@ -50,3 +51,37 @@ def templateMatching_leastSquares(source_image, template_image):
     cv2.imshow("Matched image", window_show_sized)
     cv2.waitKey()
     cv2.destroyAllWindows()
+
+
+def CalcScale(PointSet):
+    scale_to_return = [0,0]
+    
+    # Sum the points together on a y scale and a x scale
+    # calc distance on each scale
+    sum_x_array = []
+    sum_y_array = []
+    #Find min x and y
+    min_x = 100
+    min_y = 100
+    for point in PointSet:
+        if(min_x > point.x):
+            min_x = int(point.x)
+        if(min_y > point.y):
+            min_y = int(point.y)
+    for point in PointSet:
+        if (point.x == min_x):
+            sum_x_array.append(int(point.x+point.y))
+        if (point.y == min_y):
+            sum_y_array.append(int(point.x+point.y))
+         
+    #TODO
+    #REWRITE this into the average difference of the arrays
+    min_x = (sum_x_array[1] - sum_x_array[0]) * 10
+    min_y = (sum_y_array[1] - sum_y_array[0]) * 10
+    print(sum_x_array, sum_y_array)
+    print('The Square Pattern side length is ' + str(int((min_x+min_y)/2)))
+    print('The Rectangle Pattern side length is: ' + str(min_y) + ' and ' + str(min_x))
+    print('The length used for the triangle template is: ' + str(min(min_x,min_y)))
+    scale_to_return = [min_x, min_y]
+    return scale_to_return
+    

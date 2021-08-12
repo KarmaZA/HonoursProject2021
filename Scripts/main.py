@@ -38,12 +38,13 @@ def Run_File(filename):
     PointSet = importData.importIdealisedData(filename)
     print('The data has been imported into the program')
     
+    scale = SimilarityMeasures.CalcScale(PointSet)
     genImages.genImageIdealised(PointSet)
 
     print("The Templates haven been generated")
     ##################################
     print("The program has started.")
-    flag_check = input("Do you want to see the image loaded (Y/N)?\n")
+    flag_check = 'Y'#input("Do you want to see the image loaded (Y/N)?\n")
     if flag_check == 'Y':
         display_image_on_load = True
 
@@ -72,9 +73,15 @@ if __name__ == '__main__':
         print("Using default")
     
     Run_File(file_input_name)
+    print()
+    print()
+    some_val = input("Run for Rectangle?")
     print("Running for rectangle")
     file_input_name = 'RectIdeal3.txt'
     Run_File(file_input_name)
+    print()
+    print()
+    some_val = input("Run for Triangle?")
     print("Running for Triangle")
     file_input_name = 'TriIdeal3.txt'
     Run_File(file_input_name)
