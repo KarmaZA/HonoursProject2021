@@ -7,9 +7,22 @@ import imageio
 Template_Square = [[0,0],[0,1],[1,0],[1,1]]
 
 def genImageIdealised(PointSet):
-    width = 768
-    height = 768
+    width = 0
+    height = 0
+    offset=15
+    for point in PointSet:
+        if point.y > width:
+            width = int(point.y)
+            
+        if point.x > height:
+            height = int(point.x)   
+        
+    width *= 10 
+    height *= 10
+    width += (offset + 2)
+    height += (offset + 2)
     nrChannels = 3
+    
     ImageToGen = np.zeros(shape=[height, width, nrChannels], dtype=np.uint8)
     imageio.imsave('MainImage.png', ImageToGen)
     
@@ -18,15 +31,15 @@ def genImageIdealised(PointSet):
     print(ImageToGen.shape, ImageToGen.dtype)
     
     # Create a .raw file for the image
-    ImageToGen.tofile('MainImage.raw')
+    # ImageToGen.tofile('MainImage.raw')
     
     # Insert distance calculation or number assignment
     
-    offset = 15
+    
     for point in PointSet:
         x = offset + int(point.x*10)
         y = offset + int(point.y*10)
-        print(x, y)
+        # print(x, y)
         ImageToGen[x][y][0:3] = 255
         
     imageio.imsave('MainImage.png', ImageToGen)
@@ -38,6 +51,7 @@ def genImageIdealised(PointSet):
     
     
 def genSquareTemplate(length):
+    print('Generating Square template with a length of: ' + str(length))
     template_size = length + 3
     # Size = length of the side plus a pixel on each end
     TemplateToGen = np.zeros(shape=[template_size,template_size,3], dtype=np.uint8)
@@ -51,7 +65,7 @@ def genSquareTemplate(length):
     
 # Width should be the longer size for the sake of the program     
 def genRectangleTemplate(Height, Width):
-    
+    print('Generating Rectangle template with a Height of: ' + str(Height) + ' and a width of : ' + str(Width))
     TemplateToGen = np.zeros(shape=[(Height + 3),(Width + 3),3], dtype=np.uint8)
     for Template_Points in Template_Square:
         x = 1 + Template_Points[0] * Height
@@ -62,6 +76,7 @@ def genRectangleTemplate(Height, Width):
     
     
 def genTriangleTemplate(length):
+    print('Generating Triangle template with using a length of: ' + str(length))
     template_size = (length) + 3
     TemplateToGen = np.zeros(shape=[template_size,length+3,3], dtype=np.uint8)
     # Point 1
@@ -78,7 +93,7 @@ def genTriangleTemplate(length):
     y = 1 + Template_Square[2][0] * length
     x = 1 + int(0.5 * length)
     TemplateToGen[x][y][0:3] = 255
-    print(y,x)
+    # print(y,x)
     TemplateToGen[x][y][0:3] = 255
         
     imageio.imsave('TemplateTriangle.png', TemplateToGen)
