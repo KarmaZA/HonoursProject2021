@@ -82,6 +82,7 @@ if __name__ == '__main__':
     print()
     print()
     some_val = input("Run for Triangle?")
+    
     print("Running for Triangle")
     file_input_name = 'TriIdeal3.txt'
     Run_File(file_input_name)
