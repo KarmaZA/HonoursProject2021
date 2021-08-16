@@ -3,7 +3,13 @@
 import numpy as np
 import imageio
 
+square_length = 1
+rectangle_height = 1
+rectangle_width = 1
+triangle_length = 1
 
+# References
+    # https://www.agrihortieducation.com/2016/09/systems-of-planting.html
 Template_Square = [[0,0],[0,1],[1,0],[1,1]]
 
 def genImageIdealised(PointSet):
@@ -45,9 +51,55 @@ def genImageIdealised(PointSet):
     imageio.imsave('MainImage.png', ImageToGen)
     
     # Generate Template
-    genSquareTemplate(30)
-    genRectangleTemplate(60,30)
-    genTriangleTemplate(40)
+    CalcScale(PointSet)
+    genSquareTemplate(square_length)
+    genRectangleTemplate(rectangle_width,rectangle_height)
+    genTriangleTemplate(triangle_length)
+    
+
+def CalcScale(PointSet):
+    global square_length
+    global rectangle_height
+    global rectangle_width
+    global triangle_length
+    # Sum the points together on a y scale and a x scale
+    # calc distance on each scale
+    sum_x_array = []
+    sum_y_array = []
+    #Find min x and y
+    min_x = 100
+    min_y = 100
+    for point in PointSet:
+        if(min_x > point.x):
+            min_x = int(point.x)
+        if(min_y > point.y):
+            min_y = int(point.y)
+    for point in PointSet:
+        if (point.x == min_x):
+            sum_x_array.append(int(point.x+point.y))
+        if (point.y == min_y):
+            sum_y_array.append(int(point.x+point.y))
+         
+    #TODO
+    #REWRITE this into the average difference of the arrays
+    min_x = (sum_x_array[1] - sum_x_array[0]) * 10
+    min_y = (sum_y_array[1] - sum_y_array[0]) * 10
+    print(sum_x_array, sum_y_array)
+    print('The Square Pattern side length is ' + str(int((min_x+min_y)/2)))
+    square_length = int((min_x+min_y)/2)
+
+    if min_y != min_x:
+        print('The Rectangle Pattern side length is: ' + str(min_y) + ' and ' + str(min_x))
+    else:
+        min_y += int(0.5*min_x)
+        min_x = int(min_x*0.5)
+        print("Width and height are equal. Likely output is a square pattern. Changing rectangle dimensions to avoid complications.")
+        ################################## Maybe find a way to not use the template instead
+    rectangle_height = min_y
+    rectangle_width = min_x
+    
+    print('The length used for the triangle template is: ' + str(min(min_x,min_y)))
+    triangle_length = min(min_x,min_y)
     
     
 def genSquareTemplate(length):
@@ -76,6 +128,8 @@ def genRectangleTemplate(Height, Width):
     
     
 def genTriangleTemplate(length):
+    if(length == 0):
+        length = square_length
     print('Generating Triangle template with using a length of: ' + str(length))
     template_size = (length) + 3
     TemplateToGen = np.zeros(shape=[template_size,length+3,3], dtype=np.uint8)
@@ -97,3 +151,15 @@ def genTriangleTemplate(length):
     TemplateToGen[x][y][0:3] = 255
         
     imageio.imsave('TemplateTriangle.png', TemplateToGen)
+    
+    
+# line template for rotation calculation
+def genLineTemplate(length):
+    print('Generating line template for rotation')
+    TemplateToGen = np.zeros(shape=[length,3,3], dtype=np.uint8)
+    for k in range(10):
+        x = 1 + (k*length)
+        y = 1
+        TemplateToGen[x][y][0:3] = 255
+        
+    imageio.imsave('TemplateLine.png', TemplateToGen)
