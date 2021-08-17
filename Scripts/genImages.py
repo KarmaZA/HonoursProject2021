@@ -52,7 +52,9 @@ def genImageIdealised(PointSet):
     
     # Generate Template
     CalcScale(PointSet)
+    
     genSquareTemplate(square_length)
+    genQuincunxTemplate(square_length) # Qunicunx pattern is the square with a point in the center as well
     genRectangleTemplate(rectangle_width,rectangle_height)
     genTriangleTemplate(triangle_length)
     
@@ -153,13 +155,31 @@ def genTriangleTemplate(length):
     imageio.imsave('TemplateTriangle.png', TemplateToGen)
     
     
+def genQuincunxTemplate(length):
+    print('Generating Quincunx template with a length of: ' + str(length))
+    template_size = length + 3
+    # Size = length of the side plus a pixel on each end
+    TemplateToGen = np.zeros(shape=[template_size,template_size,3], dtype=np.uint8)
+    for Template_Points in Template_Square:
+        x = 1 + Template_Points[0] * length
+        y = 1 + Template_Points[1] * length
+        TemplateToGen[x][y][0:3] = 255
+    
+    x = 1 + int(0.5 * length)
+    y = 1 + int(0.5 * length)
+    TemplateToGen[x][y][0:3] = 255
+        
+    imageio.imsave('TemplateQuincunx.png', TemplateToGen)
+    
+    
 # line template for rotation calculation
 def genLineTemplate(length):
     print('Generating line template for rotation')
-    TemplateToGen = np.zeros(shape=[length,3,3], dtype=np.uint8)
-    for k in range(10):
+    TemplateToGen = np.zeros(shape=[(length*4)+3,length+3,3], dtype=np.uint8)
+    for k in range(4):
         x = 1 + (k*length)
-        y = 1
+        y = 1 + int(length/2)
         TemplateToGen[x][y][0:3] = 255
         
     imageio.imsave('TemplateLine.png', TemplateToGen)
+    

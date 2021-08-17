@@ -20,16 +20,16 @@ def templateMatching_correlation(source_image, template_image):
     count = 0
     for pt in zip(*loc[::-1]):
         # print(res)
-        # cv2.rectangle(source_image_gray, pt, (pt[0] + width, pt[1] + height), (128,128,128), 2)
+        cv2.rectangle(source_image_gray, pt, (pt[0] + width, pt[1] + height), (128,128,128), 2)
         count += 1
         
     
     plt.imshow(res, cmap='gray')
     
     window_show_sized = cv2.resize(source_image_gray, (960, 540));
-    #cv2.imshow("Matched image", window_show_sized)
-    #cv2.waitKey()
-    #cv2.destroyAllWindows()
+    cv2.imshow("Matched image", window_show_sized)
+    cv2.waitKey()
+    cv2.destroyAllWindows()
     #source_image_gray = None
     return count
 

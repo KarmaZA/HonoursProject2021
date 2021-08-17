@@ -9,6 +9,7 @@ import cv2
 import SimilarityMeasures
 import importData
 import genImages
+import calcRotation
 
 
 # Global Variables
@@ -22,12 +23,12 @@ def loadImageFromFile(file_name):
     if not image.any():
         print("Error image not loaded")
 
-    if display_image_on_load:
-        cv2.namedWindow("Image", cv2.WINDOW_NORMAL)
-        window_show_sized = cv2.resize(image, (960, 540))
-        cv2.imshow("Image", window_show_sized)
-        cv2.waitKey(0)
-        cv2.destroyAllWindows()
+    # if display_image_on_load:
+    #     cv2.namedWindow("Image", cv2.WINDOW_NORMAL)
+    #     window_show_sized = cv2.resize(image, (960, 540))
+    #     cv2.imshow("Image", window_show_sized)
+    #     cv2.waitKey(0)
+    #     cv2.destroyAllWindows()
     print("Image loaded.")
     return image
 
@@ -39,7 +40,7 @@ def Run_File(filename):
     PointSet = importData.importIdealisedData(filename)
     print('The data has been imported into the program')
     ################################## Rotation
-    
+    calcRotation.calcImageRotation(PointSet)
     ################################## Generate Images
     
     genImages.genImageIdealised(PointSet)
@@ -55,6 +56,7 @@ def Run_File(filename):
     ################################## Load Images
     source_image = loadImageFromFile('MainImage.png')
     print("Image loaded")
+
     template_image_square = loadImageFromFile('TemplateSquare.png')
     template_image_rectangle = loadImageFromFile('TemplateRectangle.png')
     template_image_triangle = loadImageFromFile('TemplateTriangle.png')

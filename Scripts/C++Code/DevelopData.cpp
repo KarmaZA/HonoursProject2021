@@ -27,6 +27,5 @@ int main(){
 	for (int x = 0; x < count; x++){
 		MyFile << toReturn[x][0] << " " << toReturn[x][1] << endl;
 	}
-
 	MyFile.close();
 }
