@@ -1,5 +1,4 @@
 # This class will take input of the pointset and calculate the rotation of the image
-import genImages
 import SimilarityMeasures as SM
 
 import cv2
@@ -9,10 +8,10 @@ import imutils
 
 def calcImageRotation(Pointset):
     rotation = 0 # Degrees
-    genImages.genLineTemplate(30)
     image = cv2.imread('TemplateLine.png', 0)
     main_image = cv2.imread('MainImage.png', 0)
     rotation_correlation_list = []
+    # Only need to rotate 180 degrees
     for x in range(8):
         rotated = imutils.rotate(image,angle=(x*45))
         correlation_measure = SM.templateMatching_correlation(main_image, image)

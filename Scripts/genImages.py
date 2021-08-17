@@ -56,7 +56,11 @@ def genImageIdealised(PointSet):
     genSquareTemplate(square_length)
     genQuincunxTemplate(square_length) # Qunicunx pattern is the square with a point in the center as well
     genRectangleTemplate(rectangle_width,rectangle_height)
-    genTriangleTemplate(triangle_length)
+    genIsoscelesTriangleTemplate(triangle_length)
+    genEquilateralTriangleTemplate(triangle_length)
+    genDoubleHedgeTemplate(rectangle_width, rectangle_height)
+    
+    genLineTemplate(triangle_length)
     
 
 def CalcScale(PointSet):
@@ -129,7 +133,7 @@ def genRectangleTemplate(Height, Width):
     imageio.imsave('TemplateRectangle.png', TemplateToGen)
     
     
-def genTriangleTemplate(length):
+def genIsoscelesTriangleTemplate(length):
     if(length == 0):
         length = square_length
     print('Generating Triangle template with using a length of: ' + str(length))
@@ -170,6 +174,38 @@ def genQuincunxTemplate(length):
     TemplateToGen[x][y][0:3] = 255
         
     imageio.imsave('TemplateQuincunx.png', TemplateToGen)
+    
+
+def genEquilateralTriangleTemplate(length):
+    template_triangle = [(0,0), (1,0), (0.5,0.86)]
+    print('Generating Equalateral Triangle template with a side length of ' + str(length))
+    
+    TemplateToGen = np.zeros(shape=[length+3,length+3,3], dtype=np.uint8)
+    for pt in template_triangle:
+        x = 1 + int(pt[0] * length)
+        y = 1 + int(pt[1] * length)
+        TemplateToGen[x][y][0:3] = 255
+        
+    imageio.imsave('TemplateEquilateralTriangle.png', TemplateToGen)
+    
+    
+def genDoubleHedgeTemplate(min_length, max_length):
+    size = min_length + max_length + 3 + min_length
+    
+    TemplateToGen = np.zeros(shape=[7,size,3], dtype=np.uint8)
+    
+    size = 1
+    TemplateToGen[3][size][0:3] = 255 # First point
+    size += min_length
+    TemplateToGen[3][size][0:3] = 255 # First point
+    size += max_length
+    TemplateToGen[3][size][0:3] = 255 # First point
+    size += min_length
+    TemplateToGen[3][size][0:3] = 255 # First point
+    
+    imageio.imsave('TemplateDoubleHedge.png', TemplateToGen)
+    
+
     
     
 # line template for rotation calculation

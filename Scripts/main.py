@@ -23,12 +23,12 @@ def loadImageFromFile(file_name):
     if not image.any():
         print("Error image not loaded")
 
-    # if display_image_on_load:
-    #     cv2.namedWindow("Image", cv2.WINDOW_NORMAL)
-    #     window_show_sized = cv2.resize(image, (960, 540))
-    #     cv2.imshow("Image", window_show_sized)
-    #     cv2.waitKey(0)
-    #     cv2.destroyAllWindows()
+    if display_image_on_load:
+        cv2.namedWindow("Image", cv2.WINDOW_NORMAL)
+        window_show_sized = cv2.resize(image, (960, 540))
+        cv2.imshow("Image", window_show_sized)
+        cv2.waitKey(0)
+        cv2.destroyAllWindows()
     print("Image loaded.")
     return image
 
@@ -39,17 +39,20 @@ def Run_File(filename):
     # testPointSet = importData.importGeoJSonAsPoints('Test36507.geojson')
     PointSet = importData.importIdealisedData(filename)
     print('The data has been imported into the program')
-    ################################## Rotation
-    calcRotation.calcImageRotation(PointSet)
-    ################################## Generate Images
     
+    ################################## Generate Images
     genImages.genImageIdealised(PointSet)
 
     print("The Templates haven been generated")
+    ################################## Rotation
+    print("Calculating the rotation")
+    calcRotation.calcImageRotation(PointSet)
+    
+    # Write code to fix rotatin if necessary
     
     ##################################
     print("The program has started.")
-    flag_check = 'Y'#input("Do you want to see the image loaded (Y/N)?\n")
+    flag_check = 'N'#input("Do you want to see the image loaded (Y/N)?\n")
     if flag_check == 'Y':
         display_image_on_load = True
         
