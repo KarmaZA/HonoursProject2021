@@ -58,7 +58,6 @@ def drawGuassianNoise(x,y, ImageToGen):
     # offset x and y so middle stays bright
     x -= 1
     y -= 1 
-    
     for count_x in range(3):
             for count_y in range(3):
                 if (count_y == 1) and (count_x == 1):
