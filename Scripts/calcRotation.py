@@ -4,8 +4,6 @@ import SimilarityMeasures as SM
 import cv2
 import imutils
 
-
-
 def calcImageRotation(Pointset):
     rotation = 0 # Degrees
     image = cv2.imread('TemplateLine.png', 0)
@@ -14,7 +12,7 @@ def calcImageRotation(Pointset):
     # Only need to rotate 180 degrees
     for x in range(8):
         rotated = imutils.rotate(image,angle=(x*45))
-        correlation_measure = SM.templateMatching_correlation(main_image, image)
+        correlation_measure = SM.templateMatching_correlation_score(main_image, image)
         rotation_correlation_list.append(correlation_measure)
         #window_show_sized = cv2.resize(rotated, (960, 540));
         #cv2.imshow("Matched image", window_show_sized)

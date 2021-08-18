@@ -23,8 +23,8 @@ def genImageIdealised(PointSet):
         if point.x > height:
             height = int(point.x)   
         
-    width *= 10 
-    height *= 10
+    width *= 10 # Magic number?
+    height *= 10 # Magic number?
     width += (2*offset)
     height += (offset*2)
     nrChannels = 3
@@ -46,20 +46,38 @@ def genImageIdealised(PointSet):
         x = offset + int(point.x*10)
         y = offset + int(point.y*10)
         # print(x, y)
-        ImageToGen[x][y][0:3] = 255
+        drawGuassianNoise(x,y,ImageToGen)
+            
         
     imageio.imsave('MainImage.png', ImageToGen)
     
     # Generate Template
     CalcScale(PointSet)
+    genAllTemplates()
     
+
+def drawGuassianNoise(x,y, ImageToGen):
+    # offset x and y so middle stays bright
+    x -= 1
+    y -= 1 
+    
+    for count_x in range(3):
+            for count_y in range(3):
+                if (count_y == 1) and (count_x == 1):
+                    ImageToGen[x+count_x][y+count_y][0:3] = 255
+                else:
+                    ImageToGen[x+count_x][y+count_y][0:3] = 128
+                    
+    return ImageToGen
+    
+
+def genAllTemplates():
     genSquareTemplate(square_length)
     genQuincunxTemplate(square_length) # Qunicunx pattern is the square with a point in the center as well
     genRectangleTemplate(rectangle_width,rectangle_height)
     genIsoscelesTriangleTemplate(triangle_length)
     genEquilateralTriangleTemplate(triangle_length)
     genDoubleHedgeTemplate(rectangle_width, rectangle_height)
-    
     genLineTemplate(triangle_length)
     
 
@@ -204,8 +222,6 @@ def genDoubleHedgeTemplate(min_length, max_length):
     TemplateToGen[3][size][0:3] = 255 # First point
     
     imageio.imsave('TemplateDoubleHedge.png', TemplateToGen)
-    
-
     
     
 # line template for rotation calculation
