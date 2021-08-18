@@ -98,7 +98,7 @@ if __name__ == '__main__':
     print('The program has started.')
     file_input_name = input("What is the image name(0 for default)?\n")
     if file_input_name == '0':
-        file_input_name = 'SquareIdeal3.txt'
+        file_input_name = 'SquareNoise3.txt'
         print("Using default")
         Run_File(file_input_name)
     elif file_input_name == '1':

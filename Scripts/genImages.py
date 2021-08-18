@@ -40,8 +40,6 @@ def genImageIdealised(PointSet):
     # ImageToGen.tofile('MainImage.raw')
     
     # Insert distance calculation or number assignment
-    
-    
     for point in PointSet:
         x = offset + int(point.x*10)
         y = offset + int(point.y*10)
