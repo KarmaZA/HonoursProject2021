@@ -68,6 +68,7 @@ def genAllTemplates():
     genEquilateralTriangleTemplate(triangle_length)
     genDoubleHedgeTemplate(rectangle_width, rectangle_height)
     genLineTemplate(triangle_length)
+    genUnbrokenLine(triangle_length)
     
 
 def CalcScale(PointSet):
@@ -228,4 +229,32 @@ def genLineTemplate(length):
         drawGuassianNoise(x, y, TemplateToGen)
         
     imageio.imsave('Images/TemplateLine.png', TemplateToGen)
+    
+def genUnbrokenLine(length):
+    print("Generating unbroken line")
+    
+    TemplateToGen = np.zeros(shape=[length+3,(length*5)+3,3], dtype=np.uint8)
+    midPoint = int((length+3)/2)
+    for k in range((length*5)+3):
+        x = 1 + midPoint
+        y = k
+        TemplateToGen[x][y][0:3] = 255
+        
+        x = 2 + midPoint
+        y = k
+        TemplateToGen[x][y][0:3] = 192
+        
+        x = midPoint
+        y = k
+        TemplateToGen[x][y][0:3] = 192
+        
+        x = 3 + midPoint
+        y = k
+        TemplateToGen[x][y][0:3] = 128
+        
+        x = midPoint - 1
+        y = k
+        TemplateToGen[x][y][0:3] = 128
+        
+    imageio.imsave('Images/TemplateLineUnbroken.png', TemplateToGen)
     
