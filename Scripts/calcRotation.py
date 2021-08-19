@@ -6,8 +6,8 @@ import imutils
 
 def calcImageRotation(Pointset):
     rotation = 0 # Degrees
-    image = cv2.imread('TemplateLine.png', 0)
-    main_image = cv2.imread('MainImage.png', 0)
+    image = cv2.imread('Images/TemplateLine.png', 0)
+    main_image = cv2.imread('Images/MainImage.png', 0)
     rotation_correlation_list = []
     # Only need to rotate 180 degrees
     for x in range(8):

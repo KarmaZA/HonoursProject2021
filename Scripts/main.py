@@ -20,6 +20,7 @@ display_image_on_load = False
 
 def loadImageFromFile(file_name):
     print("Loading the image file.")
+    file_name = 'Images/' + str(file_name)
     image = cv2.imread(file_name, 0)
     if not image.any():
         print("Error image not loaded")

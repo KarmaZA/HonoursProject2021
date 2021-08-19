@@ -30,7 +30,7 @@ int main(){
 				offset+=3;
 			}
 	}
-
+	// Quincunx Center point
 	// for (int y = 0; y < 9; y++){
 	// 	for (int x = 0; x < 9; x++){
 	// 		toReturn[count][0] = x * 3 + 1.5;
