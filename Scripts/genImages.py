@@ -15,7 +15,7 @@ Template_Square = [[0,0],[0,1],[1,0],[1,1]]
 def genImageIdealised(PointSet):
     width = 0
     height = 0
-    offset=15
+    offset= 15
     for point in PointSet:
         if point.y > width:
             width = int(point.y)
@@ -31,25 +31,17 @@ def genImageIdealised(PointSet):
     
     ImageToGen = np.zeros(shape=[height, width, nrChannels], dtype=np.uint8)
     imageio.imsave('MainImage.png', ImageToGen)
-    
-    imageArray = imageio.imread('MainImage.png')
-    print(type(imageArray))
-    print(ImageToGen.shape, ImageToGen.dtype)
-    
-    # Create a .raw file for the image
-    # ImageToGen.tofile('MainImage.raw')
-    
+
+    imageArray = imageio.imread('MainImage.png')  
     # Insert distance calculation or number assignment
     for point in PointSet:
         x = offset + int(point.x*10)
         y = offset + int(point.y*10)
         # print(x, y)
         drawGuassianNoise(x,y,ImageToGen)
-            
-        
+              
     imageio.imsave('MainImage.png', ImageToGen)
-    
-    # Generate Template
+    # Generate Templates
     CalcScale(PointSet)
     genAllTemplates()
     
@@ -105,7 +97,8 @@ def CalcScale(PointSet):
     #REWRITE this into the average difference of the arrays
     min_x = (sum_x_array[1] - sum_x_array[0]) * 10
     min_y = (sum_y_array[1] - sum_y_array[0]) * 10
-    print(sum_x_array, sum_y_array)
+    print()
+    #print(sum_x_array, sum_y_array)
     print('The Square Pattern side length is ' + str(int((min_x+min_y)/2)))
     square_length = int((min_x+min_y)/2)
 
@@ -131,19 +124,23 @@ def genSquareTemplate(length):
     for Template_Points in Template_Square:
         x = 1 + Template_Points[0] * length
         y = 1 + Template_Points[1] * length
-        TemplateToGen[x][y][0:3] = 255
+        drawGuassianNoise(x, y, TemplateToGen)
         
     imageio.imsave('TemplateSquare.png', TemplateToGen)
     
     
 # Width should be the longer size for the sake of the program     
 def genRectangleTemplate(Height, Width):
+    if Width < Height:
+        x = Width
+        Width = Height
+        Height = x
     print('Generating Rectangle template with a Height of: ' + str(Height) + ' and a width of : ' + str(Width))
     TemplateToGen = np.zeros(shape=[(Height + 3),(Width + 3),3], dtype=np.uint8)
     for Template_Points in Template_Square:
         x = 1 + Template_Points[0] * Height
         y = 1 + Template_Points[1] * Width
-        TemplateToGen[x][y][0:3] = 255
+        drawGuassianNoise(x, y, TemplateToGen)
         
     imageio.imsave('TemplateRectangle.png', TemplateToGen)
     
@@ -157,19 +154,19 @@ def genIsoscelesTriangleTemplate(length):
     # Point 1
     y = 1 + Template_Square[0][0] * length
     x = 1 + Template_Square[0][1] * length
-    print(y,x)
-    TemplateToGen[x][y][0:3] = 255
+    # print(y,x)
+    drawGuassianNoise(x, y, TemplateToGen)
     # Point 2
     y = 1 + Template_Square[1][0] * length
     x = 1 + Template_Square[1][1] * length
-    print(y,x)
-    TemplateToGen[x][y][0:3] = 255
+    # print(y,x)
+    drawGuassianNoise(x, y, TemplateToGen)
     # Point 3
     y = 1 + Template_Square[2][0] * length
     x = 1 + int(0.5 * length)
-    TemplateToGen[x][y][0:3] = 255
+    drawGuassianNoise(x, y, TemplateToGen)
     # print(y,x)
-    TemplateToGen[x][y][0:3] = 255
+    drawGuassianNoise(x, y, TemplateToGen)
         
     imageio.imsave('TemplateTriangle.png', TemplateToGen)
     
@@ -182,11 +179,11 @@ def genQuincunxTemplate(length):
     for Template_Points in Template_Square:
         x = 1 + Template_Points[0] * length
         y = 1 + Template_Points[1] * length
-        TemplateToGen[x][y][0:3] = 255
+        drawGuassianNoise(x, y, TemplateToGen)
     
     x = 1 + int(0.5 * length)
     y = 1 + int(0.5 * length)
-    TemplateToGen[x][y][0:3] = 255
+    drawGuassianNoise(x, y, TemplateToGen)
         
     imageio.imsave('TemplateQuincunx.png', TemplateToGen)
     
@@ -199,7 +196,7 @@ def genEquilateralTriangleTemplate(length):
     for pt in template_triangle:
         x = 1 + int(pt[0] * length)
         y = 1 + int(pt[1] * length)
-        TemplateToGen[x][y][0:3] = 255
+        drawGuassianNoise(x, y, TemplateToGen)
         
     imageio.imsave('TemplateEquilateralTriangle.png', TemplateToGen)
     
@@ -210,13 +207,13 @@ def genDoubleHedgeTemplate(min_length, max_length):
     TemplateToGen = np.zeros(shape=[7,size,3], dtype=np.uint8)
     
     size = 1
-    TemplateToGen[3][size][0:3] = 255 # First point
+    drawGuassianNoise(3, size, TemplateToGen) # First point
     size += min_length
-    TemplateToGen[3][size][0:3] = 255 # First point
+    drawGuassianNoise(3, size, TemplateToGen) # First point
     size += max_length
-    TemplateToGen[3][size][0:3] = 255 # First point
+    drawGuassianNoise(3, size, TemplateToGen) # First point
     size += min_length
-    TemplateToGen[3][size][0:3] = 255 # First point
+    drawGuassianNoise(3, size, TemplateToGen) # First point
     
     imageio.imsave('TemplateDoubleHedge.png', TemplateToGen)
     
@@ -228,7 +225,7 @@ def genLineTemplate(length):
     for k in range(4):
         x = 1 + (k*length)
         y = 1 + int(length/2)
-        TemplateToGen[x][y][0:3] = 255
+        drawGuassianNoise(x, y, TemplateToGen)
         
     imageio.imsave('TemplateLine.png', TemplateToGen)
     

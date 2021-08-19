@@ -8,12 +8,12 @@ import numpy as np
 from shapely.geometry.point import Point
 
 # Template matching using normalized Cross Correlation
-def templateMatching_correlation(source_image, template_image):
+def templateMatching_correlation(source_image, template_image, threshold):
     height, width = template_image.shape[::-1]
     
     source_image_gray = source_image#cv2.cvtColor(source_image, cv2.COLOR_BGR2GRAY)
     res = cv2.matchTemplate(source_image_gray, template_image, cv2.TM_CCOEFF_NORMED)
-    threshold = 0.4
+    #threshold = 0.4
     # print("The max is  " + max(res))
     
     loc = np.where( res >= threshold)
