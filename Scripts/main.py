@@ -25,16 +25,18 @@ def Run_File(filename):
     print('The data has been imported into the program')
     ################################## Rotation and Scale
     print("Calculating the rotation")
-    Image_rotation_array = DataCalculations.calcImageRotation(PointSet)
+    # Image_rotation_array = DataCalculations.calcImageRotation(PointSet)
     print("Calculating the Scale")
-    Image_scale_array = DataCalculations.CalcScale(PointSet)
-    
+    # Image_scale_array = DataCalculations.CalcScale(PointSet)
+    Image_scale_array = [2, 4, 6, 8, 10]
     ################################## Generate Images
     genImages.genImageIdealised(PointSet)
 
     print("The Source Image has been generated")
     print()
     
+        
+    genImages.genAllTemplate(Image_scale_array)
     
     
     # Write code to fix rotatin if necessary
@@ -144,18 +146,14 @@ def RunTestCases():
 
 
 if __name__ == '__main__':
-    print('The program has started.')
-    length_array = [2, 4, 6, 8, 10]
-    genImages.genSquareTemplate(length_array)
-    genImages.genQuincunxTemplate(length_array)
-    
-    # file_input_name = input("What is the image name(0 for default)?\n")
-    # if file_input_name == '0':
-    #     file_input_name = 'QuincunxIdeal3.txt'
-    #     print("Using default")
-    #     print()
-    #     Run_File(file_input_name)
-    # elif file_input_name == '1':
-    #     RunTestCases()
-    # else:
-    #     Run_File(file_input_name)
+    print('The program has started.')    
+    file_input_name = input("What is the image name(0 for default)?\n")
+    if file_input_name == '0':
+        file_input_name = 'QuincunxIdeal3.txt'
+        print("Using default")
+        print()
+        Run_File(file_input_name)
+    elif file_input_name == '1':
+        RunTestCases()
+    else:
+        Run_File(file_input_name)
