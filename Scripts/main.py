@@ -4,6 +4,7 @@
 # Import modules
 import cv2
 from matplotlib.pyplot import waitforbuttonpress
+from numpy import double
 
 
 # Import my classes
@@ -34,10 +35,9 @@ def Run_File(filename):
 
     print("The Source Image has been generated")
     print()
-    
         
-    genImages.genAllTemplate(Image_scale_array)
-    
+    double_rectangle_count = genImages.genAllTemplate(Image_scale_array)
+    image_count = len(Image_scale_array)
     
     # Write code to fix rotatin if necessary
     
@@ -49,16 +49,16 @@ def Run_File(filename):
         
         
     ################################## Load Images into array at different scales
-    source_image = importData.loadImageFromFile('MainImage.png', False)
+    source_image = importData.loadImageFromFile('MainImage.png', False, 0)
 
-    # template_image_square = importData.loadImageFromFile('TemplateSquare.png', False)
-    # template_image_rectangle = importData.loadImageFromFile('TemplateRectangle.png', False)
-    # template_image_isosceles_triangle = importData.loadImageFromFile('TemplateTriangle.png', False)
-    # template_image_quincunx = importData.loadImageFromFile('TemplateQuincunx.png', False)
-    # template_image_equilateral_triangle = importData.loadImageFromFile('TemplateEquilateralTriangle.png', False)
-    # template_image_double_hedgerow = importData.loadImageFromFile('TemplateDoubleHedge.png', False)
-    # print("Source image and Templates loaded")
-    # print()
+    template_image_square = importData.loadImageFromFile('TemplateSquare', False, image_count)
+    template_image_rectangle = importData.loadImageFromFile('TemplateRectangle', False, double_rectangle_count)
+    template_image_isosceles_triangle = importData.loadImageFromFile('TemplateTriangle', False, image_count)
+    template_image_quincunx = importData.loadImageFromFile('TemplateQuincunx', False, image_count)
+    template_image_equilateral_triangle = importData.loadImageFromFile('TemplateEquilateralTriangle', False, image_count)
+    template_image_double_hedgerow = importData.loadImageFromFile('TemplateDoubleHedge', False, double_rectangle_count)
+    print("Source image and Templates loaded")
+    print()
     
     # ################################## Template Matching
     # correlation_threshold = 0.1

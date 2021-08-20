@@ -59,7 +59,7 @@ def genAllTemplate(length_array):
     genRectangleTemplate(length_array)
     genEquilateralTriangleTemplate(length_array)
     genIsoscelesTriangleTemplate(length_array)
-    genDoubleHedgeTemplate(length_array)
+    return genDoubleHedgeTemplate(length_array)
  
     
 def genSquareTemplate(length_array):
@@ -202,6 +202,7 @@ def genDoubleHedgeTemplate(array_length):
             count += 1
             height_count += 1
         width_count -= 1
+    return count
 
     
 # line template for rotation calculation

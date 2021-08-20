@@ -26,22 +26,32 @@ def importGeoPandasJSon(filename):
         print("File not found")
         return error
     
-def loadImageFromFile(file_name, display_image_on_load):
-    print("Loading the image file.")
-    file_name = 'Images/' + str(file_name)
-    image = cv2.imread(file_name, 0)
-    if not image.any():
-        print("Error image not loaded")
+def loadImageFromFile(file_name, display_image_on_load, count):
+    if count == 0:
+        print("Loading the image file.")
+        file_name = 'Images/' + str(file_name)
+        image = cv2.imread(file_name, 0)
+        if not image.any():
+            print("Error image not loaded")
 
-    if display_image_on_load:
-        cv2.namedWindow("Image", cv2.WINDOW_NORMAL)
-        window_show_sized = cv2.resize(image, (960, 540))
-        cv2.imshow("Image", window_show_sized)
-        cv2.waitKey(0)
-        cv2.destroyAllWindows()
-    print("Image loaded.")
-    return image
-    
+        if display_image_on_load:
+            cv2.namedWindow("Image", cv2.WINDOW_NORMAL)
+            window_show_sized = cv2.resize(image, (960, 540))
+            cv2.imshow("Image", window_show_sized)
+            cv2.waitKey(0)
+            cv2.destroyAllWindows()
+        print("Image loaded.")
+        return image
+    else:
+        image = []
+        for x in range(count):
+            print("Loading the image file.")
+            file_name = 'Images/' + str(file_name) + str(x) + '.png'
+            image_load = cv2.imread(file_name, 0)
+                
+            print("Images loaded.")
+            image.append(image_load)
+        return image
     
 ### TODO 
     #AT READ IN CALC X AND Y MIN AND MAX
