@@ -3,6 +3,9 @@ import SimilarityMeasures as SM
 
 import cv2
 import imutils
+from scipy.spatial import distance
+from sklearn.neighbors import KDTree
+import numpy as np
 
 def calcImageRotation(Pointset):
     rotation = 0 # Degrees
@@ -22,45 +25,25 @@ def calcImageRotation(Pointset):
     print("The correlation list is")
     print(rotation_correlation_list)
     
-    #Calc Scale will return an array of mean distances. These could number from 1 to several
-    # Like will have to recode the entire section
-def CalcScale(PointSet):
-    # Sum the points together on a y scale and a x scale
-    # calc distance on each scale
-    sum_x_array = []
-    sum_y_array = []
-    #Find min x and y
-    min_x = 100
-    min_y = 100
-    for point in PointSet:
-        if(min_x > point.x):
-            min_x = int(point.x)
-        if(min_y > point.y):
-            min_y = int(point.y)
-    for point in PointSet:
-        if (point.x == min_x):
-            sum_x_array.append(int(point.x+point.y))
-        if (point.y == min_y):
-            sum_y_array.append(int(point.x+point.y))
-         
-    #TODO
-    #REWRITE this into the average difference of the arrays
-    min_x = (sum_x_array[1] - sum_x_array[0]) * 10
-    min_y = (sum_y_array[1] - sum_y_array[0]) * 10
-    print()
-    #print(sum_x_array, sum_y_array)
-    print('The Square Pattern side length is ' + str(int((min_x+min_y)/2)))
-    square_length = int((min_x+min_y)/2)
-
-    if min_y != min_x:
-        print('The Rectangle Pattern side length is: ' + str(min_y) + ' and ' + str(min_x))
-    else:
-        min_y += int(0.5*min_x)
-        min_x = int(min_x*0.5)
-        print("Width and height are equal. Likely output is a square pattern. Changing rectangle dimensions to avoid complications.")
-        ################################## Maybe find a way to not use the template instead
-    rectangle_height = min_y
-    rectangle_width = min_x
     
-    print('The length used for the triangle template is: ' + str(min(min_x,min_y)))
-    triangle_length = min(min_x,min_y)  
+    #Calc Scale will return an array of mean distances. These could number from 1 to several
+def CalcScale(PointSet):
+    distance_to_return = []  
+    
+    # https://stackoverflow.com/questions/48126771/nearest-neighbour-search-kdtree/48127117#48127117
+    dataset = KDTree(PointSet)
+    nearest_dist, nearest_ind = dataset.query(PointSet, k=4)
+    print(dataset)
+    print(nearest_dist[:, 1:5])
+    print(nearest_ind[:, 1])
+    
+    # Change to random point checking than O(n2)
+    for x in range(len(PointSet)):
+        for y in range(3):
+            if not nearest_dist[x,y+1] in distance_to_return:
+                distance_to_return.append(np.round(nearest_dist[x,y+1],2)) #ROUND DISTANCE TO 2 FLOATING POINTS
+                print(nearest_dist[x,y+1])
+            
+    return distance_to_return
+
+

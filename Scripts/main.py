@@ -29,8 +29,9 @@ def Run_File(filename):
     # Image_rotation_array = DataCalculations.calcImageRotation(PointSet)
     Image_rotation_array = [0, 45, 90, 135]
     print("Calculating the Scale")
-    # Image_scale_array = DataCalculations.CalcScale(PointSet)
+    Image_scale_array = DataCalculations.CalcScale(PointSet)
     Image_scale_array = [3, 4, 6, 8, 10]
+    somevar = input('ctrlc')
     ################################## Generate Images
     genImages.genImageIdealised(PointSet)
 
@@ -134,7 +135,7 @@ def Run_File(filename):
             pattern = ''
             correlation_threshold += 0.1
     
-
+#
 def RunTestCases():
     file_input_name = 'SquareIdeal3.txt'
     print("Square Template")
@@ -161,7 +162,7 @@ if __name__ == '__main__':
     print('The program has started.')    
     file_input_name = input("What is the image name(0 for default)?\n")
     if file_input_name == '0':
-        file_input_name = 'SquareIdeal3.txt'
+        file_input_name = 'QuincunxIdeal3.txt'
         print("Using default")
         print()
         Run_File(file_input_name)
