@@ -1,15 +1,11 @@
-# File for importing the Data from files
-# Also will be used for creating and manipulating data structures
 from logging import error
 import geopandas as gpd
 import matplotlib.pyplot as plt
 import json
 import cv2
 
-
 from shapely.geometry.multipoint import MultiPoint
 from shapely.geometry.point import Point
-
 
 # Using Geopandas as it is updated more frequently
 def importGeoPandasJSon(filename):
@@ -17,9 +13,6 @@ def importGeoPandasJSon(filename):
         with open(filename) as f:
         #data is a pandas.dataframe variable type
             data = gpd.read_file(f)     
-        # Note use of iterrows() to iterate   
-        # for element, row in data.iterrows():
-        #    print(element, row)
         #print(data)
         return data
     except:
@@ -53,10 +46,7 @@ def loadImageFromFile(file_name, display_image_on_load, count):
             image.append(image_load)
         return image
     
-### TODO 
-    #AT READ IN CALC X AND Y MIN AND MAX
 def importIdealisedData(filename):
-    
     with open("Data/IdealData/" + filename) as dataFile:
         point_set = []
         for line in dataFile:

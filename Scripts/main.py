@@ -1,22 +1,14 @@
 # Developed By Jonathon Everatt
 
-
 # Import modules
-import cv2
 from matplotlib.pyplot import waitforbuttonpress
 from numpy import double
-
 
 # Import my classes
 import SimilarityMeasures
 import importData
 import genImages
 import DataCalculations
-
-
-# Global Variables
-display_image_on_load = False
-
 
 def Run_File(filename):
     
@@ -27,11 +19,9 @@ def Run_File(filename):
     ################################## Rotation and Scale
     print("Calculating the rotation")
     Image_rotation_array = DataCalculations.calcImageRotation(PointSet)
-    # Image_rotation_array = [0, 45, 90, 135]
     print("Calculating the Scale")
     Image_scale_array = DataCalculations.CalcScale(PointSet)
-    #Image_scale_array = [3, 4, 6, 8, 10]
-    somevar = input('ctrlc')
+    somevar = input('Rotation and Scale Calculations completed. Continue?')
     ################################## Generate Images
     genImages.genImageIdealised(PointSet)
 
@@ -40,16 +30,7 @@ def Run_File(filename):
         
     double_rectangle_count = genImages.genAllTemplate(Image_scale_array)
     image_count = len(Image_scale_array)
-    
-    # Write code to fix rotatin if necessary
-    
-    ##################################
-    print("The program has started.")
-    flag_check = 'N'#input("Do you want to see the image loaded (Y/N)?\n")
-    if flag_check == 'Y':
-        display_image_on_load = True
-        
-        
+ 
     ################################## Load Images into array at different scales
     source_image = importData.loadImageFromFile('MainImage.png', False, 0)
 

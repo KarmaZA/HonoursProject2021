@@ -1,9 +1,4 @@
 # This class will take input of the pointset and calculate the rotation of the image
-import SimilarityMeasures as SM
-
-import cv2
-import imutils
-from scipy.spatial import distance
 from sklearn.neighbors import KDTree
 import numpy as np
 import math
@@ -27,10 +22,13 @@ def calcImageRotation(PointSet):
             endpoint_y = PointSet[nearest_ind[x,y+1]].y
             if(not(nearest_ind[x,0] == 0) and not(nearest_ind[x,y+1] == 0)):
                 angle = calcLineRotation(origin_point_x, endpoint_x, origin_point_y, endpoint_y)
-                if not np.round(angle,2) in rotation_to_return:
+                if (not np.round(angle,2) in rotation_to_return) and angle >= 0.0:
                     rotation_to_return.append(np.round(angle,2)) #ROUND DISTANCE TO 2 FLOATING POINTS
-                    
-    # print(rotation_to_return)
+                  
+    print("Detected Rotations")
+      
+    print(rotation_to_return)
+    print()
     return rotation_to_return
     
     #Calc Scale will return an array of mean distances. These could number from 1 to several
@@ -40,17 +38,14 @@ def CalcScale(PointSet):
     # https://stackoverflow.com/questions/48126771/nearest-neighbour-search-kdtree/48127117#48127117
     dataset = KDTree(PointSet)
     nearest_dist, nearest_ind = dataset.query(PointSet, k=4)
-    # print(dataset)
-    # print(nearest_dist[:, 1:5])
-    # print(nearest_ind[:, 1])
-    
     # Change to random point checking than O(n2)
     for x in range(len(PointSet)):
         for y in range(3):
             if not np.round(nearest_dist[x,y+1],1) in distance_to_return:
                 distance_to_return.append(np.round(nearest_dist[x,y+1],1)) #ROUND DISTANCE TO 2 FLOATING POINTS
-                print(nearest_dist[x,y+1])                          # ^ CHECK ROUNDING
-            
+                                        # ^ CHECK ROUNDING
+    print('Detected Scale Variations')
+    print(distance_to_return)
     return distance_to_return
 
 

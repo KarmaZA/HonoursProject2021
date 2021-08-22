@@ -49,8 +49,7 @@ def drawGuassianNoise(x,y, ImageToGen):
                     ImageToGen[x+count_x][y+count_y][0:3] = 255
                 else:
                     if(ImageToGen[x+count_x][y+count_y][0] != 255):
-                        ImageToGen[x+count_x][y+count_y][0:3] = 128
-                    
+                        ImageToGen[x+count_x][y+count_y][0:3] = 128                  
     return ImageToGen
 
 def genAllTemplate(length_array):
