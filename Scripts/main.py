@@ -27,9 +27,10 @@ def Run_File(filename):
     ################################## Rotation and Scale
     print("Calculating the rotation")
     # Image_rotation_array = DataCalculations.calcImageRotation(PointSet)
+    Image_rotation_array = [0, 45, 90, 135]
     print("Calculating the Scale")
     # Image_scale_array = DataCalculations.CalcScale(PointSet)
-    Image_scale_array = [2, 4, 6, 8, 10]
+    Image_scale_array = [3, 4, 6, 8, 10]
     ################################## Generate Images
     genImages.genImageIdealised(PointSet)
 
@@ -51,76 +52,87 @@ def Run_File(filename):
     ################################## Load Images into array at different scales
     source_image = importData.loadImageFromFile('MainImage.png', False, 0)
 
-    template_image_square = importData.loadImageFromFile('TemplateSquare', False, image_count)
-    template_image_rectangle = importData.loadImageFromFile('TemplateRectangle', False, double_rectangle_count)
-    template_image_isosceles_triangle = importData.loadImageFromFile('TemplateTriangle', False, image_count)
-    template_image_quincunx = importData.loadImageFromFile('TemplateQuincunx', False, image_count)
-    template_image_equilateral_triangle = importData.loadImageFromFile('TemplateEquilateralTriangle', False, image_count)
-    template_image_double_hedgerow = importData.loadImageFromFile('TemplateDoubleHedge', False, double_rectangle_count)
+    template_image_square_list = importData.loadImageFromFile('TemplateSquare', False, image_count)
+    template_image_rectangle_list = importData.loadImageFromFile('TemplateRectangle', False, double_rectangle_count)
+    template_image_isosceles_triangle_list = importData.loadImageFromFile('TemplateTriangle', False, image_count)
+    template_image_quincunx_list = importData.loadImageFromFile('TemplateQuincunx', False, image_count)
+    template_image_equilateral_triangle_list = importData.loadImageFromFile('TemplateEquilateralTriangle', False, image_count)
+    template_image_double_hedgerow_list = importData.loadImageFromFile('TemplateDoubleHedge', False, double_rectangle_count)
     print("Source image and Templates loaded")
     print()
     
-    # ################################## Template Matching
-    # correlation_threshold = 0.1
-    # max_count = 0
-    # pattern = ''
-    # while correlation_threshold < 1:
-    #     print()
-    #     print()
-    #     print("Correlation threshold set to: " + str(round(correlation_threshold,2)))
+    ################################## Template Matching
+    
+    for rotation in Image_rotation_array: # Testing each template at each possible rotation
+        correlation_threshold = 0.1
+        max_count = 0
+        pattern = ''
+        while correlation_threshold < 1:
+            print()
+            print()
+            print("Correlation threshold set to: " + str(round(correlation_threshold,2)))
+            print('Testing templates at a rotation of ' + str(rotation))
+            
+            for template_image_square in template_image_square_list:
+                count = SimilarityMeasures.templateMatching_correlation(source_image, template_image_square, correlation_threshold)
+                print("The number of template matches for square template is: " + str(count))
+                if count > max_count:
+                    pattern = 'Square'
+                    max_count = count
+                elif count == max_count:
+                    pattern = pattern + ' and Square'
+                
+            for template_image_rectangle in template_image_rectangle_list:    
+                count = SimilarityMeasures.templateMatching_correlation(source_image, template_image_rectangle, correlation_threshold)
+                print("The number of template matches for rectangle template is: " + str(count))
+                if count > max_count:
+                    pattern = 'Rectangle'
+                    max_count = count
+            
+            for template_image_isosceles_triangle in template_image_isosceles_triangle_list:
+                count = SimilarityMeasures.templateMatching_correlation(source_image, template_image_isosceles_triangle, correlation_threshold)
+                print("The number of template matches for triangle template is: " + str(count))
+                if count > max_count:
+                    pattern = 'Isosceles triangle'
+                    max_count = count
+                elif count == max_count:
+                    pattern = pattern + ' and Isosceles triangle'
+                
         
-    #     count = SimilarityMeasures.templateMatching_correlation(source_image, template_image_rectangle, correlation_threshold)
-    #     print("The number of template matches for rectangle template is: " + str(count))
-    #     if count > max_count:
-    #         pattern = 'Rectangle'
-    #         max_count = count
-        
-    #     count = SimilarityMeasures.templateMatching_correlation(source_image, template_image_isosceles_triangle, correlation_threshold)
-    #     print("The number of template matches for triangle template is: " + str(count))
-    #     if count > max_count:
-    #         pattern = 'Isosceles triangle'
-    #         max_count = count
-    #     elif count == max_count:
-    #         pattern = pattern + ' and Isosceles triangle'
+            for template_image_quincunx in template_image_quincunx_list:        
+                count = SimilarityMeasures.templateMatching_correlation(source_image, template_image_quincunx, correlation_threshold)
+                print("The number of template matches for quincunx template is: " + str(count))
+                if count > max_count:
+                    pattern = 'Quincunx'
+                    max_count = count
+                elif count == max_count:
+                    pattern = pattern + ' and Quincunx'
+                
             
-    #     count = SimilarityMeasures.templateMatching_correlation(source_image, template_image_square, correlation_threshold)
-    #     print("The number of template matches for square template is: " + str(count))
-    #     if count > max_count:
-    #         pattern = 'Square'
-    #         max_count = count
-    #     elif count == max_count:
-    #         pattern = pattern + ' and Square'
+            for template_image_equilateral_triangle in template_image_equilateral_triangle_list:
+                count = SimilarityMeasures.templateMatching_correlation(source_image, template_image_equilateral_triangle, correlation_threshold)
+                print("The number of template matches for hexangonal/equilateral triangle template is: " + str(count))
+                if count > max_count:
+                    pattern = 'Equilateral Triangle'
+                    max_count = count
+                elif count == max_count:
+                    pattern = pattern + ' and Equilateral Triangle'
+           
+            for template_image_double_hedgerow in template_image_double_hedgerow_list:    
+                count = SimilarityMeasures.templateMatching_correlation(source_image, template_image_double_hedgerow, correlation_threshold)
+                print("The number of template matches for double hedgerow template is: " + str(count))
+                if count > max_count:
+                    pattern = 'Double Hedgerow'
+                    max_count = count
+                elif count == max_count & pattern.find('Double') == -1:
+                    pattern = pattern + ' and Double Hedgerow'
+                
+            print("The planting pattern detected is: " + pattern + ' at a correlation threshold of ' + str(round(correlation_threshold,2)))
+            print("There were " + str(max_count) + " matches") 
             
-    #     count = SimilarityMeasures.templateMatching_correlation(source_image, template_image_quincunx, correlation_threshold)
-    #     print("The number of template matches for quincunx template is: " + str(count))
-    #     if count > max_count:
-    #         pattern = 'Quincunx'
-    #         max_count = count
-    #     elif count == max_count:
-    #         pattern = pattern + ' and Quincunx'
-            
-    #     count = SimilarityMeasures.templateMatching_correlation(source_image, template_image_equilateral_triangle, correlation_threshold)
-    #     print("The number of template matches for hexangonal/equilateral triangle template is: " + str(count))
-    #     if count > max_count:
-    #         pattern = 'Equilateral Triangle'
-    #         max_count = count
-    #     elif count == max_count:
-    #         pattern = pattern + ' and Equilateral Triangle'
-            
-    #     count = SimilarityMeasures.templateMatching_correlation(source_image, template_image_double_hedgerow, correlation_threshold)
-    #     print("The number of template matches for double hedgerow template is: " + str(count))
-    #     if count > max_count:
-    #         pattern = 'Double Hedgerow'
-    #         max_count = count
-    #     elif count == max_count:
-    #         pattern = pattern + ' and Double Hedgerow'
-            
-    #     print("The planting pattern detected is: " + pattern + ' at a correlation threshold of ' + str(round(correlation_threshold,2)))
-    #     print("There were " + str(max_count) + " matches") 
-        
-    #     max_count = 0
-    #     pattern = ''
-    #     correlation_threshold += 0.1
+            max_count = 0
+            pattern = ''
+            correlation_threshold += 0.1
     
 
 def RunTestCases():
@@ -149,7 +161,7 @@ if __name__ == '__main__':
     print('The program has started.')    
     file_input_name = input("What is the image name(0 for default)?\n")
     if file_input_name == '0':
-        file_input_name = 'QuincunxIdeal3.txt'
+        file_input_name = 'SquareIdeal3.txt'
         print("Using default")
         print()
         Run_File(file_input_name)

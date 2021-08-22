@@ -46,8 +46,8 @@ def loadImageFromFile(file_name, display_image_on_load, count):
         image = []
         for x in range(count):
             print("Loading the image file.")
-            file_name = 'Images/' + str(file_name) + str(x) + '.png'
-            image_load = cv2.imread(file_name, 0)
+            load_file_name = 'Images/' + str(file_name) + str(x) + '.png'
+            image_load = cv2.imread(load_file_name, 0)
                 
             print("Images loaded.")
             image.append(image_load)
