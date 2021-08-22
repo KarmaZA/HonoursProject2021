@@ -26,8 +26,8 @@ def Run_File(filename):
     print('The data has been imported into the program')
     ################################## Rotation and Scale
     print("Calculating the rotation")
-    # Image_rotation_array = DataCalculations.calcImageRotation(PointSet)
-    Image_rotation_array = [0, 45, 90, 135]
+    Image_rotation_array = DataCalculations.calcImageRotation(PointSet)
+    # Image_rotation_array = [0, 45, 90, 135]
     print("Calculating the Scale")
     Image_scale_array = DataCalculations.CalcScale(PointSet)
     #Image_scale_array = [3, 4, 6, 8, 10]
