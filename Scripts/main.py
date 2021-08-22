@@ -30,7 +30,7 @@ def Run_File(filename):
     Image_rotation_array = [0, 45, 90, 135]
     print("Calculating the Scale")
     Image_scale_array = DataCalculations.CalcScale(PointSet)
-    Image_scale_array = [3, 4, 6, 8, 10]
+    #Image_scale_array = [3, 4, 6, 8, 10]
     somevar = input('ctrlc')
     ################################## Generate Images
     genImages.genImageIdealised(PointSet)

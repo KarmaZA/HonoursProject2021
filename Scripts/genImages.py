@@ -54,6 +54,9 @@ def drawGuassianNoise(x,y, ImageToGen):
     return ImageToGen
 
 def genAllTemplate(length_array):
+    for x in range(len(length_array)):
+        length_array[x] = int(10*length_array[x])
+        input(len(length_array))
     genSquareTemplate(length_array)
     genQuincunxTemplate(length_array)
     genRectangleTemplate(length_array)

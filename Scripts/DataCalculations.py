@@ -40,9 +40,9 @@ def CalcScale(PointSet):
     # Change to random point checking than O(n2)
     for x in range(len(PointSet)):
         for y in range(3):
-            if not nearest_dist[x,y+1] in distance_to_return:
-                distance_to_return.append(np.round(nearest_dist[x,y+1],2)) #ROUND DISTANCE TO 2 FLOATING POINTS
-                print(nearest_dist[x,y+1])
+            if not np.round(nearest_dist[x,y+1],1) in distance_to_return:
+                distance_to_return.append(np.round(nearest_dist[x,y+1],1)) #ROUND DISTANCE TO 2 FLOATING POINTS
+                print(nearest_dist[x,y+1])                          # ^ CHECK ROUNDING
             
     return distance_to_return
 
