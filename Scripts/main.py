@@ -13,10 +13,12 @@ import DataCalculations
 def Run_File(filename):
     
     ################################## Import Data
+    
     # testPointSet = importData.importGeoJSonAsPoints('Test36507.geojson')
     PointSet = importData.importIdealisedData(filename)
     print('The data has been imported into the program')
     ################################## Rotation and Scale
+    
     print("Calculating the rotation")
     Image_rotation_array = DataCalculations.calcImageRotation(PointSet)
     print("Calculating the Scale")
@@ -27,7 +29,6 @@ def Run_File(filename):
 
     print("The Source Image has been generated")
     print()
-        
     double_rectangle_count = genImages.genAllTemplate(Image_scale_array)
     image_count = len(Image_scale_array)
  
