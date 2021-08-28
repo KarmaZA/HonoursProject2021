@@ -58,7 +58,8 @@ def Run_File(filename):
             
             for template_image_square in template_image_square_list:
                 count = SimilarityMeasures.templateMatching_correlation(source_image, template_image_square, correlation_threshold)
-                print("The number of template matches for square template is: " + str(count))
+                if count != 0:
+                    print("The number of template matches for square template is: " + str(count))
                 if count > max_count:
                     pattern = 'Square'
                     max_count = count
@@ -67,14 +68,17 @@ def Run_File(filename):
                 
             for template_image_rectangle in template_image_rectangle_list:    
                 count = SimilarityMeasures.templateMatching_correlation(source_image, template_image_rectangle, correlation_threshold)
-                print("The number of template matches for rectangle template is: " + str(count))
+                if count != 0:
+                    print("The number of template matches for rectangle template is: " + str(count))
                 if count > max_count:
                     pattern = 'Rectangle'
                     max_count = count
             
             for template_image_isosceles_triangle in template_image_isosceles_triangle_list:
-                count = SimilarityMeasures.templateMatching_correlation(source_image, template_image_isosceles_triangle, correlation_threshold)
-                print("The number of template matches for triangle template is: " + str(count))
+                if count != 0:
+                    count = SimilarityMeasures.templateMatching_correlation(source_image, template_image_isosceles_triangle, correlation_threshold)
+                if count != 0:
+                    print("The number of template matches for triangle template is: " + str(count))
                 if count > max_count:
                     pattern = 'Isosceles triangle'
                     max_count = count
@@ -84,7 +88,8 @@ def Run_File(filename):
         
             for template_image_quincunx in template_image_quincunx_list:        
                 count = SimilarityMeasures.templateMatching_correlation(source_image, template_image_quincunx, correlation_threshold)
-                print("The number of template matches for quincunx template is: " + str(count))
+                if count != 0:
+                    print("The number of template matches for quincunx template is: " + str(count))
                 if count > max_count:
                     pattern = 'Quincunx'
                     max_count = count
@@ -94,7 +99,8 @@ def Run_File(filename):
             
             for template_image_equilateral_triangle in template_image_equilateral_triangle_list:
                 count = SimilarityMeasures.templateMatching_correlation(source_image, template_image_equilateral_triangle, correlation_threshold)
-                print("The number of template matches for hexangonal/equilateral triangle template is: " + str(count))
+                if count != 0:
+                    print("The number of template matches for hexangonal/equilateral triangle template is: " + str(count))
                 if count > max_count:
                     pattern = 'Equilateral Triangle'
                     max_count = count
@@ -103,7 +109,8 @@ def Run_File(filename):
            
             for template_image_double_hedgerow in template_image_double_hedgerow_list:    
                 count = SimilarityMeasures.templateMatching_correlation(source_image, template_image_double_hedgerow, correlation_threshold)
-                print("The number of template matches for double hedgerow template is: " + str(count))
+                if count != 0:
+                    print("The number of template matches for double hedgerow template is: " + str(count))
                 if count > max_count:
                     pattern = 'Double Hedgerow'
                     max_count = count
@@ -144,7 +151,7 @@ if __name__ == '__main__':
     print('The program has started.')    
     file_input_name = input("What is the image name(0 for default)?\n")
     if file_input_name == '0':
-        file_input_name = 'QuincunxIdeal3.txt'
+        file_input_name = 'QuincunxNoise3.txt'
         print("Using default")
         print()
         Run_File(file_input_name)

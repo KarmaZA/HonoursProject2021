@@ -33,7 +33,7 @@ def calcImageRotation(PointSet):
     
     #Calc Scale will return an array of mean distances. These could number from 1 to several
 def CalcScale(PointSet):
-    distance_to_return = []  
+    distance_values = []  
     
     # https://stackoverflow.com/questions/48126771/nearest-neighbour-search-kdtree/48127117#48127117
     dataset = KDTree(PointSet)
@@ -41,11 +41,31 @@ def CalcScale(PointSet):
     # Change to random point checking than O(n2)
     for x in range(len(PointSet)):
         for y in range(3):
-            if not np.round(nearest_dist[x,y+1],1) in distance_to_return:
-                distance_to_return.append(np.round(nearest_dist[x,y+1],1)) #ROUND DISTANCE TO 2 FLOATING POINTS
-                                        # ^ CHECK ROUNDING
+            ######
+            # Check if in array
+            in_List = True
+            for values in distance_values:
+                print(values[1])
+                if np.round(nearest_dist[x,y+1],1) == values[0]:
+                    values[1] += 1
+                    in_List = False
+            if in_List:
+                 distance_values.append([np.round(nearest_dist[x,y+1],1),0])
+                
+
+            #     if not  in distance_values[:][0]:
+            #         distance_values.append([np.round(nearest_dist[x,y+1],1),0]) #ROUND DISTANCE TO 2 FLOATING POINTS
+            #                             # ^ CHECK ROUNDING
+            # else:
+            #     print("here")
+                
+    threshold = int(len(PointSet)*0.6) #MAGIC NUMBER CHECK AND TEST
+    distance_To_Return = []
+    for values in distance_values:
+        if values[1] > threshold and (values[0] != 0.0):
+            distance_To_Return.append(values)
     print('Detected Scale Variations')
-    print(distance_to_return)
-    return distance_to_return
+    print(distance_To_Return)
+    return distance_To_Return
 
 
