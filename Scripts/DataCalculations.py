@@ -9,7 +9,7 @@ def calcLineRotation(x1, x2, y1, y2):
     
 
 def calcImageRotation(PointSet):
-    rotation_to_return = []
+    rotation_values = []
     dataset = KDTree(PointSet)
     nearest_dist, nearest_ind = dataset.query(PointSet, k=4)
     for x in range(len(PointSet)):
@@ -22,14 +22,26 @@ def calcImageRotation(PointSet):
             endpoint_y = PointSet[nearest_ind[x,y+1]].y
             if(not(nearest_ind[x,0] == 0) and not(nearest_ind[x,y+1] == 0)):
                 angle = calcLineRotation(origin_point_x, endpoint_x, origin_point_y, endpoint_y)
-                if (not np.round(angle,2) in rotation_to_return) and angle >= 0.0:
-                    rotation_to_return.append(np.round(angle,2)) #ROUND DISTANCE TO 2 FLOATING POINTS
-                  
+                in_List = True
+                for values in rotation_values:
+                    # print(values[1])
+                    if np.round(angle,1) == values[0]:
+                        values[1] += 1
+                        in_List = False
+                if in_List:
+                    rotation_values.append([np.round(angle,1),0])
+                    
+            
     print("Detected Rotations")
+    threshold = int(len(PointSet) * 0.3)
+    rotation_To_Return = []
+    for values in rotation_values:
+        if values[1] > threshold:
+            rotation_To_Return.append(values[0])
       
-    print(rotation_to_return)
+    print(rotation_To_Return)
     print()
-    return rotation_to_return
+    return rotation_To_Return
     
     #Calc Scale will return an array of mean distances. These could number from 1 to several
 def CalcScale(PointSet):
@@ -45,25 +57,18 @@ def CalcScale(PointSet):
             # Check if in array
             in_List = True
             for values in distance_values:
-                print(values[1])
+                # print(values[1])
                 if np.round(nearest_dist[x,y+1],1) == values[0]:
                     values[1] += 1
                     in_List = False
             if in_List:
                  distance_values.append([np.round(nearest_dist[x,y+1],1),0])
                 
-
-            #     if not  in distance_values[:][0]:
-            #         distance_values.append([np.round(nearest_dist[x,y+1],1),0]) #ROUND DISTANCE TO 2 FLOATING POINTS
-            #                             # ^ CHECK ROUNDING
-            # else:
-            #     print("here")
-                
-    threshold = int(len(PointSet)*0.6) #MAGIC NUMBER CHECK AND TEST
+    threshold = int(len(PointSet)*0.3) #MAGIC NUMBER CHECK AND TEST
     distance_To_Return = []
     for values in distance_values:
         if values[1] > threshold and (values[0] != 0.0):
-            distance_To_Return.append(values)
+            distance_To_Return.append(values[0])
     print('Detected Scale Variations')
     print(distance_To_Return)
     return distance_To_Return

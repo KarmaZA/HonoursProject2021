@@ -58,9 +58,9 @@ def genAllTemplate(length_array):
         input(len(length_array))
     genSquareTemplate(length_array)
     genQuincunxTemplate(length_array)
-    genRectangleTemplate(length_array)
     genEquilateralTriangleTemplate(length_array)
     genIsoscelesTriangleTemplate(length_array)
+    genRectangleTemplate(length_array)
     return genDoubleHedgeTemplate(length_array)
  
     
@@ -148,7 +148,10 @@ def genEquilateralTriangleTemplate(length_array):
 
 # Width should be the longer size for the sake of the program     
 def genRectangleTemplate(array_length):
-    
+    bFlag = False
+    if len(array_length) == 1:
+        array_length.append(int(array_length[0]*0.5))
+        bFlag = True
     count = 0
     if len(array_length) == 1:
         Width = array_length[0]
@@ -172,9 +175,15 @@ def genRectangleTemplate(array_length):
             count += 1
             height_count += 1
         width_count -= 1
+    if bFlag:
+        array_length.pop(1)
  
     
 def genDoubleHedgeTemplate(array_length):
+    bFlag = False
+    if len(array_length) == 1:
+        array_length.append(int(array_length[0]*0.5))
+        bFlag = True
     count = 0
     if len(array_length) == 1:
         Width = array_length[0]
@@ -204,6 +213,8 @@ def genDoubleHedgeTemplate(array_length):
             count += 1
             height_count += 1
         width_count -= 1
+    if bFlag:
+        array_length.pop(1)
     return count
 
     

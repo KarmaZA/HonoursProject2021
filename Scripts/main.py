@@ -23,6 +23,7 @@ def Run_File(filename):
     Image_rotation_array = DataCalculations.calcImageRotation(PointSet)
     print("Calculating the Scale")
     Image_scale_array = DataCalculations.CalcScale(PointSet)
+
     somevar = input('Rotation and Scale Calculations completed. Continue?')
     ################################## Generate Images
     genImages.genImageIdealised(PointSet)
@@ -31,10 +32,10 @@ def Run_File(filename):
     print()
     double_rectangle_count = genImages.genAllTemplate(Image_scale_array)
     image_count = len(Image_scale_array)
- 
+
     ################################## Load Images into array at different scales
     source_image = importData.loadImageFromFile('MainImage.png', False, 0)
-
+ 
     template_image_square_list = importData.loadImageFromFile('TemplateSquare', False, image_count)
     template_image_rectangle_list = importData.loadImageFromFile('TemplateRectangle', False, double_rectangle_count)
     template_image_isosceles_triangle_list = importData.loadImageFromFile('TemplateTriangle', False, image_count)
@@ -47,7 +48,7 @@ def Run_File(filename):
     ################################## Template Matching
     
     for rotation in Image_rotation_array: # Testing each template at each possible rotation
-        correlation_threshold = 0.1
+        correlation_threshold = 0.6
         max_count = 0
         pattern = ''
         while correlation_threshold < 1:
@@ -55,7 +56,7 @@ def Run_File(filename):
             print()
             print("Correlation threshold set to: " + str(round(correlation_threshold,2)))
             print('Testing templates at a rotation of ' + str(rotation))
-            
+
             for template_image_square in template_image_square_list:
                 count = SimilarityMeasures.templateMatching_correlation(source_image, template_image_square, correlation_threshold)
                 if count != 0:
@@ -65,7 +66,7 @@ def Run_File(filename):
                     max_count = count
                 elif count == max_count:
                     pattern = pattern + ' and Square'
-                
+                    
             for template_image_rectangle in template_image_rectangle_list:    
                 count = SimilarityMeasures.templateMatching_correlation(source_image, template_image_rectangle, correlation_threshold)
                 if count != 0:
