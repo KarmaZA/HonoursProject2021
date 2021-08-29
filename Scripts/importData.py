@@ -84,3 +84,29 @@ def displayPointSet(PointSet):
     ys = [point.y for point in PointSet]
     plt.scatter(xs,ys)
     plt.show()
+    
+def formatGeoJSONData(PointSet):
+        #Calculate number of decimal points
+    decimal_count = int(len(str(PointSet[0].x).split('.')[1]))
+    decimal_count = 10**decimal_count
+    print('The decimal count is ' + str(decimal_count))
+    min_x, min_y = (200, 200)
+    for point in PointSet:
+        if min_x > point.x:
+            min_x = point.x
+        if min_y > point.y:
+            min_y = point.y
+            
+    # min_x*=decimal_count
+    # min_y*=decimal_count
+    PointSet_to_return = []
+    for point in PointSet:
+        
+        x = point.x - min_x
+        # x = point.x * decimal_count
+        
+        y = point.y - min_y
+        # y = point.y  * decimal_count
+        print(x, y)
+        PointSet_to_return.append(Point(x,y))
+        

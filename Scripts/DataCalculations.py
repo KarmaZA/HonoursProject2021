@@ -74,3 +74,9 @@ def CalcScale(PointSet):
     return distance_To_Return
 
 
+def calcScaleUnitValues(PointSet):
+        # returns the scale unit
+    # i.e. scale number * unit = irl scale
+    decimal_count = int(len(str(PointSet[0].x).split('.')[1]))
+    return decimal_count
+    

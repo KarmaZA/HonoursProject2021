@@ -20,7 +20,14 @@ def Run_File(filename):
     ################################## Import Data
     
     # testPointSet = importData.importGeoJSonAsPoints('Test36507.geojson')
-    PointSet = importData.importIdealisedData(filename)
+    if filename.find('.txt') != -1:
+        print('Running for for idealised data')
+        PointSet = importData.importIdealisedData(filename)
+    else:
+        print('Running for Real World Data')
+        PointSet = importData.importGeoJSonAsPoints("Data/RealWorldData/" + str(filename))
+        # importData.displayPointSet(PointSet)
+        PointSet = importData.formatGeoJSONData(PointSet)
     global image_point_count
     image_point_count = len(PointSet)
     # while image_point_count**2 < len(PointSet):
@@ -131,6 +138,54 @@ def RunTestCases():
     print("Running for Triangle")
     file_input_name = 'TriIdeal3.txt'
     Run_File(file_input_name)
+    
+    print()
+    print()
+    print("Run for Quincunx?")
+    waitforbuttonpress()
+    print("Running for Quincunx")
+    file_input_name = 'QuincunxIdeal3.txt'
+    Run_File(file_input_name)
+    print()
+    print()
+    
+    print("Run for DoubleHedge?")
+    waitforbuttonpress()
+    print("Running for DoubleHedge")
+    file_input_name = 'DoubleHedgeIdeal3.txt'
+    Run_File(file_input_name)
+    
+    print()
+    print()
+    print("Run for Rectangle?")
+    waitforbuttonpress()
+    print("Running for rectangle")
+    file_input_name = 'RectNoise24.txt'
+    Run_File(file_input_name)
+    print()
+    print()
+    
+    print("Run for Triangle?")
+    waitforbuttonpress()
+    print("Running for Triangle")
+    file_input_name = 'TriNoise3.txt'
+    Run_File(file_input_name)
+    
+    print()
+    print()
+    print("Run for Quincunx?")
+    waitforbuttonpress()
+    print("Running for Quincunx")
+    file_input_name = 'QuincunxNoise3.txt'
+    Run_File(file_input_name)
+    print()
+    print()
+    
+    print("Run for DoubleHedge?")
+    waitforbuttonpress()
+    print("Running for DoubleHedge")
+    file_input_name = 'DoubleHedgeNoise3.txt'
+    Run_File(file_input_name)
 
 
 if __name__ == '__main__':
@@ -143,5 +198,10 @@ if __name__ == '__main__':
         Run_File(file_input_name)
     elif file_input_name == '1':
         RunTestCases()
+    elif file_input_name == '2':
+        file_input_name = 'Test36507.geojson'
+        print("Using GeoJSON default")
+        print()
+        Run_File(file_input_name)
     else:
         Run_File(file_input_name)
