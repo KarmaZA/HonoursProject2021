@@ -1,4 +1,5 @@
 from logging import error
+import re
 import geopandas as gpd
 import matplotlib.pyplot as plt
 import json
@@ -103,10 +104,11 @@ def formatGeoJSONData(PointSet):
     for point in PointSet:
         
         x = point.x - min_x
-        # x = point.x * decimal_count
+        x = point.x * decimal_count
         
         y = point.y - min_y
-        # y = point.y  * decimal_count
+        y = point.y  * decimal_count
         print(x, y)
         PointSet_to_return.append(Point(x,y))
+    return MultiPoint(PointSet_to_return)
         

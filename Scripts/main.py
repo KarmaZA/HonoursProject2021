@@ -25,9 +25,9 @@ def Run_File(filename):
         PointSet = importData.importIdealisedData(filename)
     else:
         print('Running for Real World Data')
-        PointSet = importData.importGeoJSonAsPoints("Data/RealWorldData/" + str(filename))
-        # importData.displayPointSet(PointSet)
+        PointSet = importData.importGeoJSonAsPoints("Data/RealWorldData/" + str(filename))   
         PointSet = importData.formatGeoJSONData(PointSet)
+    importData.displayPointSet(PointSet)
     global image_point_count
     image_point_count = len(PointSet)
     # while image_point_count**2 < len(PointSet):

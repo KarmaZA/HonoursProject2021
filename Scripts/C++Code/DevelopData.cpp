@@ -13,10 +13,10 @@ using namespace std;
 
 int main(){
 	int count = 0;
-	double toReturn[181][2];
+	double toReturn[10000][2];
 	int offset = 1;
-	for (int y = 0; y < 10; y++){		
-		for (int x = 0; x < 10; x++){
+	for (int y = 0; y < 100; y++){		
+		for (int x = 0; x < 100; x++){
 			toReturn[count][0] = x * 3 ;
 			toReturn[count][1] = y * 3 ;
 			if(y % 2 == 0){
@@ -42,7 +42,7 @@ int main(){
 	// 	}
 	// }
 	// Noise
-	for (int x = 0; x < 100; x++){
+	for (int x = 0; x < 10000; x++){
 		//Randomise the data
 		int add_noise = rand() % 6;
 		if (add_noise == 0){
