@@ -3,6 +3,9 @@ from sklearn.neighbors import KDTree
 import numpy as np
 import math
 
+from haversine import Unit
+import haversine as hs
+
 def calcLineRotation(x1, x2, y1, y2):
     angle_theta = math.atan2(y2-y1, x2-x1)
     return math.degrees(angle_theta)
@@ -77,9 +80,9 @@ def CalcScale(PointSet):
     return distance_To_Return
 
 
-def calcScaleUnitValues(PointSet):
-        # returns the scale unit
-    # i.e. scale number * unit = irl scale
-    decimal_count = int(len(str(PointSet[0].x).split('.')[1]))
-    return decimal_count
+#Where point1 and2 are from PointSet. Returns distance in meters
+def calcScaleUnitValues(point1,point2):
+    loc1 = (point1.x, point1.y)
+    loc2 = (point2.x, point2.y)
+    return hs.haversine(loc1, loc2, unit=Unit.METERS)
     

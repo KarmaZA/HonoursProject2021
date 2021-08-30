@@ -1,7 +1,6 @@
 # Developed By Jonathon Everatt
 
 # Import modules
-import math
 from matplotlib.pyplot import waitforbuttonpress
 from numpy import double
 import numpy
@@ -33,8 +32,7 @@ def Run_File(filename):
             # importData.displayPointSet(PointSet)
             PolygonSet = importData.importGeoJSonAsPolygons("Data/RealWorldData/" + str(filename), threshold)  
             importData.displayPolygonSet(PolygonSet)
-            PointSet = importData.importGeoJSonAsPoints("Data/RealWorldData/" + str(filename), threshold)   
-            
+            PointSet = importData.importGeoJSonAsPoints("Data/RealWorldData/" + str(filename), threshold) 
             somevar = input('Lower the threshold?(Enter) Continue?(Press any key)')
             threshold -= 0.05
     else: 

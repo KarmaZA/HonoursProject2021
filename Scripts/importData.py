@@ -94,6 +94,7 @@ def importGeoJSonAsPolygons(filename,threshold):
                         pointSet.append(Point(polygon[coordinate][0], polygon[coordinate][1]))
                     # Average out a single point
                     polygon_set.append(Polygon([p.x,p.y] for p in pointSet))
+                    print(polygon[coordinate][0])
         return MultiPolygon(polygon_set)
     
 def displayPointSet(PointSet):
