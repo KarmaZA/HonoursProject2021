@@ -23,11 +23,22 @@ def Run_File(filename):
     if filename.find('.txt') != -1:
         print('Running for for idealised data')
         PointSet = importData.importIdealisedData(filename)
-    else:
-        print('Running for Real World Data')
-        PointSet = importData.importGeoJSonAsPoints("Data/RealWorldData/" + str(filename))   
-        PointSet = importData.formatGeoJSONData(PointSet)
-    importData.displayPointSet(PointSet)
+    elif filename.find('geo') != -1: # GeoJSON file
+        somevar = ''
+        threshold = 0.6
+        while somevar == '':
+            print('Importing Real World Data')
+            # PointSet = importData.importGeoJSonAsPoints("Data/RealWorldData/" + str(filename), threshold)   
+            # PointSet = importData.formatGeoJSONData(PointSet)
+            # importData.displayPointSet(PointSet)
+            PolygonSet = importData.importGeoJSonAsPolygons("Data/RealWorldData/" + str(filename), threshold)  
+            importData.displayPolygonSet(PolygonSet)
+            PointSet = importData.importGeoJSonAsPoints("Data/RealWorldData/" + str(filename), threshold)   
+            
+            somevar = input('Lower the threshold?(Enter) Continue?(Press any key)')
+            threshold -= 0.05
+    else: 
+        exit()
     global image_point_count
     image_point_count = len(PointSet)
     # while image_point_count**2 < len(PointSet):
@@ -199,7 +210,7 @@ if __name__ == '__main__':
     elif file_input_name == '1':
         RunTestCases()
     elif file_input_name == '2':
-        file_input_name = 'Test36507.geojson'
+        file_input_name = 'square_real.geojson'
         print("Using GeoJSON default")
         print()
         Run_File(file_input_name)

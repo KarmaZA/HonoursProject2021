@@ -64,11 +64,14 @@ def CalcScale(PointSet):
             if in_List:
                  distance_values.append([np.round(nearest_dist[x,y+1],1),0])
                 
-    threshold = int(len(PointSet)*0.3) #MAGIC NUMBER CHECK AND TEST
+    threshold = int(len(PointSet)*0.1) #MAGIC NUMBER CHECK AND TEST
     distance_To_Return = []
-    for values in distance_values:
-        if values[1] > threshold and (values[0] != 0.0):
-            distance_To_Return.append(values[0])
+    while distance_To_Return == []:
+        for values in distance_values:
+            print(values)
+            if values[1] > threshold and (values[0] != 0.0):
+                distance_To_Return.append(values[0])
+            threshold -= int(len(PointSet)*0.5)
     print('Detected Scale Variations')
     print(distance_To_Return)
     return distance_To_Return

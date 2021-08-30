@@ -6,7 +6,9 @@ import json
 import cv2
 
 from shapely.geometry.multipoint import MultiPoint
+from shapely.geometry.multipolygon import MultiPolygon
 from shapely.geometry.point import Point
+from shapely.geometry.polygon import Polygon
 
 # Using Geopandas as it is updated more frequently
 def importGeoPandasJSon(filename):
@@ -57,13 +59,13 @@ def importIdealisedData(filename):
             point_set.append(Point(x,y))            
         return MultiPoint(point_set)
     
-def importGeoJSonAsPoints(filename):
+def importGeoJSonAsPoints(filename,threshold):
         with open(filename) as f:
         #data is a pandas.dataframe variable type
             features = json.load(f)["features"]
             point_set = []
             for feature in features:
-                if feature['properties']['confidence'] > 0.8:
+                if feature['properties']['confidence'] > threshold:
                     polygon = feature['geometry']['coordinates'][0]
                     poly_length = len(polygon)
                     x = 0
@@ -77,13 +79,40 @@ def importGeoJSonAsPoints(filename):
                     point_set.append(Point(x,y))
         return MultiPoint(point_set)
     
+
+def importGeoJSonAsPolygons(filename,threshold):
+        with open(filename) as f:
+        #data is a pandas.dataframe variable type
+            features = json.load(f)["features"]
+            polygon_set = []
+            for feature in features:
+                if feature['properties']['confidence'] > threshold:
+                    polygon = feature['geometry']['coordinates'][0]
+                    poly_length = len(polygon)
+                    pointSet = []
+                    for coordinate in range(poly_length): # Sum coordinates
+                        pointSet.append(Point(polygon[coordinate][0], polygon[coordinate][1]))
+                    # Average out a single point
+                    polygon_set.append(Polygon([p.x,p.y] for p in pointSet))
+        return MultiPolygon(polygon_set)
+    
 def displayPointSet(PointSet):
-    for points in PointSet:
-        print(points)
+    # for points in PointSet:
+    #     print(points)
         
     xs = [point.x for point in PointSet]
     ys = [point.y for point in PointSet]
     plt.scatter(xs,ys)
+    plt.show()
+    
+def displayPolygonSet(PolygonSet):
+    fig, axs = plt.subplots()
+    axs.set_aspect('equal', 'datalim')
+
+    for geom in PolygonSet.geoms:    
+        xs, ys = geom.exterior.xy    
+        axs.fill(xs, ys, alpha=0.5, fc='r', ec='none')
+
     plt.show()
     
 def formatGeoJSONData(PointSet):
