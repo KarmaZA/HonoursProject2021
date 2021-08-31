@@ -1,5 +1,8 @@
 # This class will take input of the pointset and calculate the rotation of the image
+from re import A
 from sklearn.neighbors import KDTree
+from shapely.geometry.point import Point
+from shapely.geometry.multipoint import MultiPoint
 import numpy as np
 import math
 
@@ -20,37 +23,44 @@ def normaliseData(PointSet):
     
     #INPUT here for number sampling
     sample_Points = random.sample(range(0, len(PointSet)), 10)
-        
-    for i in range(len(sample_Points)):
+    
+    for x in range(1):#len(sample_Points)):
+        i = sample_Points[x]
         angle_list = []
         point_list = []
+        row_list = []
         
         # Setting up the base case
-        point_list.append(PointSet[nearest_ind[i,0]])
+        point_list.append(nearest_ind[i,0])
         angle = calcLineRotation(PointSet[nearest_ind[i,0]], PointSet[nearest_ind[i,1]])  
         print(nearest_ind[i,0], nearest_ind[i,1])
         point_index = nearest_ind[i,1]
         building_line = True
         count = 0
-        print(nearest_ind[i])
-        print(nearest_ind[nearest_ind[i][1]])
+        print(PointSet[nearest_ind[i][0]].x, PointSet[nearest_ind[i][0]].y)
+        print(PointSet[nearest_ind[i][1]].x, PointSet[nearest_ind[i][1]].y)
         somevar = nearest_ind[nearest_ind[i][1]][2]
         print(nearest_ind[somevar])
         
-        # while building_line:
-        #     # angle_list.append(angle)
-        #     point_list.append(PointSet[point_index])           
-        #     point_index = nearest_ind[point_index][2]
-        #     print(point_index)   
+        while building_line == True:
+            angle_list.append(angle)
+            point_list.append(point_index)           
+            for y in range(1,5):
+                value_check = int(nearest_ind[point_index][y])
+                if not(value_check in point_list):
+                    point_index = nearest_ind[point_index][y]
+            if point_index in point_list:
+                building_line = False
+                print("Here")
+            print(point_index)   
             
-            # angle = calcLineRotation(point_list[count], PointSet[nearest_ind[point_index,2]])
+            row_list.append(Point(PointSet[point_list[count]].x, PointSet[point_list[count]].y))
+            angle = calcLineRotation(row_list[count], PointSet[nearest_ind[point_index,2]])
+            print(angle)
             # building_line = AnglesInRange(angle_list[count],angle)
             # print(angle_list[count],angle)
-            # count += 1
-
-            
+            count += 1
         
-        print(point for point in point_list)
            
         
         
