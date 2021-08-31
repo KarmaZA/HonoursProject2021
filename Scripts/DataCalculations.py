@@ -5,10 +5,52 @@ import math
 
 from haversine import Unit
 import haversine as hs
+import random
 
-def calcLineRotation(x1, x2, y1, y2):
+def calcLineRotation(origin_point, endpoint):
+    x1, x2, y1, y2 = (origin_point.x, origin_point.y, endpoint.x, endpoint.y)
     angle_theta = math.atan2(y2-y1, x2-x1)
     return math.degrees(angle_theta)
+
+
+def normaliseData(PointSet):
+    
+    dataset = KDTree(PointSet)
+    nearest_dist, nearest_ind = dataset.query(PointSet, k=5)
+    
+    #INPUT here for number sampling
+    sample_Points = random.sample(range(0, len(PointSet)), 10)
+        
+    for i in range(len(sample_Points)):
+        angle_list = []
+        point_list = recursiveLineBuilding(PointSet, nearest_ind, i)
+        print(point for point in point_list)
+        
+        
+def recursiveLineBuilding(PointSet, nearest_ind, i):
+    angle_list = []
+    point_list = []
+    # print(nearest_dist[i][0])
+    # print(nearest_dist[i][1])
+    # print(nearest_dist[i][2])
+    # print(nearest_dist[i][3])
+    angle = calcLineRotation(PointSet[nearest_ind[i,0]], PointSet[nearest_ind[i,1]])    
+    angle_list.append(angle)
+
+    angle = calcLineRotation(PointSet[nearest_ind[i+1,0]], PointSet[nearest_ind[i+1,1]])   
+    angle_list.append(angle)
+    
+    if AnglesInRange(angle_list[0],angle_list[1]):
+        point_list.append(recursiveLineBuilding(PointSet, nearest_ind, i))
+    else:
+        return PointSet[nearest_ind[i,0]]         
+        
+        
+def AnglesInRange(Angle1, Angle2):
+    if abs(Angle1-Angle2) <= 15:
+        return True
+    else:
+        return False
     
 
 def calcImageRotation(PointSet):

@@ -34,86 +34,90 @@ def Run_File(filename):
             threshold -= 0.05
     else: 
         exit()
-    global image_point_count
-    image_point_count = len(PointSet)
-    # while image_point_count**2 < len(PointSet):
-    #     image_point_count += 1
-    # image_point_count = (image_point_count - 1)**2 + (len(PointSet) - (image_point_count-1)**2)
-    # print(image_point_count)
-    print('The data has been imported into the program')
-    ################################## Rotation and Scale
+        
+    DataCalculations.normaliseData(PointSet)
+        
+    # global image_point_count
+    # image_point_count = len(PointSet)
+    # # while image_point_count**2 < len(PointSet):
+    # #     image_point_count += 1
+    # # image_point_count = (image_point_count - 1)**2 + (len(PointSet) - (image_point_count-1)**2)
+    # # print(image_point_count)
+    # print('The data has been imported into the program')
+    # ################################## Rotation and Scale
     
-    print("Calculating the rotation")
-    Image_rotation_array = DataCalculations.calcImageRotation(PointSet)
-    print("Calculating the Scale")
-    global Image_scale_array
-    Image_scale_array = DataCalculations.CalcScale(PointSet)
+    # print("Calculating the rotation")
+    # Image_rotation_array = DataCalculations.calcImageRotation(PointSet)
+    # print("Calculating the Scale")
+    # global Image_scale_array
+    # Image_scale_array = DataCalculations.CalcScale(PointSet)
 
-    somevar = input('Rotation and Scale Calculations completed. Continue?')
-    ################################## Generate Images
-    genImages.genImageIdealised(PointSet)
+    # print('Rotation and Scale Calculations completed. Continue?')
+    # waitforbuttonpress()
+    # ################################## Generate Images
+    # genImages.genImageIdealised(PointSet)
 
-    print("The Source Image has been generated")
-    print()
-    double_rectangle_count = genImages.genAllTemplate(Image_scale_array)
-    image_count = len(Image_scale_array)
+    # print("The Source Image has been generated")
+    # print()
+    # double_rectangle_count = genImages.genAllTemplate(Image_scale_array)
+    # image_count = len(Image_scale_array)
 
-    ################################## Load Images into array at different scales
-    source_image = importData.loadImageFromFile('MainImage.png', False, 0)
+    # ################################## Load Images into array at different scales
+    # source_image = importData.loadImageFromFile('MainImage.png', False, 0)
  
-    template_image_square_list = importData.loadImageFromFile('TemplateSquare', False, image_count)
-    template_image_rectangle_list = importData.loadImageFromFile('TemplateRectangle', False, double_rectangle_count)
-    template_image_isosceles_triangle_list = importData.loadImageFromFile('TemplateTriangle', False, image_count)
-    template_image_quincunx_list = importData.loadImageFromFile('TemplateQuincunx', False, image_count)
-    template_image_equilateral_triangle_list = importData.loadImageFromFile('TemplateEquilateralTriangle', False, image_count)
-    template_image_double_hedgerow_list = importData.loadImageFromFile('TemplateDoubleHedge', False, double_rectangle_count)
-    print("Source image and Templates loaded")
-    print()
+    # template_image_square_list = importData.loadImageFromFile('TemplateSquare', False, image_count)
+    # template_image_rectangle_list = importData.loadImageFromFile('TemplateRectangle', False, double_rectangle_count)
+    # template_image_isosceles_triangle_list = importData.loadImageFromFile('TemplateTriangle', False, image_count)
+    # template_image_quincunx_list = importData.loadImageFromFile('TemplateQuincunx', False, image_count)
+    # template_image_equilateral_triangle_list = importData.loadImageFromFile('TemplateEquilateralTriangle', False, image_count)
+    # template_image_double_hedgerow_list = importData.loadImageFromFile('TemplateDoubleHedge', False, double_rectangle_count)
+    # print("Source image and Templates loaded")
+    # print()
     
-    ################################## Template Matching
+    # ################################## Template Matching
     
-    for rotation in Image_rotation_array: # Testing each template at each possible rotation
-        correlation_threshold = 0.6
-        evaluation_array = []
-        while correlation_threshold < 1:
-            print()
-            print()
-            print("Correlation threshold set to: " + str(round(correlation_threshold,2)))
-            print('Testing templates at a rotation of ' + str(rotation))
+    # for rotation in Image_rotation_array: # Testing each template at each possible rotation
+    #     correlation_threshold = 0.6
+    #     evaluation_array = []
+    #     while correlation_threshold < 1:
+    #         print()
+    #         print()
+    #         print("Correlation threshold set to: " + str(round(correlation_threshold,2)))
+    #         print('Testing templates at a rotation of ' + str(rotation))
 
-            for x in range(len(template_image_square_list)):
-                count = SimilarityMeasures.templateMatching_correlation(source_image, template_image_square_list[x], correlation_threshold)
-                if count > (0.5 * image_point_count):
-                    evaluation_array.append([count, numpy.round(correlation_threshold,1), x, 'Square'])
+    #         for x in range(len(template_image_square_list)):
+    #             count = SimilarityMeasures.templateMatching_correlation(source_image, template_image_square_list[x], correlation_threshold)
+    #             if count > (0.5 * image_point_count):
+    #                 evaluation_array.append([count, numpy.round(correlation_threshold,1), x, 'Square'])
                 
-            for x in range(len(template_image_rectangle_list)):
-                count = SimilarityMeasures.templateMatching_correlation(source_image, template_image_rectangle_list[x], correlation_threshold)
-                if count > (0.5 * image_point_count):
-                    evaluation_array.append([count, numpy.round(correlation_threshold,1), int(numpy.round(x/len(Image_scale_array))), 'Rectangle'])
+    #         for x in range(len(template_image_rectangle_list)):
+    #             count = SimilarityMeasures.templateMatching_correlation(source_image, template_image_rectangle_list[x], correlation_threshold)
+    #             if count > (0.5 * image_point_count):
+    #                 evaluation_array.append([count, numpy.round(correlation_threshold,1), int(numpy.round(x/len(Image_scale_array))), 'Rectangle'])
                 
-            for x in range(len(template_image_isosceles_triangle_list)):
-                count = SimilarityMeasures.templateMatching_correlation(source_image, template_image_isosceles_triangle_list[x], correlation_threshold)
-                if count > (0.5 * image_point_count):
-                    evaluation_array.append([count, numpy.round(correlation_threshold,1), x, 'Isosceles Triangle'])
+    #         for x in range(len(template_image_isosceles_triangle_list)):
+    #             count = SimilarityMeasures.templateMatching_correlation(source_image, template_image_isosceles_triangle_list[x], correlation_threshold)
+    #             if count > (0.5 * image_point_count):
+    #                 evaluation_array.append([count, numpy.round(correlation_threshold,1), x, 'Isosceles Triangle'])
             
-            for x in range(len(template_image_quincunx_list)):
-                count = SimilarityMeasures.templateMatching_correlation(source_image, template_image_quincunx_list[x], correlation_threshold)
-                if count > (0.5 * image_point_count):
-                    evaluation_array.append([count, numpy.round(correlation_threshold,1), x, 'Quincunx'])
+    #         for x in range(len(template_image_quincunx_list)):
+    #             count = SimilarityMeasures.templateMatching_correlation(source_image, template_image_quincunx_list[x], correlation_threshold)
+    #             if count > (0.5 * image_point_count):
+    #                 evaluation_array.append([count, numpy.round(correlation_threshold,1), x, 'Quincunx'])
                 
-            for x in range(len(template_image_equilateral_triangle_list)):
-                count = SimilarityMeasures.templateMatching_correlation(source_image, template_image_equilateral_triangle_list[x], correlation_threshold)
-                if count > (0.5 * image_point_count):
-                    evaluation_array.append([count, numpy.round(correlation_threshold,1), x, 'Equilateral Triangle'])
+    #         for x in range(len(template_image_equilateral_triangle_list)):
+    #             count = SimilarityMeasures.templateMatching_correlation(source_image, template_image_equilateral_triangle_list[x], correlation_threshold)
+    #             if count > (0.5 * image_point_count):
+    #                 evaluation_array.append([count, numpy.round(correlation_threshold,1), x, 'Equilateral Triangle'])
                 
-            for x in range(len(template_image_double_hedgerow_list)):
-                count = SimilarityMeasures.templateMatching_correlation(source_image, template_image_double_hedgerow_list[x], correlation_threshold)
-                if count > (0.5 * image_point_count):
-                    evaluation_array.append([count, numpy.round(correlation_threshold,1), int(numpy.round(x/len(Image_scale_array))), 'Double HedgeRow'])
+    #         for x in range(len(template_image_double_hedgerow_list)):
+    #             count = SimilarityMeasures.templateMatching_correlation(source_image, template_image_double_hedgerow_list[x], correlation_threshold)
+    #             if count > (0.5 * image_point_count):
+    #                 evaluation_array.append([count, numpy.round(correlation_threshold,1), int(numpy.round(x/len(Image_scale_array))), 'Double HedgeRow'])
             
-            correlation_threshold += 0.1
+    #         correlation_threshold += 0.1
     
-    evaluateData(evaluation_array)
+    # evaluateData(evaluation_array)
     
 
 def evaluateData(evaluation_array):
