@@ -10,11 +10,6 @@ from haversine import Unit
 import haversine as hs
 import random
 
-def calcLineRotation(origin_point, endpoint):
-    x1, x2, y1, y2 = (origin_point.x, origin_point.y, endpoint.x, endpoint.y)
-    angle_theta = math.atan2(y2-y1, x2-x1)
-    return math.degrees(angle_theta)
-
 
 def normaliseData(PointSet):
     
@@ -44,24 +39,31 @@ def normaliseData(PointSet):
         
         while building_line == True:
             angle_list.append(angle)
-            point_list.append(point_index)           
+            point_list.append(point_index)   
+            row_list.append(Point(PointSet[point_list[count]].x, PointSet[point_list[count]].y))        
+            
             for y in range(1,5):
                 value_check = int(nearest_ind[point_index][y])
                 if not(value_check in point_list):
                     point_index = nearest_ind[point_index][y]
             if point_index in point_list:
                 building_line = False
-                print("Here")
             print(point_index)   
+            count += 1
             
-            row_list.append(Point(PointSet[point_list[count]].x, PointSet[point_list[count]].y))
-            angle = calcLineRotation(row_list[count], PointSet[nearest_ind[point_index,2]])
+            angle = calcLineRotation(row_list[count-1], Point(PointSet[point_list[count]].x, PointSet[point_list[count]].y))
+            print(angle)
+            angle = calcLineRotation(row_list[count-1], Point(PointSet[0].x, PointSet[0].y))
             print(angle)
             # building_line = AnglesInRange(angle_list[count],angle)
             # print(angle_list[count],angle)
-            count += 1
+            
         
-           
+
+def calcLineRotation(origin_point, endpoint):
+    x1, x2, y1, y2 = (origin_point.x, origin_point.y, endpoint.x, endpoint.y)
+    angle_theta = math.atan2(y2-y1, x2-x1)
+    return math.degrees(angle_theta)           
         
         
 def AnglesInRange(Angle1, Angle2):
