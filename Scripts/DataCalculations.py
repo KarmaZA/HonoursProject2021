@@ -42,31 +42,37 @@ def normaliseData(PointSet):
             point_list.append(point_index)   
             row_list.append(Point(PointSet[point_list[count]].x, PointSet[point_list[count]].y))        
             
+            
             for y in range(1,5):
                 value_check = int(nearest_ind[point_index][y])
                 if not(value_check in point_list):
-                    point_index = nearest_ind[point_index][y]
+                    if AnglesInRange(angle_list[count], calcLineRotation(row_list[count-1], Point(PointSet[point_list[count]].x, PointSet[point_list[count]].y))):
+                        point_index = nearest_ind[point_index][y]
+            
             if point_index in point_list:
                 building_line = False
-            print(point_index)   
+                
             count += 1
+            print(point_index)   
             
-            angle = calcLineRotation(row_list[count-1], Point(PointSet[point_list[count]].x, PointSet[point_list[count]].y))
-            print(angle)
-            angle = calcLineRotation(row_list[count-1], Point(PointSet[0].x, PointSet[0].y))
-            print(angle)
+            
+            # angle = calcLineRotation(row_list[count-1], Point(PointSet[point_list[count]].x, PointSet[point_list[count]].y))
+            # print(angle)
+            # angle = calcLineRotation(row_list[count-1], Point(PointSet[0].x, PointSet[0].y))
+            # print(angle)
             # building_line = AnglesInRange(angle_list[count],angle)
             # print(angle_list[count],angle)
             
         
 
 def calcLineRotation(origin_point, endpoint):
-    x1, x2, y1, y2 = (origin_point.x, origin_point.y, endpoint.x, endpoint.y)
+    x1, x2, y1, y2 = (origin_point.x, endpoint.x, origin_point.y, endpoint.y)
     angle_theta = math.atan2(y2-y1, x2-x1)
     return math.degrees(angle_theta)           
         
         
 def AnglesInRange(Angle1, Angle2):
+    print(abs(Angle1-Angle2))
     if abs(Angle1-Angle2) <= 15:
         return True
     else:
