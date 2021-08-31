@@ -23,27 +23,35 @@ def normaliseData(PointSet):
         
     for i in range(len(sample_Points)):
         angle_list = []
-        point_list = recursiveLineBuilding(PointSet, nearest_ind, i)
-        print(point for point in point_list)
+        point_list = []
         
+        # Setting up the base case
+        point_list.append(PointSet[nearest_ind[i,0]])
+        angle = calcLineRotation(PointSet[nearest_ind[i,0]], PointSet[nearest_ind[i,1]])  
+        print(nearest_ind[i,0], nearest_ind[i,1])
+        point_index = nearest_ind[i,1]
+        building_line = True
+        count = 0
+        print(nearest_ind[i])
+        print(nearest_ind[nearest_ind[i][1]])
+        somevar = nearest_ind[nearest_ind[i][1]][2]
+        print(nearest_ind[somevar])
         
-def recursiveLineBuilding(PointSet, nearest_ind, i):
-    angle_list = []
-    point_list = []
-    # print(nearest_dist[i][0])
-    # print(nearest_dist[i][1])
-    # print(nearest_dist[i][2])
-    # print(nearest_dist[i][3])
-    angle = calcLineRotation(PointSet[nearest_ind[i,0]], PointSet[nearest_ind[i,1]])    
-    angle_list.append(angle)
+        # while building_line:
+        #     # angle_list.append(angle)
+        #     point_list.append(PointSet[point_index])           
+        #     point_index = nearest_ind[point_index][2]
+        #     print(point_index)   
+            
+            # angle = calcLineRotation(point_list[count], PointSet[nearest_ind[point_index,2]])
+            # building_line = AnglesInRange(angle_list[count],angle)
+            # print(angle_list[count],angle)
+            # count += 1
 
-    angle = calcLineRotation(PointSet[nearest_ind[i+1,0]], PointSet[nearest_ind[i+1,1]])   
-    angle_list.append(angle)
-    
-    if AnglesInRange(angle_list[0],angle_list[1]):
-        point_list.append(recursiveLineBuilding(PointSet, nearest_ind, i))
-    else:
-        return PointSet[nearest_ind[i,0]]         
+            
+        
+        print(point for point in point_list)
+           
         
         
 def AnglesInRange(Angle1, Angle2):

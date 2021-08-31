@@ -28,9 +28,9 @@ def Run_File(filename):
         while somevar == '':
             print('Importing Real World Data')
             PolygonSet = importData.importGeoJSonAsPolygons("Data/RealWorldData/" + str(filename), threshold)  
-            importData.displayPolygonSet(PolygonSet)
+            # importData.displayPolygonSet(PolygonSet)
             PointSet = importData.convertPolygonsToCentroids(PolygonSet) 
-            somevar = input('Lower the threshold?(Enter) Continue?(Press any key)')
+            somevar = ' a'#input('Lower the threshold?(Enter) Continue?(Press any key)')
             threshold -= 0.05
     else: 
         exit()
