@@ -1,8 +1,11 @@
 # This class will take input of the pointset and calculate the rotation of the image
+from LinkedList import LinkedList, Node
 from re import A
 from sklearn.neighbors import KDTree
 from shapely.geometry.point import Point
 from shapely.geometry.multipoint import MultiPoint
+
+
 import numpy as np
 import math
 
@@ -24,6 +27,7 @@ def normaliseData(PointSet):
         angle_list = []
         point_list = []
         row_list = []
+        linked_list_test = LinkedList()
         
         # Setting up the base case
         point_list.append(nearest_ind[i,0])
@@ -32,10 +36,10 @@ def normaliseData(PointSet):
         point_index = nearest_ind[i,1]
         building_line = True
         count = 0
-        print(PointSet[nearest_ind[i][0]].x, PointSet[nearest_ind[i][0]].y)
-        print(PointSet[nearest_ind[i][1]].x, PointSet[nearest_ind[i][1]].y)
-        somevar = nearest_ind[nearest_ind[i][1]][2]
-        print(nearest_ind[somevar])
+        # print(PointSet[nearest_ind[i][0]].x, PointSet[nearest_ind[i][0]].y)
+        # print(PointSet[nearest_ind[i][1]].x, PointSet[nearest_ind[i][1]].y)
+        # somevar = nearest_ind[nearest_ind[i][1]][2]
+        # print(nearest_ind[somevar])
         
         while building_line == True:
             angle_list.append(angle)
@@ -43,16 +47,23 @@ def normaliseData(PointSet):
             row_list.append(Point(PointSet[point_list[count]].x, PointSet[point_list[count]].y))        
             
             
-            for y in range(1,8):
+            for y in range(8,1):
                 value_check = int(nearest_ind[point_index][y])
                 if not(value_check in point_list):
                     # print(AnglesInRange(angle_list[count], calcLineRotation(row_list[count-1], Point(PointSet[point_list[count]].x, PointSet[point_list[count]].y))))
                     if AnglesInRange(angle_list[count], calcLineRotation(row_list[count-1], PointSet[value_check])):
                         point_index = nearest_ind[point_index][y]
+                        linked_list_test.add_to_head(Node(nearest_ind[point_index][y]))
+                        # print(nearest_ind[point_index][y])
                
             if point_index in point_list:
                 building_line = False
             count += 1
+            
+            #########################
+            # Also need to build the row going in the opposite directions
+            # Reimplement it with a Linked List
+            #########################
             
             # angle = calcLineRotation(row_list[count-1], Point(PointSet[point_list[count]].x, PointSet[point_list[count]].y))
             # print(angle)
@@ -61,6 +72,8 @@ def normaliseData(PointSet):
             # building_line = AnglesInRange(angle_list[count],angle)
             # print(angle_list[count],angle)
         print(point_list)
+        print("Linked List")
+        print(linked_list_test)
             
         
 
@@ -71,7 +84,7 @@ def calcLineRotation(origin_point, endpoint):
         
         
 def AnglesInRange(Angle1, Angle2):
-    print(abs(Angle1-Angle2))
+    # print(abs(Angle1-Angle2))
     if abs(Angle1-Angle2) <= 15:
         return True
     else:
