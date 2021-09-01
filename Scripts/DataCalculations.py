@@ -14,7 +14,7 @@ import random
 def normaliseData(PointSet):
     
     dataset = KDTree(PointSet)
-    nearest_dist, nearest_ind = dataset.query(PointSet, k=5)
+    nearest_dist, nearest_ind = dataset.query(PointSet, k=8)
     
     #INPUT here for number sampling
     sample_Points = random.sample(range(0, len(PointSet)), 10)
@@ -43,18 +43,16 @@ def normaliseData(PointSet):
             row_list.append(Point(PointSet[point_list[count]].x, PointSet[point_list[count]].y))        
             
             
-            for y in range(1,5):
+            for y in range(1,8):
                 value_check = int(nearest_ind[point_index][y])
                 if not(value_check in point_list):
-                    if AnglesInRange(angle_list[count], calcLineRotation(row_list[count-1], Point(PointSet[point_list[count]].x, PointSet[point_list[count]].y))):
+                    # print(AnglesInRange(angle_list[count], calcLineRotation(row_list[count-1], Point(PointSet[point_list[count]].x, PointSet[point_list[count]].y))))
+                    if AnglesInRange(angle_list[count], calcLineRotation(row_list[count-1], PointSet[value_check])):
                         point_index = nearest_ind[point_index][y]
-            
+               
             if point_index in point_list:
                 building_line = False
-                
             count += 1
-            print(point_index)   
-            
             
             # angle = calcLineRotation(row_list[count-1], Point(PointSet[point_list[count]].x, PointSet[point_list[count]].y))
             # print(angle)
@@ -62,6 +60,7 @@ def normaliseData(PointSet):
             # print(angle)
             # building_line = AnglesInRange(angle_list[count],angle)
             # print(angle_list[count],angle)
+        print(point_list)
             
         
 
