@@ -23,6 +23,35 @@ def normaliseData(PointSet):
     #INPUT here for number sampling
     sample_Points = random.sample(range(0, len(PointSet)), 10)
     
+    z = 745
+    point_list = []
+    for i in range(10):
+        
+        row_list = []
+        
+        for y in range(4):
+            row_list.append(Point(PointSet[nearest_ind[z][y]].x, PointSet[nearest_ind[z][y]].y))    
+        xs = [point.x for point in PointSet]
+        ys = [point.y for point in PointSet]
+        plt.scatter(xs,ys, color = 'black')
+        x1s = [point.x for point in row_list]
+        y1s = [point.y for point in row_list]
+        colors = cm.rainbow(np.linspace(0, 1, len(y1s)))
+        for x, y, c in zip(x1s, y1s, colors):
+            plt.scatter(x, y, color=c)
+        # plt.scatter(x1s,y1s, color = 'black')
+        plt.show()
+        point_list.append(z)
+        count = 1
+        while z in point_list:
+            if nearest_ind[z][count] not in point_list:
+                z = nearest_ind[z][count]
+            count += 1
+            if count > 4:
+                print("done")
+                exit()
+        print(nearest_ind[z], point_list)
+    
     for x in range(1):#len(sample_Points)):
         i = sample_Points[x]
         # List of angles between points
@@ -40,7 +69,21 @@ def normaliseData(PointSet):
         point_index = nearest_ind[i,1]
         # Origin angle
         angle = calcLineRotation(PointSet[nearest_ind[i,0]], PointSet[point_index])  
+        angle_list.append(angle)
+        building_line = True
+
+        print("Origin point index: " + str(point_list[0]) + " with an angle of " + str(angle))
+        
+        point_list.append(nearest_ind[i,1])
+        row_list.append(Point(PointSet[point_list[-1]].x, PointSet[point_list[-1]].y)) 
+        point_index = nearest_ind[i,2]
+        # Origin angle
+        angle = calcLineRotation(PointSet[nearest_ind[i,0]], PointSet[point_index]) 
+        if (angle - angle_list[0]) > ((angle*-1) -angle_list[0]):
+            print(angle)
+            angle *= -1 
          
+        print(angle_list)
         building_line = True
 
         print("Origin point index: " + str(point_list[0]) + " with an angle of " + str(angle))
@@ -48,6 +91,7 @@ def normaliseData(PointSet):
         while building_line == True:
             #Add data to lists
             angle_list.append(angle)
+            print(AverageAngle(angle_list))
             point_list.append(point_index)  
             row_list.append(Point(PointSet[point_list[-1]].x, PointSet[point_list[-1]].y))        
 
@@ -55,21 +99,27 @@ def normaliseData(PointSet):
             # Results in closest corresponding angle
             angle_average = AverageAngle(angle_list)
             for y in range(4):
-                value_check = int(nearest_ind[point_index][y])
+                value_check = nearest_ind[point_index][y]
+                
+                
+                
                 # Point hasn't been dealt with before
                 if not(value_check in point_list):
                     point_index = nearest_ind[point_index][y]
                     # print(value_check, point_list)
                     # print(count, len(angle_list)-1)
                     angle_check = calcLineRotation(row_list[-1], PointSet[value_check])
+                    angle_check_origin = calcLineRotation(row_list[0], PointSet[value_check])
                     if (AnglesInRange(angle_list[-1], angle_check,15)) or (AnglesInRange(angle_average, angle_check,15)):
                         point_index = nearest_ind[point_index][y]
-                        linked_list_test.add_to_head(Node(nearest_ind[point_index][y]))
+                        # linked_list_test.add_to_head(Node(nearest_ind[point_index][y]))
                         if AnglesInRange(angle_average, angle_check,15):
                             print("average")
                         else: 
                             print("current")
                         # print(nearest_ind[point_index][y])
+                    elif (AnglesInRange(angle_list[-1], angle_check_origin,15)) or (AnglesInRange(angle_average, angle_check_origin,15)):
+                        point_index = nearest_ind[point_index][y]
                
             if point_index in point_list:
                 building_line = False
