@@ -35,8 +35,9 @@ def Run_File(filename):
     else: 
         exit()
         
-    DataCalculations.normaliseData(PointSet)
-        
+    print("The average angle is; ")
+    print(DataCalculations.normaliseData(PointSet))
+    # importData.displayPointSet(testPointSet)
     # global image_point_count
     # image_point_count = len(PointSet)
     # # while image_point_count**2 < len(PointSet):

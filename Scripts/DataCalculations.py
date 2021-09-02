@@ -5,7 +5,8 @@ from sklearn.neighbors import KDTree
 from shapely.geometry.point import Point
 from shapely.geometry.multipoint import MultiPoint
 
-
+import matplotlib.pyplot as plt
+import matplotlib.cm as cm
 import numpy as np
 import math
 
@@ -17,52 +18,67 @@ import random
 def normaliseData(PointSet):
     
     dataset = KDTree(PointSet)
-    nearest_dist, nearest_ind = dataset.query(PointSet, k=8)
+    nearest_dist, nearest_ind = dataset.query(PointSet, k=4)
     
     #INPUT here for number sampling
     sample_Points = random.sample(range(0, len(PointSet)), 10)
     
     for x in range(1):#len(sample_Points)):
         i = sample_Points[x]
+        # List of angles between points
         angle_list = []
+        # List of points from nearest_ind
         point_list = []
+        # Points that make up the row
         row_list = []
         linked_list_test = LinkedList()
         
         # Setting up the base case
+        # Origin point
         point_list.append(nearest_ind[i,0])
-        angle = calcLineRotation(PointSet[nearest_ind[i,0]], PointSet[nearest_ind[i,1]])  
-        print(nearest_ind[i,0], nearest_ind[i,1])
+        row_list.append(Point(PointSet[point_list[-1]].x, PointSet[point_list[-1]].y)) 
         point_index = nearest_ind[i,1]
+        # Origin angle
+        angle = calcLineRotation(PointSet[nearest_ind[i,0]], PointSet[point_index])  
+         
         building_line = True
-        count = 0
-        # print(PointSet[nearest_ind[i][0]].x, PointSet[nearest_ind[i][0]].y)
-        # print(PointSet[nearest_ind[i][1]].x, PointSet[nearest_ind[i][1]].y)
-        # somevar = nearest_ind[nearest_ind[i][1]][2]
-        # print(nearest_ind[somevar])
+
+        print("Origin point index: " + str(point_list[0]) + " with an angle of " + str(angle))
         
         while building_line == True:
+            #Add data to lists
             angle_list.append(angle)
-            point_list.append(point_index)   
-            row_list.append(Point(PointSet[point_list[count]].x, PointSet[point_list[count]].y))        
-            
-            
-            for y in range(8,1):
+            point_list.append(point_index)  
+            row_list.append(Point(PointSet[point_list[-1]].x, PointSet[point_list[-1]].y))        
+
+            # Run the check from furtherest to closest
+            # Results in closest corresponding angle
+            angle_average = AverageAngle(angle_list)
+            for y in range(4):
                 value_check = int(nearest_ind[point_index][y])
+                # Point hasn't been dealt with before
                 if not(value_check in point_list):
-                    # print(AnglesInRange(angle_list[count], calcLineRotation(row_list[count-1], Point(PointSet[point_list[count]].x, PointSet[point_list[count]].y))))
-                    if AnglesInRange(angle_list[count], calcLineRotation(row_list[count-1], PointSet[value_check])):
+                    point_index = nearest_ind[point_index][y]
+                    # print(value_check, point_list)
+                    # print(count, len(angle_list)-1)
+                    angle_check = calcLineRotation(row_list[-1], PointSet[value_check])
+                    if (AnglesInRange(angle_list[-1], angle_check,15)) or (AnglesInRange(angle_average, angle_check,15)):
                         point_index = nearest_ind[point_index][y]
                         linked_list_test.add_to_head(Node(nearest_ind[point_index][y]))
+                        if AnglesInRange(angle_average, angle_check,15):
+                            print("average")
+                        else: 
+                            print("current")
                         # print(nearest_ind[point_index][y])
                
             if point_index in point_list:
                 building_line = False
-            count += 1
+
             
             #########################
             # Also need to build the row going in the opposite directions
-            # Reimplement it with a Linked List
+            # ReImplement it with a Linked List
+            # Add average angle to determine best route
             #########################
             
             # angle = calcLineRotation(row_list[count-1], Point(PointSet[point_list[count]].x, PointSet[point_list[count]].y))
@@ -71,10 +87,27 @@ def normaliseData(PointSet):
             # print(angle)
             # building_line = AnglesInRange(angle_list[count],angle)
             # print(angle_list[count],angle)
-        print(point_list)
-        print("Linked List")
-        print(linked_list_test)
-            
+        # print(point_list)
+        # print("Linked List")
+        # print(linked_list_test)
+        xs = [point.x for point in PointSet]
+        ys = [point.y for point in PointSet]
+        plt.scatter(xs,ys, color = 'black')
+        x1s = [point.x for point in row_list]
+        y1s = [point.y for point in row_list]
+        colors = cm.rainbow(np.linspace(0, 1, len(y1s)))
+        for x, y, c in zip(x1s, y1s, colors):
+            plt.scatter(x, y, color=c)
+        # plt.scatter(x1s,y1s, color = 'black')
+        plt.show()
+        return AverageAngle(angle_list)
+        
+        
+def AverageAngle(angle_list):
+    count = 0
+    for angle in angle_list:
+        count+= angle
+    return (count/len(angle_list))
         
 
 def calcLineRotation(origin_point, endpoint):
@@ -83,9 +116,9 @@ def calcLineRotation(origin_point, endpoint):
     return math.degrees(angle_theta)           
         
         
-def AnglesInRange(Angle1, Angle2):
+def AnglesInRange(Angle1, Angle2, threshold):
     # print(abs(Angle1-Angle2))
-    if abs(Angle1-Angle2) <= 15:
+    if abs(Angle1-Angle2) <= threshold:
         return True
     else:
         return False
