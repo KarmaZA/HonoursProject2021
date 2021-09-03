@@ -1,22 +1,54 @@
 # This class will take input of the pointset and calculate the rotation of the image
 from LinkedList import LinkedList, Node
-from re import A
 from sklearn.neighbors import KDTree
-from shapely.geometry.point import Point
-from shapely.geometry.multipoint import MultiPoint
+
+from pyproj import Proj, Transformer
+
+from shapely.geometry import Point, MultiPoint, LineString
+import shapely.ops as sp_ops
 
 import matplotlib.pyplot as plt
 import matplotlib.cm as cm
 import numpy as np
-import math
-
-from haversine import Unit
-import haversine as hs
+from math import radians, cos, sin, atan2, degrees
 import random
 
 
+def convertPointsToInt(PointSet):
+    set_to_return= []
+    set_to_return.append(Point(0,0))
+    delta_x, delta_y = (0,0)
+    for k in range(1, len(PointSet)):
+        # Point1 = Point(PointSet[k-1].x, PointSet[k-1].y)
+        # Point2 = 
+        line_distance = LineString([PointSet[k-1], PointSet[k]])
+        # line_distance.srid = 4326
+        my_transformer = Transformer.from_crs('EPSG:4326', 'EPSG:3857', always_xy=True)
+        distnace = sp_ops.transform(my_transformer.transform, line_distance)
+        print(distnace.length)
+        angle = calcLineRotation(PointSet[k-1], PointSet[k])
+        delta_x = PointSet[k-1].x * cos(angle)
+        delta_y = PointSet[k-1].y * sin(angle)
+        delta_x *= int(distnace.length)
+        delta_y *= int(distnace.length)
+        set_to_return.append(Point((set_to_return[k-1].x + delta_x), (set_to_return[k-1].y + delta_y)))
+    print("xy delta")
+    print(delta_x/len(PointSet))
+    print(delta_y/len(PointSet))    
+    xs = [point.x for point in set_to_return]
+    ys = [point.y for point in set_to_return]
+    plt.scatter(xs,ys, color = 'black')
+    plt.show()
+    return MultiPoint(set_to_return)
+
+
+# #Where point1 and2 are from PointSet. Returns distance in meters
+# def calcScaleUnitValues(point1,point2):
+#     loc1 = (point1.x, point1.y)
+#     loc2 = (point2.x, point2.y)
+#     return hs.haversine(loc1, loc2, unit=Unit.METERS)
+
 def normaliseData(PointSet):
-    
     dataset = KDTree(PointSet)
     nearest_dist, nearest_ind = dataset.query(PointSet, k=4)
     
@@ -162,8 +194,8 @@ def AverageAngle(angle_list):
 
 def calcLineRotation(origin_point, endpoint):
     x1, x2, y1, y2 = (origin_point.x, endpoint.x, origin_point.y, endpoint.y)
-    angle_theta = math.atan2(y2-y1, x2-x1)
-    return math.degrees(angle_theta)           
+    angle_theta = atan2(y2-y1, x2-x1)
+    return degrees(angle_theta)           
         
         
 def AnglesInRange(Angle1, Angle2, threshold):
@@ -243,9 +275,4 @@ def CalcScale(PointSet):
     return distance_To_Return
 
 
-#Where point1 and2 are from PointSet. Returns distance in meters
-def calcScaleUnitValues(point1,point2):
-    loc1 = (point1.x, point1.y)
-    loc2 = (point2.x, point2.y)
-    return hs.haversine(loc1, loc2, unit=Unit.METERS)
     

@@ -35,6 +35,8 @@ def Run_File(filename):
     else: 
         exit()
         
+    DataCalculations.convertPointsToInt(PointSet)
+    
     print("The average angle is; ")
     print(DataCalculations.normaliseData(PointSet))
     # importData.displayPointSet(testPointSet)
