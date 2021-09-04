@@ -1,4 +1,5 @@
 # This class will take input of the pointset and calculate the rotation of the image
+from re import split
 from LinkedList import LinkedList, Node
 from sklearn.neighbors import KDTree
 
@@ -17,21 +18,26 @@ import random
 def convertPointsToInt(PointSet):
     set_to_return= []
     set_to_return.append(Point(0,0))
-    delta_x, delta_y = (0,0)
+    delta_x, delta_y = (-PointSet[0].x, -PointSet[0].y)
+    float_count = 10 **(len(str(PointSet[0].x).split('.')[1]))
     for k in range(1, len(PointSet)):
         # Point1 = Point(PointSet[k-1].x, PointSet[k-1].y)
         # Point2 = 
-        line_distance = LineString([PointSet[k-1], PointSet[k]])
-        # line_distance.srid = 4326
-        my_transformer = Transformer.from_crs('EPSG:4326', 'EPSG:3857', always_xy=True)
-        distnace = sp_ops.transform(my_transformer.transform, line_distance)
-        print(distnace.length)
-        angle = calcLineRotation(PointSet[k-1], PointSet[k])
-        delta_x = PointSet[k-1].x * cos(angle)
-        delta_y = PointSet[k-1].y * sin(angle)
-        delta_x *= int(distnace.length)
-        delta_y *= int(distnace.length)
-        set_to_return.append(Point((set_to_return[k-1].x + delta_x), (set_to_return[k-1].y + delta_y)))
+        # line_distance = LineString([PointSet[k-1], PointSet[k]])
+        # # line_distance.srid = 4326
+        # my_transformer = Transformer.from_crs('EPSG:4326', 'EPSG:3857', always_xy=True)
+        # distnace = sp_ops.transform(my_transformer.transform, line_distance)
+        # print(distnace.length)
+        # angle = calcLineRotation(PointSet[k-1], PointSet[k])
+        # delta_x = PointSet[k-1].x * cos(angle)
+        # delta_y = PointSet[k-1].y * sin(angle)
+        # delta_x *= int(distnace.length)
+        # delta_y *= int(distnace.length)
+        
+        # set_to_return.append(Point((set_to_return[k-1].x + delta_x), (set_to_return[k-1].y + delta_y)))
+        set_to_return.append(Point((PointSet[k].x + delta_x), (PointSet[k].y + delta_y)))
+        
+        set_to_return[k] = Point(int(set_to_return[k].x*float_count),int(set_to_return[k].y*float_count))
     print("xy delta")
     print(delta_x/len(PointSet))
     print(delta_y/len(PointSet))    
