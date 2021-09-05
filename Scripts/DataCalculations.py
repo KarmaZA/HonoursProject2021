@@ -17,35 +17,66 @@ import random
 
 def convertPointsToInt(PointSet):
     set_to_return= []
-    set_to_return.append(Point(0,0))
-    delta_x, delta_y = (-PointSet[0].x, -PointSet[0].y)
-    float_count = 10 **(len(str(PointSet[0].x).split('.')[1]))
-    for k in range(1, len(PointSet)):
-        # Point1 = Point(PointSet[k-1].x, PointSet[k-1].y)
-        # Point2 = 
-        # line_distance = LineString([PointSet[k-1], PointSet[k]])
-        # # line_distance.srid = 4326
-        # my_transformer = Transformer.from_crs('EPSG:4326', 'EPSG:3857', always_xy=True)
-        # distnace = sp_ops.transform(my_transformer.transform, line_distance)
-        # print(distnace.length)
-        # angle = calcLineRotation(PointSet[k-1], PointSet[k])
-        # delta_x = PointSet[k-1].x * cos(angle)
-        # delta_y = PointSet[k-1].y * sin(angle)
-        # delta_x *= int(distnace.length)
-        # delta_y *= int(distnace.length)
-        
-        # set_to_return.append(Point((set_to_return[k-1].x + delta_x), (set_to_return[k-1].y + delta_y)))
-        set_to_return.append(Point((PointSet[k].x + delta_x), (PointSet[k].y + delta_y)))
-        
-        set_to_return[k] = Point(int(set_to_return[k].x*float_count),int(set_to_return[k].y*float_count))
-    print("xy delta")
-    print(delta_x/len(PointSet))
-    print(delta_y/len(PointSet))    
+    x_min, y_min, x_max, y_max = (400,400,-400,-400)
+    # x_min, y_min, x_max, y_max = (0,0, -0.0058, 0.006778)
+    for point in PointSet:
+        if point.x < x_min : x_min = point.x
+        if point.y < y_min : y_min = point.y
+        if point.x > x_max : x_max = point.x
+        if point.y > y_max : y_max = point.y
+    x_max = x_min + (-0.0058)
+    # x_min -= x_min
+    y_max = y_min + 0.006778
+    # y_min -= y_min
+    print(x_min, y_min, x_max, y_max)
+    for point in PointSet:
+        if point.y > y_max: 
+            set_to_return.append(Point(point.x, point.y))
+            print("here")
+        # if ((point.x > x_min) and (point.x < x_max)) and ((point.y > y_min) and (point.y < y_max)):
+        #     set_to_return.append(Point(point.x, point.y))
+        #     print("here")
+            
+    delta_y = (y_max-y_min)/100        
+    print("A visual depictions of your orchard")
     xs = [point.x for point in set_to_return]
     ys = [point.y for point in set_to_return]
     plt.scatter(xs,ys, color = 'black')
-    plt.show()
-    return MultiPoint(set_to_return)
+    # plt.yticks(np.arange(y_min, y_max, delta_y))
+    plt.savefig('OrchardGraph.png')
+    
+    return MultiPoint(PointSet)
+    
+    # set_to_return.append(Point(0,0))
+    # delta_x, delta_y = (-PointSet[0].x, -PointSet[0].y)
+    # float_count = 10 **(len(str(PointSet[0].x).split('.')[1]))
+    
+    # for k in range(1, len(PointSet)):
+    #     # Point1 = Point(PointSet[k-1].x, PointSet[k-1].y)
+    #     # Point2 = 
+    #     # line_distance = LineString([PointSet[k-1], PointSet[k]])
+    #     # # line_distance.srid = 4326
+    #     # my_transformer = Transformer.from_crs('EPSG:4326', 'EPSG:3857', always_xy=True)
+    #     # distnace = sp_ops.transform(my_transformer.transform, line_distance)
+    #     # print(distnace.length)
+    #     # angle = calcLineRotation(PointSet[k-1], PointSet[k])
+    #     # delta_x = PointSet[k-1].x * cos(angle)
+    #     # delta_y = PointSet[k-1].y * sin(angle)
+    #     # delta_x *= int(distnace.length)
+    #     # delta_y *= int(distnace.length)
+        
+    #     # set_to_return.append(Point((set_to_return[k-1].x + delta_x), (set_to_return[k-1].y + delta_y)))
+    #     set_to_return.append(Point((PointSet[k].x + delta_x), (PointSet[k].y + delta_y)))
+        
+    #     set_to_return[k] = Point(int(set_to_return[k].x*float_count),int(set_to_return[k].y*float_count))
+    # print("xy delta")
+    # print(delta_x/len(PointSet))
+    # print(delta_y/len(PointSet))    
+    # xs = [point.x for point in set_to_return]
+    # ys = [point.y for point in set_to_return]
+    # plt.scatter(xs,ys, color = 'black')
+    # plt.show()
+    # return MultiPoint(set_to_return)
 
 
 # #Where point1 and2 are from PointSet. Returns distance in meters

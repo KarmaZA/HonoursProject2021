@@ -3,7 +3,8 @@
 # Import modules
 from matplotlib.pyplot import waitforbuttonpress
 from numpy import double
-import numpy
+import cv2
+
 
 # Import my classes
 import SimilarityMeasures
@@ -202,7 +203,7 @@ def RunTestCases():
 
 
 if __name__ == '__main__':
-    print('The program has started.')    
+    print('The program has started.')   
     file_input_name = input("What is the image name(0 for default)?\n")
     if file_input_name == '0':
         file_input_name = 'SquareIdeal3.txt'
