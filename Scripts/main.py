@@ -11,15 +11,15 @@ import SimilarityMeasures
 import importData
 import genImages
 import DataCalculations
+import DataOutput
 
 image_point_count = 0
 Image_scale_array = []
 
+
 def Run_File(filename):
-    
+    Data_out = DataOutput.DataOut()
     ################################## Import Data
-    
-    # testPointSet = importData.importGeoJSonAsPoints('Test36507.geojson')
     if filename.find('.txt') != -1:
         print('Running for for idealised data')
         PointSet = importData.importIdealisedData(filename)
@@ -36,10 +36,22 @@ def Run_File(filename):
     else: 
         exit()
         
+    #Normalise rows into lines
+    
+    PointSet, scale_intra_row, average_angle = DataCalculations.normaliseData(PointSet)
+    
+    #Returns number of images to perform template matching on
     source_image_number = DataCalculations.convertPointsToInt(PointSet)
     
-    print("The average angle is; ")
-    print(DataCalculations.normaliseData(PointSet))
+    for image_section_count in range(source_image_number):
+        print("Perform TM on image number " + str(image_section_count))
+        
+    #Writing to the output object
+    Data_out.setIntra(scale_intra_row)
+    Data_out.setAngle(average_angle)
+    Data_out.setTreeCount(len(PointSet))
+        
+    
     # importData.displayPointSet(testPointSet)
     # global image_point_count
     # image_point_count = len(PointSet)

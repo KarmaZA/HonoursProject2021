@@ -3,48 +3,17 @@ from re import split
 from LinkedList import LinkedList, Node
 from sklearn.neighbors import KDTree
 
-from pyproj import Proj, Transformer
-
-from shapely.geometry import Point, MultiPoint, LineString
-import shapely.ops as sp_ops
+from shapely.geometry import Point, MultiPoint
 
 import matplotlib.pyplot as plt
 import matplotlib.cm as cm
 import numpy as np
-from math import radians, cos, sin, atan2, degrees
+from math import atan2, degrees
 import random
-################### Distance Calculations
-# for k in range(1, len(PointSet)):
-    #     # Point1 = Point(PointSet[k-1].x, PointSet[k-1].y)
-    #     # Point2 = 
-    #     # line_distance = LineString([PointSet[k-1], PointSet[k]])
-    #     # # line_distance.srid = 4326
-    #     # my_transformer = Transformer.from_crs('EPSG:4326', 'EPSG:3857', always_xy=True)
-    #     # distnace = sp_ops.transform(my_transformer.transform, line_distance)
-    #     # print(distnace.length)
-    #     # angle = calcLineRotation(PointSet[k-1], PointSet[k])
-    #     # delta_x = PointSet[k-1].x * cos(angle)
-    #     # delta_y = PointSet[k-1].y * sin(angle)
-    #     # delta_x *= int(distnace.length)
-    #     # delta_y *= int(distnace.length)
-        
-    #     # set_to_return.append(Point((set_to_return[k-1].x + delta_x), (set_to_return[k-1].y + delta_y)))
-    #     set_to_return.append(Point((PointSet[k].x + delta_x), (PointSet[k].y + delta_y)))
-        
-    #     set_to_return[k] = Point(int(set_to_return[k].x*float_count),int(set_to_return[k].y*float_count))
-    
-    
-    # #Where point1 and2 are from PointSet. Returns distance in meters
-# def calcScaleUnitValues(point1,point2):
-#     loc1 = (point1.x, point1.y)
-#     loc2 = (point2.x, point2.y)
-#     return hs.haversine(loc1, loc2, unit=Unit.METERS)
-
 
 
 def convertPointsToInt(PointSet):
     count = 0
-    print(len(PointSet))
     x_min, y_min, x_max, y_max = (400,400,-400,-400)
     for point in PointSet:
         if point.x < x_min : x_min = point.x
@@ -53,8 +22,6 @@ def convertPointsToInt(PointSet):
         if point.y > y_max : y_max = point.y
         
     max_image_number = int((len(PointSet)/400)+1)
-
-    # base_x_min = x_min
     delta_x = (x_max-x_min)/max_image_number
     delta_y = (y_max-y_min)/max_image_number
 
@@ -63,20 +30,18 @@ def convertPointsToInt(PointSet):
         for y in range(max_image_number):                                   
             set_to_return= []        
             # Set boundaries for edges of sub image
-            x_max = x_min + delta_x
-                
-            print(x_min, y_min, x_max, y_max)
+            x_max = x_min + delta_x             
+            # print(x_min, y_min, x_max, y_max)
             for point in PointSet:
                 if ((point.x > x_min) and (point.x < x_max)) and ((point.y > y_min) and (point.y < y_max)):
                     set_to_return.append(Point(point.x, point.y))
                     # print("here")
                     
-            print("A visual depictions of your orchard")
             xs = [point.x for point in set_to_return]
             ys = [point.y for point in set_to_return]
             plt.scatter(xs,ys, color = 'black')
             plt.savefig('Images/MainImage' + str(count) + '.png')
-            
+            # print("A visual depictions of your orchard")
             # plt.show()
             # x1s = [point.x for point in PointSet]
             # y1s = [point.y for point in PointSet]
@@ -94,30 +59,43 @@ def convertPointsToInt(PointSet):
 
 
 def normaliseData(PointSet):
+       
     dataset = KDTree(PointSet)
     nearest_dist, nearest_ind = dataset.query(PointSet, k=4)
+    scale_intra = 0
+    
+    #Calculate the average intra_row scale
+    for point in nearest_dist:
+        scale_intra += point[1]
+    scale_intra /= len(nearest_dist)
+    print("Average scale: " + str(scale_intra))
     
     #INPUT here for number sampling
     sample_Points = random.sample(range(0, len(PointSet)), 10)
     
-    z = 745
+    angle_list = []
     point_list = []
+    # If for values not in point line angle is not in range make false
+    building_line = True
     for i in range(10):
-        
-        row_list = []
+        z = sample_Points[i]
+        row_list = LinkedList()
         
         for y in range(4):
-            row_list.append(Point(PointSet[nearest_ind[z][y]].x, PointSet[nearest_ind[z][y]].y))    
-        xs = [point.x for point in PointSet]
-        ys = [point.y for point in PointSet]
-        plt.scatter(xs,ys, color = 'black')
-        x1s = [point.x for point in row_list]
-        y1s = [point.y for point in row_list]
-        colors = cm.rainbow(np.linspace(0, 1, len(y1s)))
-        for x, y, c in zip(x1s, y1s, colors):
-            plt.scatter(x, y, color=c)
+            row_list.add_to_tail(Node(Point(PointSet[nearest_ind[z][y]].x, PointSet[nearest_ind[z][y]].y)))    
+            angle = calcLineRotation(PointSet[nearest_ind[z,0]], PointSet[nearest_ind[z][y]]) 
+            print(angle)
+            angle_list.append(angle)
+        # xs = [point.x for point in PointSet]
+        # ys = [point.y for point in PointSet]
+        # plt.scatter(xs,ys, color = 'black')
+        # x1s = [point.x for point in row_list]
+        # y1s = [point.y for point in row_list]
+        # colors = cm.rainbow(np.linspace(0, 1, len(y1s)))
+        # for x, y, c in zip(x1s, y1s, colors):
+        #     plt.scatter(x, y, color=c)
         # plt.scatter(x1s,y1s, color = 'black')
-        plt.show()
+        # plt.show()
         point_list.append(z)
         count = 1
         while z in point_list:
@@ -125,109 +103,10 @@ def normaliseData(PointSet):
                 z = nearest_ind[z][count]
             count += 1
             if count > 4:
-                print("done")
+                # print("done")
                 exit()
-        print(nearest_ind[z], point_list)
-    
-    for x in range(1):#len(sample_Points)):
-        i = sample_Points[x]
-        # List of angles between points
-        angle_list = []
-        # List of points from nearest_ind
-        point_list = []
-        # Points that make up the row
-        row_list = []
-        linked_list_test = LinkedList()
-        
-        # Setting up the base case
-        # Origin point
-        point_list.append(nearest_ind[i,0])
-        row_list.append(Point(PointSet[point_list[-1]].x, PointSet[point_list[-1]].y)) 
-        point_index = nearest_ind[i,1]
-        # Origin angle
-        angle = calcLineRotation(PointSet[nearest_ind[i,0]], PointSet[point_index])  
-        angle_list.append(angle)
-        building_line = True
-
-        print("Origin point index: " + str(point_list[0]) + " with an angle of " + str(angle))
-        
-        point_list.append(nearest_ind[i,1])
-        row_list.append(Point(PointSet[point_list[-1]].x, PointSet[point_list[-1]].y)) 
-        point_index = nearest_ind[i,2]
-        # Origin angle
-        angle = calcLineRotation(PointSet[nearest_ind[i,0]], PointSet[point_index]) 
-        if (angle - angle_list[0]) > ((angle*-1) -angle_list[0]):
-            print(angle)
-            angle *= -1 
-         
-        print(angle_list)
-        building_line = True
-
-        print("Origin point index: " + str(point_list[0]) + " with an angle of " + str(angle))
-        
-        while building_line == True:
-            #Add data to lists
-            angle_list.append(angle)
-            print(AverageAngle(angle_list))
-            point_list.append(point_index)  
-            row_list.append(Point(PointSet[point_list[-1]].x, PointSet[point_list[-1]].y))        
-
-            # Run the check from furtherest to closest
-            # Results in closest corresponding angle
-            angle_average = AverageAngle(angle_list)
-            for y in range(4):
-                value_check = nearest_ind[point_index][y]
-                
-                
-                
-                # Point hasn't been dealt with before
-                if not(value_check in point_list):
-                    point_index = nearest_ind[point_index][y]
-                    # print(value_check, point_list)
-                    # print(count, len(angle_list)-1)
-                    angle_check = calcLineRotation(row_list[-1], PointSet[value_check])
-                    angle_check_origin = calcLineRotation(row_list[0], PointSet[value_check])
-                    if (AnglesInRange(angle_list[-1], angle_check,15)) or (AnglesInRange(angle_average, angle_check,15)):
-                        point_index = nearest_ind[point_index][y]
-                        # linked_list_test.add_to_head(Node(nearest_ind[point_index][y]))
-                        if AnglesInRange(angle_average, angle_check,15):
-                            print("average")
-                        else: 
-                            print("current")
-                        # print(nearest_ind[point_index][y])
-                    elif (AnglesInRange(angle_list[-1], angle_check_origin,15)) or (AnglesInRange(angle_average, angle_check_origin,15)):
-                        point_index = nearest_ind[point_index][y]
-               
-            if point_index in point_list:
-                building_line = False
-
-            
-            #########################
-            # Also need to build the row going in the opposite directions
-            # ReImplement it with a Linked List
-            # Add average angle to determine best route
-            #########################
-            
-            # angle = calcLineRotation(row_list[count-1], Point(PointSet[point_list[count]].x, PointSet[point_list[count]].y))
-            # print(angle)
-            # angle = calcLineRotation(row_list[count-1], Point(PointSet[0].x, PointSet[0].y))
-            # print(angle)
-            # building_line = AnglesInRange(angle_list[count],angle)
-            # print(angle_list[count],angle)
-        # print(point_list)
-        # print("Linked List")
-        # print(linked_list_test)
-        xs = [point.x for point in PointSet]
-        ys = [point.y for point in PointSet]
-        plt.scatter(xs,ys, color = 'black')
-        x1s = [point.x for point in row_list]
-        y1s = [point.y for point in row_list]
-        colors = cm.rainbow(np.linspace(0, 1, len(y1s)))
-        for x, y, c in zip(x1s, y1s, colors):
-            plt.scatter(x, y, color=c)
-        # plt.scatter(x1s,y1s, color = 'black')
-        plt.show()
-        return AverageAngle(angle_list)
+        # print(nearest_ind[z], point_list)
+        return (PointSet, scale_intra, AverageAngle(angle_list))
         
         
 def AverageAngle(angle_list):
