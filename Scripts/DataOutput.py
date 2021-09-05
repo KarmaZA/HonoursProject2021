@@ -11,7 +11,8 @@ class DataOut:
     def __init__(self) -> None:
         pass
 
-    def setIntra(intra):
+
+    def setIntra(self, intra):
         global intra_spacing
         intra_spacing = intra
         
@@ -24,6 +25,22 @@ class DataOut:
     def setAngle(angle):
         global image_angle
         image_angle = angle
+        
+    
+    ######################Unused    
+    def setInter(inte):
+        global inter_spacing
+        inter_spacing = inte
+
+
+    def setPatterns(patterns_list):
+        global planting_patterns
+        planting_patterns = patterns_list
+        
+        
+    def setCorner(CornerT):
+        global corner_tree_coords
+        corner_tree_coords = CornerT
 
 
     def writeDataToFile():

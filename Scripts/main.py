@@ -13,7 +13,6 @@ import genImages
 import DataCalculations
 import DataOutput
 
-image_point_count = 0
 Image_scale_array = []
 
 
@@ -27,7 +26,7 @@ def Run_File(filename):
         somevar = ''
         threshold = 0.6
         while somevar == '':
-            print('Importing Real World Data')
+            print('Loading GeoJSON file')
             PolygonSet = importData.importGeoJSonAsPolygons("Data/RealWorldData/" + str(filename), threshold)  
             # importData.displayPolygonSet(PolygonSet)
             PointSet = importData.convertPolygonsToCentroids(PolygonSet) 
@@ -35,30 +34,21 @@ def Run_File(filename):
             threshold -= 0.05
     else: 
         exit()
+    print("Data loaded")
         
     #Normalise rows into lines
-    
     PointSet, scale_intra_row, average_angle = DataCalculations.normaliseData(PointSet)
-    
     #Returns number of images to perform template matching on
     source_image_number = DataCalculations.convertPointsToInt(PointSet)
-    
     for image_section_count in range(source_image_number):
         print("Perform TM on image number " + str(image_section_count))
         
     #Writing to the output object
+    print(scale_intra_row)
     Data_out.setIntra(scale_intra_row)
     Data_out.setAngle(average_angle)
     Data_out.setTreeCount(len(PointSet))
         
-    
-    # importData.displayPointSet(testPointSet)
-    # global image_point_count
-    # image_point_count = len(PointSet)
-    # # while image_point_count**2 < len(PointSet):
-    # #     image_point_count += 1
-    # # image_point_count = (image_point_count - 1)**2 + (len(PointSet) - (image_point_count-1)**2)
-    # # print(image_point_count)
     # print('The data has been imported into the program')
     # ################################## Rotation and Scale
     

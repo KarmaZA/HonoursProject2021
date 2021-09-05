@@ -80,6 +80,8 @@ def normaliseData(PointSet):
     for i in range(10):
         z = sample_Points[i]
         row_list = LinkedList()
+        average_angle = AverageAngle(angle_list) if len(angle_list) > 0 else calcLineRotation(PointSet[nearest_ind[z,0]], PointSet[nearest_ind[z][1]])   
+        print(average_angle)    
         
         for y in range(4):
             row_list.add_to_tail(Node(Point(PointSet[nearest_ind[z][y]].x, PointSet[nearest_ind[z][y]].y)))    
@@ -106,7 +108,7 @@ def normaliseData(PointSet):
                 # print("done")
                 exit()
         # print(nearest_ind[z], point_list)
-        return (PointSet, scale_intra, AverageAngle(angle_list))
+    return (PointSet, scale_intra, AverageAngle(angle_list))
         
         
 def AverageAngle(angle_list):
