@@ -26,25 +26,32 @@ def convertPointsToInt(PointSet):
         if point.y > y_max : y_max = point.y
     x_max = x_min + (-0.0058)
     # x_min -= x_min
-    y_max = y_min + 0.006778
+    y_min = y_max - 0.00006778
     # y_min -= y_min
     print(x_min, y_min, x_max, y_max)
     for point in PointSet:
-        if point.y > y_max: 
+        if point.y > y_min: 
             set_to_return.append(Point(point.x, point.y))
             print("here")
+        else: 
+            print(point.y)
         # if ((point.x > x_min) and (point.x < x_max)) and ((point.y > y_min) and (point.y < y_max)):
         #     set_to_return.append(Point(point.x, point.y))
         #     print("here")
             
-    delta_y = (y_max-y_min)/100        
+    # delta_y = (y_max-y_min)/100        
     print("A visual depictions of your orchard")
     xs = [point.x for point in set_to_return]
     ys = [point.y for point in set_to_return]
     plt.scatter(xs,ys, color = 'black')
     # plt.yticks(np.arange(y_min, y_max, delta_y))
     plt.savefig('OrchardGraph.png')
-    
+    plt.show()
+    x1s = [point.x for point in PointSet]
+    y1s = [point.y for point in PointSet]
+    plt.scatter(x1s,y1s, color = 'black')
+    plt.scatter(xs,ys, color = 'blue')
+    plt.show()
     return MultiPoint(PointSet)
     
     # set_to_return.append(Point(0,0))
