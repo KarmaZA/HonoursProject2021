@@ -24,3 +24,4 @@ Data/RealWorldData/43581/dem_native.tif
 Data/RealWorldData/43581/detections_raw.geojson.gz
 Data/RealWorldData/43581/visible_10cm.tif
 *.geojson
+*.png
