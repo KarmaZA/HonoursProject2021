@@ -52,44 +52,43 @@ def convertPointsToInt(PointSet):
         if point.x > x_max : x_max = point.x
         if point.y > y_max : y_max = point.y
         
-    max_image_number = int((len(PointSet)/100)+1)
+    max_image_number = int((len(PointSet)/400)+1)
 
+    # base_x_min = x_min
     delta_x = (x_max-x_min)/max_image_number
     delta_y = (y_max-y_min)/max_image_number
 
-    for x in range (max_image_number):                                        
-        set_to_return= []        
-        # Set boundaries for edges of sub image
-        x_max = x_min + delta_x
-        y_max = y_min + delta_y
-        
-        print(x_min, y_min, x_max, y_max)
-        for point in PointSet:
-            # if (point.y > y_min) and (point.x > x_min):
-            #     if(point.y < y_max): 
-            #         set_to_return.append(Point(point.x, point.y))
-
-            if ((point.x > x_min) and (point.x < x_max)) and ((point.y > y_min) and (point.y < y_max)):
-                set_to_return.append(Point(point.x, point.y))
-                print("here")
+    for x in range (max_image_number):    
+        y_max = y_min + delta_y 
+        for y in range(max_image_number):                                   
+            set_to_return= []        
+            # Set boundaries for edges of sub image
+            x_max = x_min + delta_x
                 
-        print("A visual depictions of your orchard")
-        xs = [point.x for point in set_to_return]
-        ys = [point.y for point in set_to_return]
-        plt.scatter(xs,ys, color = 'black')
-        # plt.yticks(np.arange(y_min, y_max, delta_y))
-        plt.savefig('OrchardGraph' + str(count) + '.png')
-        plt.show()
-        x1s = [point.x for point in PointSet]
-        y1s = [point.y for point in PointSet]
-        plt.scatter(x1s,y1s, color = 'black')
-        plt.scatter(xs,ys, color = 'blue')
-        plt.show()
-        
-        #Update the boundaries of the sub - image
-        x_min = x_max
+            print(x_min, y_min, x_max, y_max)
+            for point in PointSet:
+                if ((point.x > x_min) and (point.x < x_max)) and ((point.y > y_min) and (point.y < y_max)):
+                    set_to_return.append(Point(point.x, point.y))
+                    # print("here")
+                    
+            print("A visual depictions of your orchard")
+            xs = [point.x for point in set_to_return]
+            ys = [point.y for point in set_to_return]
+            plt.scatter(xs,ys, color = 'black')
+            # plt.yticks(np.arange(y_min, y_max, delta_y))
+            plt.savefig('OrchardGraph' + str(count) + '.png')
+            plt.show()
+            x1s = [point.x for point in PointSet]
+            y1s = [point.y for point in PointSet]
+            plt.scatter(x1s,y1s, color = 'black')
+            plt.scatter(xs,ys, color = 'blue')
+            plt.show()
+            
+            #Update the boundaries of the sub - image
+            x_min = x_max            
+            count +=1 
         y_min = y_max
-        count +=1 
+        x_min -= (delta_x*max_image_number)
         
 
 
