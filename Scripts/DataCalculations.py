@@ -75,21 +75,21 @@ def convertPointsToInt(PointSet):
             xs = [point.x for point in set_to_return]
             ys = [point.y for point in set_to_return]
             plt.scatter(xs,ys, color = 'black')
-            # plt.yticks(np.arange(y_min, y_max, delta_y))
-            plt.savefig('OrchardGraph' + str(count) + '.png')
-            plt.show()
-            x1s = [point.x for point in PointSet]
-            y1s = [point.y for point in PointSet]
-            plt.scatter(x1s,y1s, color = 'black')
-            plt.scatter(xs,ys, color = 'blue')
-            plt.show()
+            plt.savefig('Images/MainImage' + str(count) + '.png')
+            
+            # plt.show()
+            # x1s = [point.x for point in PointSet]
+            # y1s = [point.y for point in PointSet]
+            # plt.scatter(x1s,y1s, color = 'black')
+            # plt.scatter(xs,ys, color = 'blue')
+            # plt.show()
             
             #Update the boundaries of the sub - image
             x_min = x_max            
             count +=1 
         y_min = y_max
         x_min -= (delta_x*max_image_number)
-        
+    return count
 
 
 

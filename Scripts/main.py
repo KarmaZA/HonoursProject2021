@@ -36,7 +36,7 @@ def Run_File(filename):
     else: 
         exit()
         
-    DataCalculations.convertPointsToInt(PointSet)
+    source_image_number = DataCalculations.convertPointsToInt(PointSet)
     
     print("The average angle is; ")
     print(DataCalculations.normaliseData(PointSet))
