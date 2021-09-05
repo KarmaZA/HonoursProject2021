@@ -77,37 +77,66 @@ def normaliseData(PointSet):
     point_list = []
     # If for values not in point line angle is not in range make false
     building_line = True
-    for i in range(10):
-        z = sample_Points[i]
-        row_list = LinkedList()
-        average_angle = AverageAngle(angle_list) if len(angle_list) > 0 else calcLineRotation(PointSet[nearest_ind[z,0]], PointSet[nearest_ind[z][1]])   
-        print(average_angle)    
-        
-        for y in range(4):
-            row_list.add_to_tail(Node(Point(PointSet[nearest_ind[z][y]].x, PointSet[nearest_ind[z][y]].y)))    
-            angle = calcLineRotation(PointSet[nearest_ind[z,0]], PointSet[nearest_ind[z][y]]) 
-            print(angle)
+    # for i in range(1):#0):
+    z = sample_Points[0]
+    row_list = []
+    # Origin Point
+    point_list.append(nearest_ind[z][0])
+    point_list.append(nearest_ind[z][1])
+    angle_list.append(calcLineRotation(PointSet[point_list[0]], PointSet[point_list[1]]))
+    print("Origin point at " + str(point_list[0]))
+    
+    for i in range(2,4):
+        angle = calcLineRotation(PointSet[point_list[0]], PointSet[nearest_ind[z][i]])
+        if AnglesInRange(angle_list[0], angle, 30):
+            point_list.append(nearest_ind[z][i])
             angle_list.append(angle)
-        # xs = [point.x for point in PointSet]
-        # ys = [point.y for point in PointSet]
-        # plt.scatter(xs,ys, color = 'black')
-        # x1s = [point.x for point in row_list]
-        # y1s = [point.y for point in row_list]
-        # colors = cm.rainbow(np.linspace(0, 1, len(y1s)))
-        # for x, y, c in zip(x1s, y1s, colors):
-        #     plt.scatter(x, y, color=c)
-        # plt.scatter(x1s,y1s, color = 'black')
-        # plt.show()
-        point_list.append(z)
+            
+    print("data")
+    print(point_list)
+    print(angle_list)
+    
+    while building_line:
+        z = point_list[-1]
+        building_line = False
+        average_angle = AverageAngle(angle_list)
+         
         count = 1
-        while z in point_list:
-            if nearest_ind[z][count] not in point_list:
-                z = nearest_ind[z][count]
+        print("data1")
+        while(building_line == False) and (count < 4):
+            if not (nearest_ind[z][count] in point_list):
+                print("data3")
+                angle_origin = calcLineRotation(PointSet[point_list[0]], PointSet[nearest_ind[z][count]])
+                angle_instant = calcLineRotation(PointSet[point_list[-1]], PointSet[nearest_ind[z][count]])
+                #Condition below super important for detections
+                if (AnglesInRange(angle_origin, average_angle, 10)) and (AnglesInRange(angle_list[-1], angle_instant, 20)):
+                    point_list.append(nearest_ind[z][count])
+                    angle_list.append(angle_instant)
+                    building_line = True
             count += 1
-            if count > 4:
-                # print("done")
-                exit()
-        # print(nearest_ind[z], point_list)
+        print(point_list)
+        
+    print(nearest_ind[point_list[-1]])
+    for coords in point_list:
+        row_list.append(Point(PointSet[coords].x, PointSet[coords].y))  
+    row_list2 = [] 
+    for coords in nearest_ind[point_list[-1]]:
+        row_list2.append(Point(PointSet[coords].x, PointSet[coords].y))   
+    
+    xs = [point.x for point in PointSet]
+    ys = [point.y for point in PointSet]
+    plt.scatter(xs,ys, color = 'black')
+    x1s = [point.x for point in row_list]
+    y1s = [point.y for point in row_list]
+    # colors = cm.rainbow(np.linspace(0, 1, len(y1s)))
+    # for x, y, c in zip(x1s, y1s, colors):
+    #     plt.scatter(x, y, color=c)
+    plt.scatter(x1s,y1s, color = 'red')
+    x2s = [point.x for point in row_list2]
+    y2s = [point.y for point in row_list2]
+    plt.scatter(x2s,y2s, color = 'blue')
+    plt.show()
+    point_list.append(z)
     return (PointSet, scale_intra, AverageAngle(angle_list))
         
         

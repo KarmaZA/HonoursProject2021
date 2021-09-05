@@ -13,34 +13,29 @@ class DataOut:
 
 
     def setIntra(self, intra):
-        global intra_spacing
-        intra_spacing = intra
+        self.intra_spacing = intra
         
         
-    def setTreeCount(count):
+    def setTreeCount(self, count):
         global tree_count
-        tree_count = count
+        self.tree_count = count
         
         
-    def setAngle(angle):
-        global image_angle
-        image_angle = angle
+    def setAngle(self, angle):
+        self.image_angle = angle
         
     
     ######################Unused    
-    def setInter(inte):
-        global inter_spacing
-        inter_spacing = inte
+    def setInter(self, inte):
+        self.inter_spacing = inte
 
 
-    def setPatterns(patterns_list):
-        global planting_patterns
-        planting_patterns = patterns_list
+    def setPatterns(self, patterns_list):
+        self.planting_patterns = patterns_list
         
         
-    def setCorner(CornerT):
-        global corner_tree_coords
-        corner_tree_coords = CornerT
+    def setCorner(self, CornerT):
+        self.corner_tree_coords = CornerT
 
 
     def writeDataToFile():
