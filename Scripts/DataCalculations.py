@@ -1,5 +1,7 @@
 # This class will take input of the pointset and calculate the rotation of the image
 from re import split
+
+from matplotlib.collections import QuadMesh
 from LinkedList import LinkedList, Node
 from sklearn.neighbors import KDTree
 
@@ -148,7 +150,7 @@ def normaliseData(PointSet):
         print(nearest_ind[point_list[-1]])
         for point in point_list:
             sampled_points.append(point)
-        weighted_average_angles.append([AverageAngle(angle_list), len(point_list)])
+        weighted_average_angles.append(AverageAngle(angle_list))#, len(point_list)])
 
         
         
@@ -175,18 +177,22 @@ def normaliseData(PointSet):
     return (PointSet, scale_intra, weighted_average_angles)
 
 def calcWeightedAverageAngle(angle_list):
-    total = sum(angle_list[:][1])
+    count = 0
     angle_avg = 0
-    print(total)
-    # for angle in angle_list:
-    #     total += angle[1]
+    countneg = 0
+    angle_avgneg = 0
     for angle in angle_list:
-        if angle[0] < 0:
-            angle_avg += (angle[0] + 180) * (angle[1]/total)
+        if angle > 0:
+            angle_avg += angle
+            count += 1
         else:
-            angle_avg += angle[0] * (angle[1]/total)
-    return angle_avg
-        
+            angle_avgneg += angle
+            countneg += 1
+            
+    if count >= countneg:
+        return angle_avg/count
+    else:
+        return angle_avgneg/countneg        
         
 def AverageAngle(angle_list):
     count = 0
