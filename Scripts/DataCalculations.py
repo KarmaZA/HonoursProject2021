@@ -38,11 +38,14 @@ def convertPointsToInt(PointSet):
                     set_to_return.append(Point(point.x, point.y))
                     # print("here")
                     
-            xs = [point.x for point in set_to_return]
-            ys = [point.y for point in set_to_return]
-            plt.scatter(xs,ys, color = 'black')
-            plt.savefig('Images/MainImage' + str(count) + '.png')
-            # print("A visual depictions of your orchard")
+            if (len(set_to_return) > 12):
+                    
+                xs = [point.x for point in set_to_return]
+                ys = [point.y for point in set_to_return]
+                plt.scatter(xs,ys, color = 'black')
+                plt.savefig('Images/MainImage' + str(count) + '.png')
+                count +=1 
+                # print("A visual depictions of your orchard")
             # plt.show()
             # x1s = [point.x for point in PointSet]
             # y1s = [point.y for point in PointSet]
@@ -52,7 +55,7 @@ def convertPointsToInt(PointSet):
             
             #Update the boundaries of the sub - image
             x_min = x_max            
-            count +=1 
+            
         y_min = y_max
         x_min -= (delta_x*max_image_number)
     return count
