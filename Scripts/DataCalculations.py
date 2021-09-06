@@ -95,27 +95,54 @@ def normaliseData(PointSet):
     print("data")
     print(point_list)
     print(angle_list)
-    
+        
     while building_line:
         z = point_list[-1]
         building_line = False
         average_angle = AverageAngle(angle_list)
          
         count = 1
-        print("data1")
         while(building_line == False) and (count < 4):
             if not (nearest_ind[z][count] in point_list):
-                print("data3")
                 angle_origin = calcLineRotation(PointSet[point_list[0]], PointSet[nearest_ind[z][count]])
                 angle_instant = calcLineRotation(PointSet[point_list[-1]], PointSet[nearest_ind[z][count]])
                 #Condition below super important for detections
-                if (AnglesInRange(angle_origin, average_angle, 10)) and (AnglesInRange(angle_list[-1], angle_instant, 20)):
+                if (AnglesInRange(angle_origin, average_angle, 10)) and (AnglesInRange(angle_list[-1], angle_instant, 30)):
                     point_list.append(nearest_ind[z][count])
                     angle_list.append(angle_instant)
                     building_line = True
+                if (AnglesInRange(angle_origin, average_angle, 10)):
+                        print("origin success") 
+                        print(abs(angle_list[-1] - angle_instant))   
+                if (AnglesInRange(angle_list[-1], angle_instant, 30)):
+                    print("Instant success")
             count += 1
         print(point_list)
         
+    # print("##########################################################")
+    # while building_line:
+    #     z = point_list[0]
+    #     building_line = False
+    #     average_angle = AverageAngle(angle_list) - 180
+         
+    #     count = 1
+    #     while(building_line == False) and (count < 4):
+    #         if not (nearest_ind[z][count] in point_list):
+    #             angle_origin = calcLineRotation(PointSet[point_list[-1]], PointSet[nearest_ind[z][count]])
+    #             angle_instant = calcLineRotation(PointSet[point_list[0]], PointSet[nearest_ind[z][count]])
+    #             #Condition below super important for detections
+    #             if (AnglesInRange(angle_origin, average_angle, 10)) and (AnglesInRange(angle_list[0], angle_instant, 30)):
+    #                 point_list.insert(nearest_ind[z][count],0)
+    #                 angle_list.insert(angle_instant,0)
+    #                 building_line = True
+    #             if (AnglesInRange(angle_origin, average_angle, 10)):
+    #                     print("origin success") 
+    #                     print(abs(angle_list[0] - angle_instant))   
+    #             if (AnglesInRange(angle_list[0], angle_instant, 30)):
+    #                 print("Instant success")
+    #         count += 1
+    #     print(point_list)
+              
     print(nearest_ind[point_list[-1]])
     for coords in point_list:
         row_list.append(Point(PointSet[coords].x, PointSet[coords].y))  
