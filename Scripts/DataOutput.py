@@ -38,9 +38,9 @@ class DataOut:
         self.corner_tree_coords = CornerT
 
 
-    def writeDataToFile():
+    def writeDataToFile(self):
         print()
-        print("The intra-spacing average is: " + str(intra_spacing))
-        print("The Tree count detected is: " + str(tree_count))
-        print("The angle of image is: " + str(image_angle))
+        print("The intra-spacing average is: " + str(self.intra_spacing))
+        print("The Tree count detected is: " + str(self.tree_count))
+        print("The angle of image is: " + str(self.image_angle))
         

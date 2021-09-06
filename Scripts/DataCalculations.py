@@ -29,21 +29,22 @@ def convertPointsToInt(PointSet):
     for x in range (max_image_number):    
         y_max = y_min + delta_y 
         for y in range(max_image_number):                                   
-            set_to_return= []        
+            set_to_return= []    
             # Set boundaries for edges of sub image
             x_max = x_min + delta_x             
-            # print(x_min, y_min, x_max, y_max)
+            print(x_min, y_min, x_max, y_max)
             for point in PointSet:
                 if ((point.x > x_min) and (point.x < x_max)) and ((point.y > y_min) and (point.y < y_max)):
                     set_to_return.append(Point(point.x, point.y))
                     # print("here")
-                    
+            print(len(set_to_return))
             if (len(set_to_return) > 12):
                     
                 xs = [point.x for point in set_to_return]
                 ys = [point.y for point in set_to_return]
                 plt.scatter(xs,ys, color = 'black')
                 plt.savefig('Images/MainImage' + str(count) + '.png')
+                plt.clf()
                 count +=1 
                 # print("A visual depictions of your orchard")
             # plt.show()
@@ -118,14 +119,10 @@ def normaliseData(PointSet):
                         point_list.append(nearest_ind[z][count])
                         angle_list.append(angle_instant)
                         building_line = True
-                    # if (AnglesInRange(angle_origin, average_angle, 10)):
-                    #         print("origin success") 
-                    #         print(abs(angle_list[-1] - angle_instant))   
-                    # if (AnglesInRange(angle_list[-1], angle_instant, 30)):
-                    #     print("Instant success")
                 count += 1
             print(point_list)
             
+        angle_list_inverse = []
         print("##########################################################")
         building_line = True
         while building_line:
@@ -147,7 +144,7 @@ def normaliseData(PointSet):
                     #Condition below super important for detections
                     if (AnglesInRange(angle_origin, average_angle, 10)):# and (AnglesInRange(angle_list[-1], angle_instant, 30)):
                         point_list.insert(nearest_ind[z][count],0)
-                        angle_list.append(angle_instant)
+                        angle_list_inverse.append(angle_instant)
                         building_line = True
                     if (AnglesInRange(angle_origin, average_angle, 10)):
                             print("origin success") 

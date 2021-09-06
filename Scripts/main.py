@@ -35,12 +35,14 @@ def Run_File(filename):
     else: 
         exit()
     print("Data loaded")
-        
+    
+    #Returns number of images to perform template matching on   
+    source_image_number = DataCalculations.convertPointsToInt(PointSet)
+    print("Sub images generated")
+    waitforbuttonpress()
     #Normalise rows into lines
     PointSet, scale_intra_row, average_angle = DataCalculations.normaliseData(PointSet)
-    #Returns number of images to perform template matching on
-    source_image_number = DataCalculations.convertPointsToInt(PointSet)
-
+    
     angle_to_out = DataCalculations.calcWeightedAverageAngle(average_angle)
     print(angle_to_out)
     #Writing to the output object
@@ -48,18 +50,12 @@ def Run_File(filename):
     Data_out.setIntra(scale_intra_row)
     Data_out.setAngle(angle_to_out)
     Data_out.setTreeCount(len(PointSet))
-        
-    # print('The data has been imported into the program')
-    # ################################## Rotation and Scale
-    
-    # print("Calculating the rotation")
-    # Image_rotation_array = DataCalculations.calcImageRotation(PointSet)
-    # print("Calculating the Scale")
-    # global Image_scale_array
-    # Image_scale_array = DataCalculations.CalcScale(PointSet)
 
-    # print('Rotation and Scale Calculations completed. Continue?')
-    # waitforbuttonpress()
+
+    ################# Set up base case
+    image_scale_array = [] 
+    for image in range(source_image_number):
+        source_image = importData.loadImageFromFile('MainImage.png', False, 0)        
     # ################################## Generate Images
     # genImages.genImageIdealised(PointSet)
 
