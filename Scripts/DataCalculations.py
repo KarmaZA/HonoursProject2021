@@ -6,7 +6,6 @@ from sklearn.neighbors import KDTree
 from shapely.geometry import Point, MultiPoint
 
 import matplotlib.pyplot as plt
-import matplotlib.cm as cm
 import numpy as np
 from math import atan2, degrees
 import random
@@ -70,81 +69,90 @@ def normaliseData(PointSet):
     scale_intra /= len(nearest_dist)
     print("Average scale: " + str(scale_intra))
     
-    #INPUT here for number sampling
-    sample_Points = random.sample(range(0, len(PointSet)), 10)
-    
-    angle_list = []
-    point_list = []
-    # If for values not in point line angle is not in range make false
-    building_line = True
-    # for i in range(1):#0):
-    z = sample_Points[0]
-    row_list = []
-    # Origin Point
-    point_list.append(nearest_ind[z][0])
-    point_list.append(nearest_ind[z][1])
-    angle_list.append(calcLineRotation(PointSet[point_list[0]], PointSet[point_list[1]]))
-    print("Origin point at " + str(point_list[0]))
-    
-    for i in range(2,4):
-        angle = calcLineRotation(PointSet[point_list[0]], PointSet[nearest_ind[z][i]])
-        if AnglesInRange(angle_list[0], angle, 30):
-            point_list.append(nearest_ind[z][i])
-            angle_list.append(angle)
-            
-    print("data")
-    print(point_list)
-    print(angle_list)
+    sampled_points = []
+    weighted_average_angles = []
+    for i in range(10):
+        angle_list = []
+        point_list = []
+        # If for values not in point line angle is not in range make false
+        building_line = True
+        # for i in range(1):#0):
+        z = random.randint(0, len(PointSet))
+        while z in sampled_points:
+            z = random.randint(0, len(PointSet))
+            print(z)
+        row_list = []
+        # Origin Point
+        point_list.append(nearest_ind[z][0])
+        point_list.append(nearest_ind[z][1])
+        angle_list.append(calcLineRotation(PointSet[point_list[0]], PointSet[point_list[1]]))
+        print("Origin point at " + str(point_list[0]))
         
-    while building_line:
-        z = point_list[-1]
-        building_line = False
-        average_angle = AverageAngle(angle_list)
-         
-        count = 1
-        while(building_line == False) and (count < 4):
-            if not (nearest_ind[z][count] in point_list):
-                angle_origin = calcLineRotation(PointSet[point_list[0]], PointSet[nearest_ind[z][count]])
-                angle_instant = calcLineRotation(PointSet[point_list[-1]], PointSet[nearest_ind[z][count]])
-                #Condition below super important for detections
-                if (AnglesInRange(angle_origin, average_angle, 10)) and (AnglesInRange(angle_list[-1], angle_instant, 30)):
-                    point_list.append(nearest_ind[z][count])
-                    angle_list.append(angle_instant)
-                    building_line = True
-                if (AnglesInRange(angle_origin, average_angle, 10)):
-                        print("origin success") 
-                        print(abs(angle_list[-1] - angle_instant))   
-                if (AnglesInRange(angle_list[-1], angle_instant, 30)):
-                    print("Instant success")
-            count += 1
+        for i in range(2,4):
+            angle = calcLineRotation(PointSet[point_list[0]], PointSet[nearest_ind[z][i]])
+            if AnglesInRange(angle_list[0], angle, 30):
+                point_list.append(nearest_ind[z][i])
+                angle_list.append(angle)
+                
+        print("data")
         print(point_list)
-        
-    # print("##########################################################")
-    # while building_line:
-    #     z = point_list[0]
-    #     building_line = False
-    #     average_angle = AverageAngle(angle_list) - 180
-         
-    #     count = 1
-    #     while(building_line == False) and (count < 4):
-    #         if not (nearest_ind[z][count] in point_list):
-    #             angle_origin = calcLineRotation(PointSet[point_list[-1]], PointSet[nearest_ind[z][count]])
-    #             angle_instant = calcLineRotation(PointSet[point_list[0]], PointSet[nearest_ind[z][count]])
-    #             #Condition below super important for detections
-    #             if (AnglesInRange(angle_origin, average_angle, 10)) and (AnglesInRange(angle_list[0], angle_instant, 30)):
-    #                 point_list.insert(nearest_ind[z][count],0)
-    #                 angle_list.insert(angle_instant,0)
-    #                 building_line = True
-    #             if (AnglesInRange(angle_origin, average_angle, 10)):
-    #                     print("origin success") 
-    #                     print(abs(angle_list[0] - angle_instant))   
-    #             if (AnglesInRange(angle_list[0], angle_instant, 30)):
-    #                 print("Instant success")
-    #         count += 1
-    #     print(point_list)
+        print(angle_list)
+            
+        while building_line:
+            z = point_list[-1]
+            building_line = False
+            average_angle = AverageAngle(angle_list)
+            
+            count = 1
+            while(building_line == False) and (count < 4):
+                if not (nearest_ind[z][count] in point_list):
+                    angle_origin = calcLineRotation(PointSet[point_list[0]], PointSet[nearest_ind[z][count]])
+                    angle_instant = calcLineRotation(PointSet[point_list[-1]], PointSet[nearest_ind[z][count]])
+                    #Condition below super important for detections
+                    if (AnglesInRange(angle_origin, average_angle, 10)) and (AnglesInRange(angle_list[-1], angle_instant, 30)):
+                        point_list.append(nearest_ind[z][count])
+                        angle_list.append(angle_instant)
+                        building_line = True
+                    if (AnglesInRange(angle_origin, average_angle, 10)):
+                            print("origin success") 
+                            print(abs(angle_list[-1] - angle_instant))   
+                    if (AnglesInRange(angle_list[-1], angle_instant, 30)):
+                        print("Instant success")
+                count += 1
+            print(point_list)
+            
+        # print("##########################################################")
+        # while building_line:
+        #     z = point_list[0]
+        #     building_line = False
+        #     average_angle = AverageAngle(angle_list) - 180
+            
+        #     count = 1
+        #     while(building_line == False) and (count < 4):
+        #         if not (nearest_ind[z][count] in point_list):
+        #             angle_origin = calcLineRotation(PointSet[point_list[-1]], PointSet[nearest_ind[z][count]])
+        #             angle_instant = calcLineRotation(PointSet[point_list[0]], PointSet[nearest_ind[z][count]])
+        #             #Condition below super important for detections
+        #             if (AnglesInRange(angle_origin, average_angle, 10)) and (AnglesInRange(angle_list[0], angle_instant, 30)):
+        #                 point_list.insert(nearest_ind[z][count],0)
+        #                 angle_list.insert(angle_instant,0)
+        #                 building_line = True
+        #             if (AnglesInRange(angle_origin, average_angle, 10)):
+        #                     print("origin success") 
+        #                     print(abs(angle_list[0] - angle_instant))   
+        #             if (AnglesInRange(angle_list[0], angle_instant, 30)):
+        #                 print("Instant success")
+        #         count += 1
+        #     print(point_list)
               
-    print(nearest_ind[point_list[-1]])
-    for coords in point_list:
+        print(nearest_ind[point_list[-1]])
+        for point in point_list:
+            sampled_points.append(point)
+        weighted_average_angles.append([AverageAngle(angle_list), len(point_list)])
+
+        
+        
+    for coords in sampled_points:
         row_list.append(Point(PointSet[coords].x, PointSet[coords].y))  
     row_list2 = [] 
     for coords in nearest_ind[point_list[-1]]:
@@ -164,7 +172,20 @@ def normaliseData(PointSet):
     plt.scatter(x2s,y2s, color = 'blue')
     plt.show()
     point_list.append(z)
-    return (PointSet, scale_intra, AverageAngle(angle_list))
+    return (PointSet, scale_intra, weighted_average_angles)
+
+def calcWeightedAverageAngle(angle_list):
+    total = sum(angle_list[:][1])
+    angle_avg = 0
+    print(total)
+    # for angle in angle_list:
+    #     total += angle[1]
+    for angle in angle_list:
+        if angle[0] < 0:
+            angle_avg += (angle[0] + 180) * (angle[1]/total)
+        else:
+            angle_avg += angle[0] * (angle[1]/total)
+    return angle_avg
         
         
 def AverageAngle(angle_list):

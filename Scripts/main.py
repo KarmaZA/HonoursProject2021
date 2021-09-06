@@ -40,13 +40,13 @@ def Run_File(filename):
     PointSet, scale_intra_row, average_angle = DataCalculations.normaliseData(PointSet)
     #Returns number of images to perform template matching on
     source_image_number = DataCalculations.convertPointsToInt(PointSet)
-    for image_section_count in range(source_image_number):
-        print("Perform TM on image number " + str(image_section_count))
-        
+
+    angle_to_out = DataCalculations.calcWeightedAverageAngle(average_angle)
+    print(angle_to_out)
     #Writing to the output object
     print(scale_intra_row)
     Data_out.setIntra(scale_intra_row)
-    Data_out.setAngle(average_angle)
+    Data_out.setAngle(angle_to_out)
     Data_out.setTreeCount(len(PointSet))
         
     # print('The data has been imported into the program')
