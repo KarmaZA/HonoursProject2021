@@ -13,7 +13,7 @@ from math import atan2, degrees
 import random
 
 
-def convertPointsToInt(PointSet):
+def GenerateSubImages(PointSet):
     count = 0
     x_min, y_min, x_max, y_max = (400,400,-400,-400)
     for point in PointSet:
@@ -36,23 +36,16 @@ def convertPointsToInt(PointSet):
             for point in PointSet:
                 if ((point.x > x_min) and (point.x < x_max)) and ((point.y > y_min) and (point.y < y_max)):
                     set_to_return.append(Point(point.x, point.y))
-                    # print("here")
             print(len(set_to_return))
-            if (len(set_to_return) > 12):
+            if (len(set_to_return) > 25):
                     
                 xs = [point.x for point in set_to_return]
                 ys = [point.y for point in set_to_return]
+                plt.gca().set_aspect('equal')
                 plt.scatter(xs,ys, color = 'black')
                 plt.savefig('Images/MainImage' + str(count) + '.png')
                 plt.clf()
                 count +=1 
-                # print("A visual depictions of your orchard")
-            # plt.show()
-            # x1s = [point.x for point in PointSet]
-            # y1s = [point.y for point in PointSet]
-            # plt.scatter(x1s,y1s, color = 'black')
-            # plt.scatter(xs,ys, color = 'blue')
-            # plt.show()
             
             #Update the boundaries of the sub - image
             x_min = x_max            
@@ -242,8 +235,7 @@ def calcImageRotation(PointSet):
                         values[1] += 1
                         in_List = False
                 if in_List:
-                    rotation_values.append([np.round(angle,1),0])
-                    
+                    rotation_values.append([np.round(angle,1),0])                  
             
     print("Detected Rotations")
     threshold = int(len(PointSet) * 0.3)
@@ -259,10 +251,9 @@ def calcImageRotation(PointSet):
     #Calc Scale will return an array of mean distances. These could number from 1 to several
 def CalcScale(PointSet):
     distance_values = []  
-    
-    # https://stackoverflow.com/questions/48126771/nearest-neighbour-search-kdtree/48127117#48127117
     dataset = KDTree(PointSet)
     nearest_dist, nearest_ind = dataset.query(PointSet, k=4)
+    
     # Change to random point checking than O(n2)
     for x in range(len(PointSet)):
         for y in range(3):

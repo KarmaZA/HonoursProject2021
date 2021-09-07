@@ -1,10 +1,5 @@
 # Developed By Jonathon Everatt
 
-# Import modules
-from matplotlib.pyplot import waitforbuttonpress
-from numpy import double
-import cv2
-
 
 # Import my classes
 import SimilarityMeasures
@@ -37,9 +32,8 @@ def Run_File(filename):
     print("Data loaded")
     
     #Returns number of images to perform template matching on   
-    source_image_number = DataCalculations.convertPointsToInt(PointSet)
+    source_image_number = DataCalculations.GenerateSubImages(PointSet)
     print("Sub images generated")
-    waitforbuttonpress()
     #Normalise rows into lines
     PointSet, scale_intra_row, average_angle = DataCalculations.normaliseData(PointSet)
     
