@@ -34,8 +34,7 @@ def Run_File(filename):
     
     #Returns number of images to perform template matching on   
     source_image_number = DataCalculations.GenerateSubImages(PointSet)
-    # TemplateMatch.cleanImages(source_image_number)
-    waitforbuttonpress()
+    print(source_image_number)
     print("Sub images generated")
     #Normalise rows into lines
     PointSet, scale_intra_row, average_angle = DataCalculations.normaliseData(PointSet)
@@ -51,10 +50,13 @@ def Run_File(filename):
 
     ################# Set up base case
     image_scale_array = [] 
-    for image in range(source_image_number):
-        source_image = importData.loadImageFromFile('MainImage.png', False, 0)        
-    # ################################## Generate Images
-    # genImages.genImageIdealised(PointSet)
+    for x in range(source_image_number):
+        ################################## Generate Images
+        
+        source_image = importData.loadImageFromFile('Images/MainImage' + str(x) + '.png', 0)        
+        some_array = TemplateMatch.CalcScale(source_image)       
+       
+        # genImages.genImageIdealised(PointSet)
 
     # print("The Source Image has been generated")
     # print()

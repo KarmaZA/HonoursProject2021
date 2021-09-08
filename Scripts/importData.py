@@ -22,21 +22,13 @@ def importGeoPandasJSon(filename):
         print("File not found")
         return error
     
-def loadImageFromFile(file_name, display_image_on_load, count):
+def loadImageFromFile(file_name, count):
     if count == 0:
         print("Loading the image file.")
-        file_name = 'Images/' + str(file_name)
+        file_name = str(file_name)
         image = cv2.imread(file_name, 0)
         if not image.any():
             print("Error image not loaded")
-
-        if display_image_on_load:
-            cv2.namedWindow("Image", cv2.WINDOW_NORMAL)
-            window_show_sized = cv2.resize(image, (960, 540))
-            cv2.imshow("Image", window_show_sized)
-            cv2.waitKey(0)
-            cv2.destroyAllWindows()
-        print("Image loaded.")
         return image
     else:
         image = []

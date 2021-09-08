@@ -4,7 +4,7 @@
 import cv2
 import imageio
 import numpy as np
-from numpy.lib.type_check import imag
+from shapely.geometry import Point, MultiPoint
 
 # Template matching using normalized Cross Correlation
 def templateMatching_correlation(source_image, template_image, threshold):
@@ -18,15 +18,31 @@ def templateMatching_correlation(source_image, template_image, threshold):
         count += 1
     return count
 
-# def cleanImages(count):
-#     for i in range(count):
-#         file_name = "Images/MainImage" + str(i) + ".png"
-#         image_file = cv2.imread(file_name,0)
-#         width, height  = image_file.shape
-#         print(type(image_file))
-#         print(height,width)
-#         for x in range(width):
-#             for y in range(height):
-#                 if image_file[x][y] < 50:
-#                     image_file[x][y] = 255
-#         imageio.imsave(file_name, image_file)
+
+#Calc Scale will return an array of mean distances. These could number from 1 to several
+def CalcScale(image):
+    min_pixel_value = 0
+    PointSet = []
+    width, height  = image.shape
+    image_centroid_array = []
+    for x in range(width):
+        pixel_count_array = []
+        for y in range(height):
+            if image[x][y] == min_pixel_value:
+                pixel_count_array.append(y)
+            else:
+                if len(pixel_count_array) > 0:
+                    count = 0
+                    for z in pixel_count_array:
+                        count += z
+                    image_centroid_array.append(x)
+                    image_centroid_array.append(int(count/len(pixel_count_array)))
+                
+    image_centroid_array = np.ndarray(image_centroid_array).reshape(len(image_centroid_array)/2, 2)
+    print(image_centroid_array)
+            
+            
+                    
+    
+    return []
+    
