@@ -2,7 +2,8 @@
 
 
 # Import my classes
-import SimilarityMeasures
+from matplotlib.pyplot import waitforbuttonpress
+import TemplateMatch
 import importData
 import genImages
 import DataCalculations
@@ -33,6 +34,8 @@ def Run_File(filename):
     
     #Returns number of images to perform template matching on   
     source_image_number = DataCalculations.GenerateSubImages(PointSet)
+    # TemplateMatch.cleanImages(source_image_number)
+    waitforbuttonpress()
     print("Sub images generated")
     #Normalise rows into lines
     PointSet, scale_intra_row, average_angle = DataCalculations.normaliseData(PointSet)

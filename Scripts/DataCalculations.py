@@ -42,7 +42,9 @@ def GenerateSubImages(PointSet):
                 xs = [point.x for point in set_to_return]
                 ys = [point.y for point in set_to_return]
                 plt.gca().set_aspect('equal')
-                plt.scatter(xs,ys, color = 'black')
+                plt.scatter(xs,ys, color = 'blue')
+                # plt.figure(frameon=False)
+                plt.axis('off')
                 plt.savefig('Images/MainImage' + str(count) + '.png')
                 plt.clf()
                 count +=1 
@@ -53,7 +55,6 @@ def GenerateSubImages(PointSet):
         y_min = y_max
         x_min -= (delta_x*max_image_number)
     return count
-
 
 
 def normaliseData(PointSet):

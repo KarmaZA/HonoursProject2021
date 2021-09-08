@@ -27,7 +27,7 @@ def genImageIdealised(PointSet):
     ImageToGen = np.zeros(shape=[height, width, nrChannels], dtype=np.uint8)
     imageio.imsave('Images/MainImage.png', ImageToGen)
 
-    imageArray = imageio.imread('Images/MainImage.png')  
+    # imageArray = imageio.imread('Images/MainImage.png')  
     # Insert distance calculation or number assignment
     for point in PointSet:
         x = offset + int(point.x*10)
