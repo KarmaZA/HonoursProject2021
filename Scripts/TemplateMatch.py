@@ -2,7 +2,6 @@
 # This file will contain template matching similarity measures for the template matching algorithms
 
 import cv2
-import imageio
 import numpy as np
 from shapely.geometry import Point, MultiPoint
 
@@ -22,27 +21,55 @@ def templateMatching_correlation(source_image, template_image, threshold):
 #Calc Scale will return an array of mean distances. These could number from 1 to several
 def CalcScale(image):
     min_pixel_value = 0
-    PointSet = []
-    width, height  = image.shape
-    image_centroid_array = []
+    width, height  = image.shape    
+    image_scale_array = []    
+    image_scale_y = []
+    
+    ## Vertical Search
     for x in range(width):
-        pixel_count_array = []
+        pixel_array = []
         for y in range(height):
             if image[x][y] == min_pixel_value:
-                pixel_count_array.append(y)
-            else:
-                if len(pixel_count_array) > 0:
-                    count = 0
-                    for z in pixel_count_array:
-                        count += z
-                    image_centroid_array.append(x)
-                    image_centroid_array.append(int(count/len(pixel_count_array)))
+                # We are on a black pixel
+                if image[x][y+1] != min_pixel_value:
+                    pixel_array.append(y)        
+        for z in range(len(pixel_array)-1):
+            scalar_difference = pixel_array[z+1] - pixel_array[z]
+            if not scalar_difference in image_scale_y:
+                image_scale_y.append(int(scalar_difference))       
+          
+    # image_scale_array = image_scale_array.sort()  
+    image_scale_y.sort(key=sortFunc)    
+    for count in range(len(image_scale_y)):
+        if image_scale_y[count] < int(1.5 *image_scale_y[0]):
+            if not image_scale_y[count] in image_scale_array:
+                image_scale_array.append(image_scale_y[count])      
                 
-    image_centroid_array = np.ndarray(image_centroid_array).reshape(len(image_centroid_array)/2, 2)
-    print(image_centroid_array)
-            
-            
-                    
+################### Horizontal search 
     
-    return []
+    image_scale_y = []
+    for y in range(height):
+        pixel_array = []
+        for x in range(width):
+            if image[x][y] == min_pixel_value:
+                # We are on a black pixel
+                if image[x][y+1] != min_pixel_value:
+                    pixel_array.append(y)        
+        for z in range(len(pixel_array)-1):
+            scalar_difference = pixel_array[z+1] - pixel_array[z]
+            if not scalar_difference in image_scale_y:
+                image_scale_y.append(int(scalar_difference))                
+          
+    # image_scale_array = image_scale_array.sort()  
+    image_scale_y.sort(key=sortFunc)    
+    for count in range(len(image_scale_y)):
+        if image_scale_y[count] < int(1.5 *image_scale_y[0]):
+            if not image_scale_y[count] in image_scale_array:
+                image_scale_array.append(image_scale_y[count])
+
+    print(image_scale_array)
+    return image_scale_array
+
+def sortFunc(e):
+    return int(e)
     
