@@ -6,38 +6,7 @@ import imageio
 # References
     # https://www.agrihortieducation.com/2016/09/systems-of-planting.html
 Template_Square = [[0,0],[0,1],[1,0],[1,1]]
-
-def genImageIdealised(PointSet):
-    width = 0
-    height = 0
-    offset= 15
-    for point in PointSet:
-        if point.y > width:
-            width = int(point.y)
-            
-        if point.x > height:
-            height = int(point.x)   
-        
-    width *= 10 # Magic number?
-    height *= 10 # Magic number?
-    width += (2*offset)
-    height += (offset*2)
-    nrChannels = 3
-    
-    ImageToGen = np.zeros(shape=[height, width, nrChannels], dtype=np.uint8)
-    imageio.imsave('Images/MainImage.png', ImageToGen)
-
-    # imageArray = imageio.imread('Images/MainImage.png')  
-    # Insert distance calculation or number assignment
-    for point in PointSet:
-        x = offset + int(point.x*10)
-        y = offset + int(point.y*10)
-        # print(x, y)
-        drawGuassianNoise(x,y,ImageToGen)
-              
-    imageio.imsave('Images/MainImage.png', ImageToGen)
-    # Generate Templates
-    
+  
 
 def drawGuassianNoise(x,y, ImageToGen):
     # offset x and y so middle stays bright
@@ -53,9 +22,9 @@ def drawGuassianNoise(x,y, ImageToGen):
     return ImageToGen
 
 def genAllTemplate(length_array):
-    for x in range(len(length_array)):
-        length_array[x] = int(10*length_array[x])
-        input(len(length_array))
+    # for x in range(len(length_array)):
+    #     length_array[x] = int(10*length_array[x])
+    #     input(len(length_array))
     genSquareTemplate(length_array)
     genQuincunxTemplate(length_array)
     genEquilateralTriangleTemplate(length_array)

@@ -93,9 +93,9 @@ def normaliseData(PointSet):
                 point_list.append(nearest_ind[z][i])
                 angle_list.append(angle)
                 
-        print("data")
-        print(point_list)
-        print(angle_list)
+        # print("data")
+        # print(point_list)
+        # print(angle_list)
             
         while building_line:
             z = point_list[-1]
@@ -144,10 +144,10 @@ def normaliseData(PointSet):
                             print("origin success") 
                 count += 1
                 
-        print("end of list")
-        print(point_list)
+        # print("end of list")
+        # print(point_list)
               
-        print(nearest_ind[point_list[-1]])
+        # print(nearest_ind[point_list[-1]])
         for point in point_list:
             sampled_points.append(point)
         weighted_average_angles.append(AverageAngle(angle_list))#, len(point_list)])
@@ -160,19 +160,19 @@ def normaliseData(PointSet):
     for coords in nearest_ind[point_list[-1]]:
         row_list2.append(Point(PointSet[coords].x, PointSet[coords].y))   
     
-    xs = [point.x for point in PointSet]
-    ys = [point.y for point in PointSet]
-    plt.scatter(xs,ys, color = 'black')
-    x1s = [point.x for point in row_list]
-    y1s = [point.y for point in row_list]
-    # colors = cm.rainbow(np.linspace(0, 1, len(y1s)))
-    # for x, y, c in zip(x1s, y1s, colors):
-    #     plt.scatter(x, y, color=c)
-    plt.scatter(x1s,y1s, color = 'red')
-    x2s = [point.x for point in row_list2]
-    y2s = [point.y for point in row_list2]
-    plt.scatter(x2s,y2s, color = 'blue')
-    plt.show()
+    # xs = [point.x for point in PointSet]
+    # ys = [point.y for point in PointSet]
+    # plt.scatter(xs,ys, color = 'black')
+    # x1s = [point.x for point in row_list]
+    # y1s = [point.y for point in row_list]
+    # # colors = cm.rainbow(np.linspace(0, 1, len(y1s)))
+    # # for x, y, c in zip(x1s, y1s, colors):
+    # #     plt.scatter(x, y, color=c)
+    # plt.scatter(x1s,y1s, color = 'red')
+    # x2s = [point.x for point in row_list2]
+    # y2s = [point.y for point in row_list2]
+    # plt.scatter(x2s,y2s, color = 'blue')
+    # plt.show()
     point_list.append(z)
     return (PointSet, scale_intra, weighted_average_angles)
 

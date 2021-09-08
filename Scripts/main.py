@@ -48,23 +48,20 @@ def Run_File(filename):
     Data_out.setTreeCount(len(PointSet))
 
 
-    ################# Set up base case
-    image_scale_array = [] 
     for x in range(source_image_number):
+        image_scale_array = [] 
         ################################## Generate Images
-        
         source_image = importData.loadImageFromFile('Images/MainImage' + str(x) + '.png', 0)        
-        some_array = TemplateMatch.CalcScale(source_image)       
+        image_scale_array = TemplateMatch.CalcScale(source_image)       
        
         # genImages.genImageIdealised(PointSet)
 
-    # print("The Source Image has been generated")
-    # print()
-    # double_rectangle_count = genImages.genAllTemplate(Image_scale_array)
-    # image_count = len(Image_scale_array)
+        print("The Source Image has been generated")
+        print()
+        double_rectangle_count = genImages.genAllTemplate(image_scale_array)
+        image_count = len(image_scale_array)
 
-    # ################################## Load Images into array at different scales
-    # source_image = importData.loadImageFromFile('MainImage.png', False, 0)
+        ################################## Load Images into array at different scales
  
     # template_image_square_list = importData.loadImageFromFile('TemplateSquare', False, image_count)
     # template_image_rectangle_list = importData.loadImageFromFile('TemplateRectangle', False, double_rectangle_count)
