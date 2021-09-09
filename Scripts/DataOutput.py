@@ -44,3 +44,4 @@ class DataOut:
         print("The Tree count detected is: " + str(self.tree_count))
         print("The angle of image is: " + str(self.image_angle))
         
+        

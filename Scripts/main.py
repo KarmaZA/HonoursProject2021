@@ -3,6 +3,9 @@
 
 # Import my classes
 from matplotlib.pyplot import waitforbuttonpress
+
+import os
+
 import TemplateMatch
 import importData
 import genImages
@@ -63,12 +66,12 @@ def Run_File(filename):
 
         ################################## Load Images into array at different scales
  
-        template_image_square_list = importData.loadImageFromFile('TemplateSquare', False, image_count)
-        template_image_rectangle_list = importData.loadImageFromFile('TemplateRectangle', False, double_rectangle_count)
-        template_image_isosceles_triangle_list = importData.loadImageFromFile('TemplateTriangle', False, image_count)
-        template_image_quincunx_list = importData.loadImageFromFile('TemplateQuincunx', False, image_count)
-        template_image_equilateral_triangle_list = importData.loadImageFromFile('TemplateEquilateralTriangle', False, image_count)
-        template_image_double_hedgerow_list = importData.loadImageFromFile('TemplateDoubleHedge', False, double_rectangle_count)
+        template_image_square_list = importData.loadImageFromFile('TemplateSquare', image_count)
+        template_image_rectangle_list = importData.loadImageFromFile('TemplateRectangle', double_rectangle_count)
+        template_image_isosceles_triangle_list = importData.loadImageFromFile('TemplateTriangle', image_count)
+        template_image_quincunx_list = importData.loadImageFromFile('TemplateQuincunx', image_count)
+        template_image_equilateral_triangle_list = importData.loadImageFromFile('TemplateEquilateralTriangle', image_count)
+        template_image_double_hedgerow_list = importData.loadImageFromFile('TemplateDoubleHedge', double_rectangle_count)
         print("Source image and Templates loaded")
         print()
     
@@ -115,15 +118,20 @@ def Run_File(filename):
                 
         #         correlation_threshold += 0.1
         
-        # evaluateData(evaluation_array)
-    
-
-def evaluateData(evaluation_array):
-    print()
-    print()
-    for x in range(len(evaluation_array)):
-        print(str(evaluation_array[x][0]) + " matches were found at a " + str(evaluation_array[x][1]) + " correlation level")
-        print("with a scale of " + str(Image_scale_array[evaluation_array[x][2]]) + " and a planting pattern of " + str(evaluation_array[x][3]))
+    for x in range(double_rectangle_count):
+        if x < source_image_number:
+            os.remove('Images/MainImage' + str(x) + '.png')
+        if x < image_count:
+            os.remove('Images/TemplateSquare' + str(x) + '.png')
+            os.remove('Images/TemplateEquilateralTriangle' + str(x) + '.png')
+            os.remove('Images/TemplateQuincunx' + str(x) + '.png')
+            os.remove('Images/TemplateTriangle' + str(x) + '.png')
+        os.remove('Images/TemplateRectangle' + str(x) + '.png')
+        os.remove('Images/TemplateDoubleHedge' + str(x) + '.png')
+    if(source_image_number > double_rectangle_count):
+        for x in range(double_rectangle_count, source_image_number,1):
+            if x < source_image_number:
+                os.remove('Images/MainImage' + str(x) + '.png')
 
     
 def RunTestCases():
