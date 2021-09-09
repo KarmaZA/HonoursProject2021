@@ -7,6 +7,8 @@ from shapely.geometry.multipolygon import MultiPolygon
 from shapely.geometry.point import Point
 from shapely.geometry.polygon import Polygon
     
+"""Loads images from the file. filename is the name of the image (or base name) and count is number of images with that name to be loaded
+if count > 0 file naming format is filename + count + .png"""
 def loadImageFromFile(file_name, count):
     if count == 0:
         print("Loading the image file.")
@@ -26,6 +28,7 @@ def loadImageFromFile(file_name, count):
             image.append(image_load)
         return image
     
+"""Used to import idealised datafiles into the program as points to mimic geojson files"""
 def importIdealisedData(filename):
     with open("Data/IdealData/" + filename) as dataFile:
         point_set = []
@@ -36,6 +39,7 @@ def importIdealisedData(filename):
             point_set.append(Point(x,y))            
         return MultiPoint(point_set)
     
+"""Imports GeoJSON files into the program and dynamically calculates the centroid and returns that as a point which is a shapely.geometry object."""
 def importGeoJSonAsPoints(filename,threshold):
         with open(filename) as f:
         #data is a pandas.dataframe variable type
@@ -56,6 +60,7 @@ def importGeoJSonAsPoints(filename,threshold):
                     point_set.append(Point(x,y))
         return MultiPoint(point_set) 
 
+"""Imports the whole polygons of a GeoJSON files into the program as a shapely.geometry object."""
 def importGeoJSonAsPolygons(filename,threshold):
         with open(filename) as f:
         #data is a pandas.dataframe variable type
@@ -73,24 +78,25 @@ def importGeoJSonAsPolygons(filename,threshold):
                     # print(polygon[coordinate][0])
         return MultiPolygon(polygon_set)
     
+"""If you have imported polygons into the system this will convert them into centroids saved as shapely.geometry.point."""
 def convertPolygonsToCentroids(PolygonSet):
     PointSet = []
     for poly in PolygonSet:
         PointSet.append(Point(poly.centroid.coords))
     return MultiPoint(PointSet)
     
+"""Display the shapely.geometry.MultiPoint data structure on a graph"""
 def displayPointSet(PointSet):
     xs = [point.x for point in PointSet]
     ys = [point.y for point in PointSet]
     plt.scatter(xs,ys)
     plt.show()
     
+ """Display the shapely.geometry.MultiPolygon data structure on a graph"""   
 def displayPolygonSet(PolygonSet):
     fig, axs = plt.subplots()
     axs.set_aspect('equal', 'datalim')
-
     for geom in PolygonSet.geoms:    
         xs, ys = geom.exterior.xy    
         axs.fill(xs, ys, alpha=0.5, fc='r', ec='none')
-
     plt.show()        
