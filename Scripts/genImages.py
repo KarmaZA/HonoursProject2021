@@ -1,5 +1,4 @@
 # This file will hold the functions to deal with Image generation from the data read in
-
 import numpy as np
 import imageio
 
@@ -7,7 +6,8 @@ import imageio
     # https://www.agrihortieducation.com/2016/09/systems-of-planting.html
 Template_Square = [[0,0],[0,1],[1,0],[1,1]]
   
-
+"""This method draws polygons around the centroid given by the xy coordinate
+Returns an Image Matrix with the drawn"""
 def drawGuassianNoise(x,y, ImageToGen):
     # offset x and y so middle stays bright
     x -= 1
@@ -21,10 +21,9 @@ def drawGuassianNoise(x,y, ImageToGen):
                         ImageToGen[x+count_x][y+count_y][0:3] = 128                  
     return ImageToGen
 
+"""Generates all the templates for Template Matching at the scaleds given in the length_array
+returns the number of templates for Double Hedge and Rectangle. Other templates number == len(length_array)"""
 def genAllTemplate(length_array):
-    # for x in range(len(length_array)):
-    #     length_array[x] = int(10*length_array[x])
-    #     input(len(length_array))
     genSquareTemplate(length_array)
     genQuincunxTemplate(length_array)
     genEquilateralTriangleTemplate(length_array)
@@ -32,7 +31,9 @@ def genAllTemplate(length_array):
     genRectangleTemplate(length_array)
     return genDoubleHedgeTemplate(length_array)
  
-    
+"""Generates a square template for every length in the length array
+All images are saved as TemplateSquareX.png 
+where x is the position of the scale in the length array"""    
 def genSquareTemplate(length_array):
     count = 0
     for length in length_array:
@@ -48,7 +49,10 @@ def genSquareTemplate(length_array):
         imageio.imsave(file_name, TemplateToGen)
         count += 1
     
-    
+"""Generates a Qunicunx template for every length in the length array
+The template is a square with a point in the center
+All images are saved as TemplateQuincunxX.png 
+where x is the position of the scale in the length array"""      
 def genQuincunxTemplate(length_array):
     count = 0
     for length in length_array:
@@ -70,7 +74,10 @@ def genQuincunxTemplate(length_array):
 
     
 
-    
+"""Generates the Isosceles triangle template which is used to determine the Triangle planting pattern
+Not to be confused with equilateral triangle which is used for Hexagonal pattern
+All images are saved as TemplateTriangleX.png 
+where x is the position of the scale in the length array"""
 def genIsoscelesTriangleTemplate(length_array):
     count = 0
     for length in length_array:
@@ -96,7 +103,10 @@ def genIsoscelesTriangleTemplate(length_array):
         imageio.imsave(file_name, TemplateToGen)
         count += 1
         
-    
+"""Generates the Equilateral triangle template which is used to determine the Hexagonal pattern
+Not to be confused with Isosceles triangle which is used for Triangle planting pattern
+All images are saved as TemplateEquilateralTriangleX.png 
+where x is the position of the scale in the length array"""    
 def genEquilateralTriangleTemplate(length_array):
     count = 0
     template_triangle = [(0,0), (1,0), (0.5,0.86)]
@@ -115,7 +125,10 @@ def genEquilateralTriangleTemplate(length_array):
         count += 1
         
 
-# Width should be the longer size for the sake of the program     
+"""Generates a Rectangle template for every combination of 2 lengths in the length array
+The width is the longer side in this case
+All images are saved as TemplateRectangleX.png 
+where x is the position of the scale in the length array"""      
 def genRectangleTemplate(array_length):
     bFlag = False
     if len(array_length) == 1:
@@ -147,7 +160,11 @@ def genRectangleTemplate(array_length):
     if bFlag:
         array_length.pop(1)
  
-    
+ 
+"""Generates a Double Hedge Row template for every combination of 2 lengths in the length array
+The pattern goes Point -> Shorter distance -> Point -> Longer distance -> Point -> Shorter distance -> Point
+All images are saved as TemplateDoubleHedgeX.png 
+where x is the position of the scale in the length array"""      
 def genDoubleHedgeTemplate(array_length):
     bFlag = False
     if len(array_length) == 1:

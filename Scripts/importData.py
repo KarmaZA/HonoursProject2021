@@ -1,6 +1,3 @@
-from logging import error
-import re
-import geopandas as gpd
 import matplotlib.pyplot as plt
 import json
 import cv2
@@ -9,18 +6,6 @@ from shapely.geometry.multipoint import MultiPoint
 from shapely.geometry.multipolygon import MultiPolygon
 from shapely.geometry.point import Point
 from shapely.geometry.polygon import Polygon
-
-# Using Geopandas as it is updated more frequently
-def importGeoPandasJSon(filename):
-    try:
-        with open(filename) as f:
-        #data is a pandas.dataframe variable type
-            data = gpd.read_file(f)     
-        #print(data)
-        return data
-    except:
-        print("File not found")
-        return error
     
 def loadImageFromFile(file_name, count):
     if count == 0:
@@ -69,8 +54,7 @@ def importGeoJSonAsPoints(filename,threshold):
                     x /= poly_length
                     y /= poly_length
                     point_set.append(Point(x,y))
-        return MultiPoint(point_set)
-    
+        return MultiPoint(point_set) 
 
 def importGeoJSonAsPolygons(filename,threshold):
         with open(filename) as f:
@@ -93,14 +77,9 @@ def convertPolygonsToCentroids(PolygonSet):
     PointSet = []
     for poly in PolygonSet:
         PointSet.append(Point(poly.centroid.coords))
-    # for point in PointSet:
-        # print(point.x, point.y)
     return MultiPoint(PointSet)
     
 def displayPointSet(PointSet):
-    # for points in PointSet:
-    #     print(points)
-        
     xs = [point.x for point in PointSet]
     ys = [point.y for point in PointSet]
     plt.scatter(xs,ys)
@@ -114,31 +93,4 @@ def displayPolygonSet(PolygonSet):
         xs, ys = geom.exterior.xy    
         axs.fill(xs, ys, alpha=0.5, fc='r', ec='none')
 
-    plt.show()
-    
-def formatGeoJSONData(PointSet):
-        #Calculate number of decimal points
-    decimal_count = int(len(str(PointSet[0].x).split('.')[1]))
-    decimal_count = 10**decimal_count
-    print('The decimal count is ' + str(decimal_count))
-    min_x, min_y = (200, 200)
-    for point in PointSet:
-        if min_x > point.x:
-            min_x = point.x
-        if min_y > point.y:
-            min_y = point.y
-            
-    # min_x*=decimal_count
-    # min_y*=decimal_count
-    PointSet_to_return = []
-    for point in PointSet:
-        
-        x = point.x - min_x
-        x = point.x * decimal_count
-        
-        y = point.y - min_y
-        y = point.y  * decimal_count
-        print(x, y)
-        PointSet_to_return.append(Point(x,y))
-    return MultiPoint(PointSet_to_return)
-        
+    plt.show()        
