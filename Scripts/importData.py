@@ -92,7 +92,7 @@ def displayPointSet(PointSet):
     plt.scatter(xs,ys)
     plt.show()
     
- """Display the shapely.geometry.MultiPolygon data structure on a graph"""   
+"""Display the shapely.geometry.MultiPolygon data structure on a graph"""
 def displayPolygonSet(PolygonSet):
     fig, axs = plt.subplots()
     axs.set_aspect('equal', 'datalim')
