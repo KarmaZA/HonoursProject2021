@@ -35,6 +35,7 @@ class DataOut:
         
         
     def setCorner(self, CornerT):
+        # min x, min y, max x, max y
         self.corner_tree_coords = CornerT
 
 

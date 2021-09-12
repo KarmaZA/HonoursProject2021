@@ -49,26 +49,26 @@ def Run_File(filename):
     print(scale_intra_row)
     #Intra-row spacing
     Data_out.setIntra(scale_intra_row)
-    #Inter-row spacing
-
     # Row Rotation
     Data_out.setAngle(angle_to_out)
     #Tree Count
     Data_out.setTreeCount(len(PointSet))
-    # Nmber of Rows
+    
+    #Inter-row spacing
+
+    # Number of Rows
 
     # Number of Trees per Row
 
     # Coordinates of corner Tree
-
+    TreeCoords = DataCalculations.CornerTreeCoords(PointSet)
+    Data_out.setCorner(TreeCoords)
 ################################################# Step 2 ###################################################################################
     for x in range(source_image_number):
         image_scale_array = [] 
         ################################## Generate Images
         source_image = importData.loadImageFromFile('Images/MainImage' + str(x) + '.png', 0)        
         image_scale_array = TemplateMatch.CalcScale(source_image)       
-       
-        # genImages.genImageIdealised(PointSet)
 
         print("The Source Image has been generated")
         print()
