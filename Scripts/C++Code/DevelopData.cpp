@@ -13,23 +13,43 @@ using namespace std;
 
 int main(){
 	int count = 0;
-	double toReturn[10000][2];
+	double toReturn[19801][2];
 	int offset = 1;
 	for (int y = 0; y < 100; y++){		
 		for (int x = 0; x < 100; x++){
-			toReturn[count][0] = x * 3 ;
-			toReturn[count][1] = y * 3 ;
-			if(y % 2 == 0){
-				toReturn[count][0] += offset;
-			} 
+			toReturn[count][0] = x * 10 ;
+			toReturn[count][1] = y * 10 ;
+			count += 1;
+			
+			// if(y % 2 == 0){
+			// 	toReturn[count][0] += offset;
+			// } 
+		}
+	}
+	// Quincunx Center point
+	for (int y = 0; y < 99; y++){
+		for (int x = 0; x < 99; x++){
+			toReturn[count][0] = x * 10 + 5;
+			toReturn[count][1] = y * 10 + 55;
 			count++;
 		}
-		if(y%2 ==0){
-				offset +=1;
-			} else {
-				offset+=3;
-			}
 	}
+	//write code to output to a file
+	ofstream MyFile;
+	MyFile.open("QuincunxIdeal.txt");
+	for (int x = 0; x < count; x++){
+		MyFile << toReturn[x][0] << " " << toReturn[x][1] << endl;
+	}
+	MyFile.close();
+	}
+	// 		count++;
+	// 	}
+	// 	if(y%2 ==0){
+	// 			offset +=1;
+	// 		} else {
+	// 			offset+=3;
+	// 		}
+	// }
 	// Quincunx Center point
 	// for (int y = 0; y < 9; y++){
 	// 	for (int x = 0; x < 9; x++){
@@ -41,26 +61,3 @@ int main(){
 	// 		count++;
 	// 	}
 	// }
-	// Noise
-	for (int x = 0; x < 10000; x++){
-		//Randomise the data
-		int add_noise = rand() % 6;
-		if (add_noise == 0){
-			double noise = 0.5 - ((rand()%10)/10.00);
-			cout << noise << endl;
-			if((rand()%2) == 0){
-				toReturn[x][0] += noise;
-			} else {
-				toReturn[x][1] += noise;
-			}
-			
-		}
-	}
-	//write code to output to a file
-	ofstream MyFile;
-	MyFile.open("TriNoise3.txt");
-	for (int x = 0; x < count; x++){
-		MyFile << toReturn[x][0] << " " << toReturn[x][1] << endl;
-	}
-	MyFile.close();
-}
