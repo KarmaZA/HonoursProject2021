@@ -177,7 +177,7 @@ def Run_File(filename):
 #################################################### Completed ################################################################################
 
     print("The program has completed running")
-    print("The most likely pattern is " + str(pattern_out_array[0]))
+    # print("The most likely pattern is " + str(pattern_out_array[0]))
     print("See " + str(outFileName) + ".txt for more information")
 
     

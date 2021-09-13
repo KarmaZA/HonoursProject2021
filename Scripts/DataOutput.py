@@ -47,24 +47,24 @@ class DataOut:
         print("The intra-row spacing mean value is: " + str(self.intra_spacing))
         print("The inter-row spacing mean value is: " + str(self.inter_spacing))
         print("The Tree count detected is: " + str(self.tree_count))
-        print("The number of rows detected is: " + str(row_count))
-        print("The mean value per row is: " + str(avg_tree_row))
-        print("There were " + str(road_count) + ' road(s) or distches detected')
-        for point in corner_tree_coords:
+        print("The number of rows detected is: " + str(self.row_count))
+        print("The mean value per row is: " + str(self.avg_tree_row))
+        print("There were " + str(self.road_count) + ' road(s) or distches detected')
+        for point in self.corner_tree_coords:
             print("A corner coordinate is: " + str(point.x) + " , " + str(point.y))
-        print("The detected patterns are " + patterns_list)
+        # print("The detected patterns are " + self.patterns_list)
 
         # Write to the outputFile
         with open(str(filename) + '.txt', 'w') as f:
             f.write("The intra-row spacing mean value is: " + str(self.intra_spacing))
             f.write("The inter-row spacing mean value is: " + str(self.inter_spacing))
             f.write("The Tree count detected is: " + str(self.tree_count))
-            f.write("The number of rows detected is: " + str(row_count))
-            f.write("The mean value per row is: " + str(avg_tree_row))
-            f.write("There were " + str(road_count) + ' road(s) or distches detected')
-            for point in corner_tree_coords:
+            f.write("The number of rows detected is: " + str(self.row_count))
+            f.write("The mean value per row is: " + str(self.avg_tree_row))
+            f.write("There were " + str(self.road_count) + ' road(s) or distches detected')
+            for point in self.corner_tree_coords:
                 f.write("A corner coordinate is: " + str(point.x) + " , " + str(point.y))
-            f.write("The detected patterns are " + patterns_list)
+            # f.write("The detected patterns are " + self.patterns_list)
 
         print("Data written to " + str(filename) + ".txt")
 
