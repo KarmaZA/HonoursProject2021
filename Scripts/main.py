@@ -17,8 +17,7 @@ Image_scale_array = []
 
 def Run_File(filename):
 ################################################# Step 1 ###################################################################################
-    Data_out = DataOutput.DataOut()
-    ################################## Import Data
+    ############################################ Import Data ###################################################################################
     if filename.find('.txt') != -1:
         print('Running for for idealised data')
         PointSet = importData.importIdealisedData(filename)
@@ -42,7 +41,7 @@ def Run_File(filename):
     plt.gca().set_aspect('equal')
     plt.scatter(xs,ys, color = 'black')
     plt.show()
-    
+    ###################################################### Functions to calc parameters and TM stuff #############################################
     #Returns number of images to perform template matching on   
     source_image_number = DataCalculations.GenerateSubImages(PointSet)
     print(source_image_number)
@@ -52,17 +51,20 @@ def Run_File(filename):
     
     angle_to_out = DataCalculations.calcWeightedAverageAngle(average_angle)
 
-    print(angle_to_out)
-    #Writing to the output object
-    print(scale_intra_row)
+    row_count, inter_spacing, road_count = ParameterCalculations.countRowNumbers(PointSet, int(angle_to_out))
+
+    TreeCoords = ParameterCalculations.CornerTreeCoords(PointSet)
+    ####################################################### Send extracted parameters to output object ###########################################
+    Data_out = DataOutput.DataOut()
+    # print(scale_intra_row)
+    # print(angle_to_out)
+    
     #Intra-row spacing
     Data_out.setIntra(scale_intra_row)
     # Row Rotation
     Data_out.setAngle(angle_to_out)
     #Tree Count
     Data_out.setTreeCount(len(PointSet))
-
-    row_count, inter_spacing, road_count = ParameterCalculations.countRowNumbers(PointSet, int(angle_to_out))
     # Road or ditch count
     Data_out.setRoadCount(road_count)
     #Inter-row spacing
@@ -72,12 +74,11 @@ def Run_File(filename):
     # Number of Trees per Row
     # Data_out.setTreesPerRow()
     # Coordinates of corner Tree
-    TreeCoords = ParameterCalculations.CornerTreeCoords(PointSet)
     Data_out.setCorner(TreeCoords)
-################################################# Step 2 ###################################################################################
+################################################# Step 2 #########################################################################################
     for x in range(source_image_number):
         image_scale_array = [] 
-        ################################## Generate Images
+################################################# Generate Images ################################################################################
         source_image = importData.loadImageFromFile('Images/MainImage' + str(x) + '.png', 0)        
         image_scale_array = TemplateMatch.CalcScale(source_image)       
 
@@ -86,7 +87,7 @@ def Run_File(filename):
         double_rectangle_count = genImages.genAllTemplate(image_scale_array)
         image_count = len(image_scale_array)
 
-        ################################## Load Images into array at different scales
+################################################# Load Images into array at different scales #####################################################
  
         template_image_square_list = importData.loadImageFromFile('TemplateSquare', image_count)
         template_image_rectangle_list = importData.loadImageFromFile('TemplateRectangle', double_rectangle_count)
@@ -97,7 +98,7 @@ def Run_File(filename):
         print("Source image and Templates loaded")
         print()
     
-        ################################## Template Matching
+################################################ Template Matching ################################################################################
         
         # for rotation in Image_rotation_array: # Testing each template at each possible rotation
         #     correlation_threshold = 0.6
@@ -140,7 +141,7 @@ def Run_File(filename):
                 
         #         correlation_threshold += 0.1
         
-    ################################################# Step 3 ###################################################################################
+##################################################### Step 3 ###################################################################################
 
 #   Send data for evaluation
 
