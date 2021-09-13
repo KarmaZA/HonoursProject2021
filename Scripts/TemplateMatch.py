@@ -7,16 +7,25 @@ from shapely.geometry import Point, MultiPoint
 import imageio
 
 # Template matching using normalized Cross Correlation
-def templateMatching_correlation(source_image, template_image, threshold):
+def templateMatching_correlation(source_image, template_image):
+    threshold = 0.9
     source_image_gray = source_image
     res = cv2.matchTemplate(source_image_gray, template_image, cv2.TM_CCOEFF_NORMED)
-    
-    loc = np.where( res >= threshold)
+    correlation_array = []
+    # 0 (1-0.9), 1 (0.9-0.8), 2 (0.8-0.7), 3 (0.7-0.6), 4 (0.6-0.5), 5 (0.5-0.4), 6 (0.4-0.3)   
     count = 0
-    for pt in zip(*loc[::-1]):
-        #cv2.rectangle(source_image_gray, pt, (pt[0] + width, pt[1] + height), (128,128,128), 2)
-        count += 1
-    return count
+    
+    for x in range(7):       
+        curr_count = 0   
+        loc = np.where( res >= threshold)
+        
+        for pt in zip(*loc[::-1]):
+            #cv2.rectangle(source_image_gray, pt, (pt[0] + width, pt[1] + height), (128,128,128), 2)
+            curr_count += 1
+        correlation_array.append(curr_count)
+        count += curr_count
+        threshold -= 0.1
+    return correlation_array
 
 #Calc Scale will return an array of mean distances. These could number from 1 to several
 def CalcScale(image):

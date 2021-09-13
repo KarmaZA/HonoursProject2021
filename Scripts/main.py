@@ -250,12 +250,26 @@ def RunTestCases():
 
 
 if __name__ == '__main__':
-    count = array_len = [3,6]
+    
+    file_input_name = 'TestIdealData/SquareIdeal3.txt'
+    # # Graphing test
+    PointSet = importData.importIdealisedData(file_input_name)
+    import matplotlib.pyplot as plt
+    xs = [point.x for point in PointSet]
+    ys = [point.y for point in PointSet]
+    plt.gca().set_aspect('equal')
+    plt.scatter(xs,ys, color = 'black')
+    plt.savefig('Images/MainImage0.png')
+    
+    source_image = importData.loadImageFromFile('Images/MainImage0.png', 0)    
+    template_image_square_list = importData.loadImageFromFile('TemplateSquare', 2)
+
+    array_len = TemplateMatch.CalcScale(source_image)
     genImages.genAllTemplate(array_len)
-    # source_image = importData.loadImageFromFile('Images/MainImage0.png', 0)    
-    # template_image_square_list = importData.loadImageFromFile('TemplateSquare', 1)
-    # count = TemplateMatch.templateMatching_correlation(source_image, template_image_square_list[x], correlation_threshold)
-    # print(count)
+
+    for x in range(2):
+        count = TemplateMatch.templateMatching_correlation(source_image, template_image_square_list[x])
+        print(count)
 
     # print('The program has started.')   
     # file_input_name = input("What is the image name(0 for default)?\n")
