@@ -49,17 +49,16 @@ def Run_File(filename):
     print(source_image_number)
     print("Sub images generated")
     #Normalise rows into lines
-    PointSet, scale_intra_row, average_angle = DataCalculations.normaliseData(PointSet, dataset)
+    PointSet, average_angle = DataCalculations.normaliseData(PointSet, dataset)
     
     angle_to_out = DataCalculations.calcWeightedAverageAngle(average_angle)
 
     row_count, inter_spacing, road_count = ParameterCalculations.countRowNumbers(PointSet, int(angle_to_out), dataset)
 
     TreeCoords = ParameterCalculations.CornerTreeCoords(PointSet)
+    scale_intra_row = ParameterCalculations.calcScaleIntra(dataset)
     ####################################################### Send extracted parameters to output object ###########################################
     Data_out = DataOutput.DataOut()
-    # print(scale_intra_row)
-    # print(angle_to_out)
     
     #Intra-row spacing
     Data_out.setIntra(scale_intra_row)

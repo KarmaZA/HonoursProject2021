@@ -88,4 +88,14 @@ def meanRowCount(PointSet):
     #THIS SHOULD PROBABLY BE DONE DURING DETECTION
     return meanCount
 
+def calcScaleIntra(dataset):
+    nearest_dist, nearest_ind = dataset.query(PointSet, k=4)
+    scale_intra = 0   
+    #Calculate the average intra_row scale
+    for point in nearest_dist:
+        scale_intra += point[1]
+    scale_intra /= len(nearest_dist)
+    # print("Average scale: " + str(scale_intra))
+    return scale_intra
+
 

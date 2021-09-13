@@ -55,16 +55,10 @@ def GenerateSubImages(PointSet):
 
 def normaliseData(PointSet, dataset):
     nearest_dist, nearest_ind = dataset.query(PointSet, k=4)
-    scale_intra = 0   
-    #Calculate the average intra_row scale
-    for point in nearest_dist:
-        scale_intra += point[1]
-    scale_intra /= len(nearest_dist)
-    print("Average scale: " + str(scale_intra))
     
     sampled_points = []
     weighted_average_angles = []
-    for i in range(10):
+    for k in range(10):
         angle_list = []
         point_list = []
         # If for values not in point line angle is not in range make false
@@ -151,7 +145,7 @@ def normaliseData(PointSet, dataset):
     # plt.scatter(x2s,y2s, color = 'blue')
     # plt.show()
     point_list.append(z)
-    return (PointSet, scale_intra, weighted_average_angles)
+    return (PointSet, weighted_average_angles)
 
 def calcWeightedAverageAngle(angle_list):
     count = 0
