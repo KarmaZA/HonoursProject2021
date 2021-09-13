@@ -32,9 +32,50 @@ def CornerTreeCoords(PointSet):
 
     return set_to_return
 
-def countRowNumbers(pointSet, angle):
+def countRowNumbers(PointSet, angle):
     row_count = 0
     inter_spacing = 0
+    spacing_list = []
+    point_list = []
+    angle_perp_1 = (angle + 90) % 180
+    angle_perp_2 = (angle - 90) % 180
+
+    dataset = KDTree(PointSet)
+    nearest_dist, nearest_ind = dataset.query(PointSet, k=8)
+
+    spacing_list.append(random.randint(0, len(PointSet)))
+    row_count += 1
+
+    count_rows = True
+    
+    while count_rows:
+        count_rows = False
+        for x in range(8):
+            angle_check = calcLineRotation(PointSet[nearest_ind[point_list[-1]][0]],PointSet[nearest_ind[point_list[-1]][x]])
+            if DataCalculations.AnglesInRange(angle_perp_1, angle_check, 23):
+                row_count += 1
+                point_list.append(nearest_ind[point_list[-1]][x])
+                spacing_list.append(nearest_dist[point_list[-1]][x])
+                count_rows = True
+                break
+
+    # Count rows in opposite direction
+    while count_rows:
+        count_rows = False
+        for x in range(8):
+            angle_check = calcLineRotation(PointSet[nearest_ind[point_list[0]][0]],PointSet[nearest_ind[point_list[0]][x]])
+            if DataCalculations.AnglesInRange(angle_perp_1, angle_check, 23):
+                row_count += 1
+                point_list.insert(0, nearest_ind[point_list[0]][x])
+                spacing_list.append(nearest_dist[point_list[0]][x])
+                count_rows = True
+                break
+
+
+    for spac in spacing_list:
+        inter_spacing += spac
+
+    inter_spacing /= len(spacing_list)
 
     return (row_count, inter_spacing)
 

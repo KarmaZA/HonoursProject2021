@@ -62,7 +62,7 @@ def Run_File(filename):
     #Tree Count
     Data_out.setTreeCount(len(PointSet))
 
-    row_count, inter_spacing = ParameterCalculations.countRowNumbers(PointSet, angle_to_out)
+    row_count, inter_spacing = ParameterCalculations.countRowNumbers(PointSet, int(angle_to_out))
     #Inter-row spacing
     Data_out.setInter(inter_spacing)
     # Number of Rows
