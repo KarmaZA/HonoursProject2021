@@ -10,15 +10,16 @@ Template_Square = [[0,0],[0,1],[1,0],[1,1]]
 Returns an Image Matrix with the drawn"""
 def drawGuassianNoise(x,y, ImageToGen):
     # offset x and y so middle stays bright
-    x -= 1
-    y -= 1 
-    for count_x in range(3):
-            for count_y in range(3):
-                if (count_y == 1) and (count_x == 1):
-                    ImageToGen[x+count_x][y+count_y][0:3] = 0
-                else:
-                    if(ImageToGen[x+count_x][y+count_y][0] != 0):
-                        ImageToGen[x+count_x][y+count_y][0:3] = 128                  
+    x -= 3
+    y -= 3 
+    for count_x in range(7):
+            for count_y in range(7):
+                ImageToGen[x+count_x][y+count_y][0:3] = 0
+                # if (count_y == 1) and (count_x == 1):
+                #     ImageToGen[x+count_x][y+count_y][0:3] = 0
+                # else:
+                #     if(ImageToGen[x+count_x][y+count_y][0] != 0):
+                #         ImageToGen[x+count_x][y+count_y][0:3] = 128                  
     return ImageToGen
 
 def SetBackground(template):
@@ -46,13 +47,13 @@ def genSquareTemplate(length_array):
     count = 0
     for length in length_array:
         print('Generating Square template with a length of: ' + str(length))
-        template_size = length + 3
+        template_size = length + 16
 
         TemplateToGen = np.zeros(shape=[template_size,template_size,3], dtype=np.uint8)
         TemplateToGen = SetBackground(TemplateToGen)
         for Template_Points in Template_Square:
-            x = 1 + Template_Points[0] * length
-            y = 1 + Template_Points[1] * length
+            x = 5 + Template_Points[0] * length + (5*Template_Points[0])
+            y = 5 + Template_Points[1] * length + (5*Template_Points[1])
             drawGuassianNoise(x, y, TemplateToGen)
         file_name = 'Images/TemplateSquare' + str(count) + '.png'
         imageio.imsave(file_name, TemplateToGen)
@@ -66,17 +67,17 @@ def genQuincunxTemplate(length_array):
     count = 0
     for length in length_array:
         print('Generating Quincunx template with a length of: ' + str(length))
-        template_size = length + 3
+        template_size = length + 13
 
         TemplateToGen = np.zeros(shape=[template_size,template_size,3], dtype=np.uint8)
         TemplateToGen = SetBackground(TemplateToGen)
         for Template_Points in Template_Square:
-            x = 1 + Template_Points[0] * length
-            y = 1 + Template_Points[1] * length
+            x = 5 + Template_Points[0] * length
+            y = 5 + Template_Points[1] * length
             drawGuassianNoise(x, y, TemplateToGen)
         
-        x = 1 + int(0.5 * length)
-        y = 1 + int(0.5 * length)
+        x = 5 + int(0.5 * length)
+        y = 5 + int(0.5 * length)
         drawGuassianNoise(x, y, TemplateToGen)
         file_name = 'Images/TemplateQuincunx' + str(count) + '.png'
         imageio.imsave(file_name, TemplateToGen)
