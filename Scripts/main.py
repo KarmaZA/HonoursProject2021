@@ -147,6 +147,14 @@ def Run_File(filename):
 
 #   Send data for evaluation
 
+#####Evaluation methods
+    # pattern_out_array = []
+    # Data_out.setPatterns(pattern_out_array)
+#####
+    outFileName = filename.split('.')[0]
+    Data_out.writeDataToFile(outFileName)
+
+#################################################### Memory Clean Up ##########################################################################
     for x in range(double_rectangle_count):
         if x < source_image_number:
             os.remove('Images/MainImage' + str(x) + '.png')
@@ -161,6 +169,12 @@ def Run_File(filename):
         for x in range(double_rectangle_count, source_image_number,1):
             if x < source_image_number:
                 os.remove('Images/MainImage' + str(x) + '.png')
+
+#################################################### Completed ################################################################################
+
+    print("The program has completed running")
+    print("The most likely pattern is " + str(pattern_out_array[0]))
+    print("See " + str(outFileName) + ".txt for more information")
 
     
 def RunTestCases():

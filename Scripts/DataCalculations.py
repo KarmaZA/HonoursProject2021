@@ -54,10 +54,8 @@ def GenerateSubImages(PointSet):
 
 
 def normaliseData(PointSet, dataset):
-       
     nearest_dist, nearest_ind = dataset.query(PointSet, k=4)
-    scale_intra = 0
-    
+    scale_intra = 0   
     #Calculate the average intra_row scale
     for point in nearest_dist:
         scale_intra += point[1]
@@ -71,7 +69,6 @@ def normaliseData(PointSet, dataset):
         point_list = []
         # If for values not in point line angle is not in range make false
         building_line = True
-        # for i in range(1):#0):
         z = random.randint(0, len(PointSet))
         while z in sampled_points:
             z = random.randint(0, len(PointSet))
@@ -81,18 +78,13 @@ def normaliseData(PointSet, dataset):
         point_list.append(nearest_ind[z][0])
         point_list.append(nearest_ind[z][1])
         angle_list.append(calcLineRotation(PointSet[point_list[0]], PointSet[point_list[1]]))
-        # print("Origin point at " + str(point_list[0]))
         
         for i in range(2,4):
             angle = calcLineRotation(PointSet[point_list[0]], PointSet[nearest_ind[z][i]])
             if AnglesInRange(angle_list[0], angle, 30):
                 point_list.append(nearest_ind[z][i])
                 angle_list.append(angle)
-                
-        # print("data")
-        # print(point_list)
-        # print(angle_list)
-            
+
         while building_line:
             z = point_list[-1]
             building_line = False
@@ -129,26 +121,15 @@ def normaliseData(PointSet, dataset):
                 if not (nearest_ind[z][count] in point_list):
                     angle_origin = calcLineRotation(PointSet[point_list[-1]], PointSet[nearest_ind[z][count]])
                     angle_instant = calcLineRotation(PointSet[point_list[0]], PointSet[nearest_ind[z][count]])
-                    # print(angle_origin, average_angle)
-                    # print(point_list, nearest_ind[z])
                     #Condition below super important for detections
                     if (AnglesInRange(angle_origin, average_angle, 10)):# and (AnglesInRange(angle_list[-1], angle_instant, 30)):
                         point_list.insert(0,nearest_ind[z][count])
                         angle_list_inverse.append(angle_instant)
                         building_line = True
-                    # if (AnglesInRange(angle_origin, average_angle, 10)):
-                    #         print("origin success") 
-                count += 1
-                
-        # print("end of list")
-        # print(point_list)
-              
-        # print(nearest_ind[point_list[-1]])
+                count += 1          
         for point in point_list:
             sampled_points.append(point)
         weighted_average_angles.append(AverageAngle(angle_list))#, len(point_list)])
-
-        
         
     for coords in sampled_points:
         row_list.append(Point(PointSet[coords].x, PointSet[coords].y))  

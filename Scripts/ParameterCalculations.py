@@ -5,7 +5,6 @@ from sklearn.neighbors import KDTree
 from shapely.geometry import Point
 
 import matplotlib.pyplot as plt
-
 import DataCalculations
 
 def CornerTreeCoords(PointSet):

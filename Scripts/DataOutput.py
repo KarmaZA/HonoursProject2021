@@ -8,27 +8,21 @@ class DataOut:
     avg_tree_row = 0
     road_count = 0
     corner_tree_coords = []
-    # ['pattern', correlation measure, count(?)]
     planting_patterns = []
     
     def __init__(self) -> None:
         pass
 
-
     def setIntra(self, intra):
-        self.intra_spacing = intra
-        
+        self.intra_spacing = intra        
         
     def setTreeCount(self, count):
         global tree_count
-        self.tree_count = count
-        
+        self.tree_count = count        
         
     def setAngle(self, angle):
         self.image_angle = angle
-        
-    
-    ######################Unused    
+
     def setInter(self, inte):
         self.inter_spacing = inte
 
@@ -48,7 +42,7 @@ class DataOut:
     def setRoadCount(self, Rcount):
         road_count = Rcount
 
-    def writeDataToFile(self):
+    def writeDataToFile(self, filename):
         print()
         print("The intra-row spacing mean value is: " + str(self.intra_spacing))
         print("The inter-row spacing mean value is: " + str(self.inter_spacing))
@@ -59,8 +53,9 @@ class DataOut:
         for point in corner_tree_coords:
             print("A corner coordinate is: " + str(point.x) + " , " + str(point.y))
         print("The detected patterns are " + patterns_list)
-        # print("The angle of image is: " + str(self.image_angle))
-        with open('outputFile.txt', 'w') as f:
+
+        # Write to the outputFile
+        with open(str(filename) + '.txt', 'w') as f:
             f.write("The intra-row spacing mean value is: " + str(self.intra_spacing))
             f.write("The inter-row spacing mean value is: " + str(self.inter_spacing))
             f.write("The Tree count detected is: " + str(self.tree_count))
@@ -71,7 +66,7 @@ class DataOut:
                 f.write("A corner coordinate is: " + str(point.x) + " , " + str(point.y))
             f.write("The detected patterns are " + patterns_list)
 
-        print("Data written to outputFile.txt")
+        print("Data written to " + str(filename) + ".txt")
 
         
         
