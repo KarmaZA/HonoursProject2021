@@ -95,13 +95,13 @@ def normaliseData(PointSet, dataset):
                         angle_list.append(angle_instant)
                         building_line = True
                 count += 1
-            print(point_list)
+            # print(point_list)
             
         angle_list_inverse = []
-        print("##########################################################")
+        # print("##########################################################")
         building_line = True
         while building_line:
-            print("Inverse test")
+            # print("Inverse test")
             z = point_list[0]
             building_line = False
             average_angle = AverageAngle(angle_list)
@@ -115,6 +115,8 @@ def normaliseData(PointSet, dataset):
                 if not (nearest_ind[z][count] in point_list):
                     angle_origin = calcLineRotation(PointSet[point_list[-1]], PointSet[nearest_ind[z][count]])
                     angle_instant = calcLineRotation(PointSet[point_list[0]], PointSet[nearest_ind[z][count]])
+                    if (nearest_ind[z][count] in point_list):
+                        print("FAIL")
                     #Condition below super important for detections
                     if (AnglesInRange(angle_origin, average_angle, 10)):# and (AnglesInRange(angle_list[-1], angle_instant, 30)):
                         point_list.insert(0,nearest_ind[z][count])

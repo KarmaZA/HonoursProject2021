@@ -6,6 +6,7 @@ from shapely.geometry import Point
 
 import matplotlib.pyplot as plt
 import DataCalculations
+import random
 
 def CornerTreeCoords(PointSet):
     min_x, min_y, max_x, max_y = (400,400,-400,-400)
@@ -40,33 +41,36 @@ def countRowNumbers(PointSet, angle, dataset):
     angle_perp_2 = (angle - 90) % 180
     nearest_dist, nearest_ind = dataset.query(PointSet, k=8)
 
-    spacing_list.append(random.randint(0, len(PointSet)))
+    # spacing_list
     row_count += 1
 
     count_rows = True
-    
+    point_list.append(random.randint(0, len(PointSet)))
     while count_rows:
         count_rows = False
         for x in range(8):
-            angle_check = calcLineRotation(PointSet[nearest_ind[point_list[-1]][0]],PointSet[nearest_ind[point_list[-1]][x]])
-            if DataCalculations.AnglesInRange(angle_perp_1, angle_check, 23):
-                row_count += 1
-                point_list.append(nearest_ind[point_list[-1]][x])
-                spacing_list.append(nearest_dist[point_list[-1]][x])
-                count_rows = True
-                break
-
+            if not (nearest_ind[point_list[-1]][x] in  point_list):
+                angle_check = DataCalculations.calcLineRotation(PointSet[nearest_ind[point_list[-1]][0]],PointSet[nearest_ind[point_list[-1]][x]])
+                if DataCalculations.AnglesInRange(angle_perp_1, angle_check, 23):
+                    row_count += 1
+                    point_list.append(nearest_ind[point_list[-1]][x])
+                    spacing_list.append(nearest_dist[point_list[-1]][x])
+                    count_rows = True
+                    break
+    print("1")
     # Count rows in opposite direction
     while count_rows:
         count_rows = False
         for x in range(8):
-            angle_check = calcLineRotation(PointSet[nearest_ind[point_list[0]][0]],PointSet[nearest_ind[point_list[0]][x]])
-            if DataCalculations.AnglesInRange(angle_perp_1, angle_check, 23):
-                row_count += 1
-                point_list.insert(0, nearest_ind[point_list[0]][x])
-                spacing_list.append(nearest_dist[point_list[0]][x])
-                count_rows = True
-                break
+            if not (nearest_ind[point_list[0]][x] in  point_list):
+                angle_check = DataCalculations.calcLineRotation(PointSet[nearest_ind[point_list[0]][0]],PointSet[nearest_ind[point_list[0]][x]])
+                if DataCalculations.AnglesInRange(angle_perp_1, angle_check, 23):
+                    row_count += 1
+                    point_list.insert(0, nearest_ind[point_list[0]][x])
+                    spacing_list.append(nearest_dist[point_list[0]][x])
+                    count_rows = True
+                    break
+    print("2")
 
     for spac in spacing_list:
         inter_spacing += spac
@@ -88,7 +92,7 @@ def meanRowCount(PointSet):
     #THIS SHOULD PROBABLY BE DONE DURING DETECTION
     return meanCount
 
-def calcScaleIntra(dataset):
+def calcScaleIntra(PointSet, dataset):
     nearest_dist, nearest_ind = dataset.query(PointSet, k=4)
     scale_intra = 0   
     #Calculate the average intra_row scale

@@ -35,28 +35,32 @@ def Run_File(filename):
     else: 
         exit()
     print("Data loaded")
-    # Graphing test
-    import matplotlib.pyplot as plt
-    xs = [point.x for point in PointSet]
-    ys = [point.y for point in PointSet]
-    plt.gca().set_aspect('equal')
-    plt.scatter(xs,ys, color = 'black')
-    plt.show()
+    # # Graphing test
+    # import matplotlib.pyplot as plt
+    # xs = [point.x for point in PointSet]
+    # ys = [point.y for point in PointSet]
+    # plt.gca().set_aspect('equal')
+    # plt.scatter(xs,ys, color = 'black')
+    # plt.show()
     ###################################################### Functions to calc parameters and TM stuff #############################################
     dataset = KDTree(PointSet)
     #Returns number of images to perform template matching on   
     source_image_number = DataCalculations.GenerateSubImages(PointSet)
-    print(source_image_number)
+    # print(source_image_number)
     print("Sub images generated")
     #Normalise rows into lines
     PointSet, average_angle = DataCalculations.normaliseData(PointSet, dataset)
+    print("Rotation has been detected")
     
     angle_to_out = DataCalculations.calcWeightedAverageAngle(average_angle)
+    print("Calculated average angle:")
+    print(angle_to_out)
 
     row_count, inter_spacing, road_count = ParameterCalculations.countRowNumbers(PointSet, int(angle_to_out), dataset)
+    print("Calculated Row data")
 
     TreeCoords = ParameterCalculations.CornerTreeCoords(PointSet)
-    scale_intra_row = ParameterCalculations.calcScaleIntra(dataset)
+    scale_intra_row = ParameterCalculations.calcScaleIntra(PointSet, dataset)
     ####################################################### Send extracted parameters to output object ###########################################
     Data_out = DataOutput.DataOut()
     
@@ -76,6 +80,7 @@ def Run_File(filename):
     # Data_out.setTreesPerRow()
     # Coordinates of corner Tree
     Data_out.setCorner(TreeCoords)
+    print("Finished parameter extraction")
 ################################################# Step 2 #########################################################################################
     for x in range(source_image_number):
         image_scale_array = [] 
