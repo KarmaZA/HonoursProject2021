@@ -10,6 +10,7 @@ import importData
 import genImages
 import DataCalculations
 import DataOutput
+import ParameterCalculations
 
 Image_scale_array = []
 
@@ -61,14 +62,15 @@ def Run_File(filename):
     #Tree Count
     Data_out.setTreeCount(len(PointSet))
 
+    row_count, inter_spacing = ParameterCalculations.countRowNumbers(PointSet, angle_to_out)
     #Inter-row spacing
-    # Data_out.setInter()
+    Data_out.setInter(inter_spacing)
     # Number of Rows
-    # Data_out.setRowNumbers()
+    Data_out.setRowNumbers(row_count)
     # Number of Trees per Row
     # Data_out.setTreesPerRow()
     # Coordinates of corner Tree
-    TreeCoords = DataCalculations.CornerTreeCoords(PointSet)
+    TreeCoords = ParameterCalculations.CornerTreeCoords(PointSet)
     Data_out.setCorner(TreeCoords)
 ################################################# Step 2 ###################################################################################
     for x in range(source_image_number):

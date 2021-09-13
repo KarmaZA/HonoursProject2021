@@ -1,4 +1,4 @@
-# This class will take input of the pointset and calculate the rotation of the image
+# A file that does the calculations to solve the issue of rotation and scale for Template Matching23
 
 from LinkedList import LinkedList, Node
 from sklearn.neighbors import KDTree
@@ -9,7 +9,7 @@ import matplotlib.pyplot as plt
 from math import atan2, degrees
 import random
 
-
+"""Breaks up the pointset into a number of sub images that can be efficiently dealt with in the Template Matching step"""
 def GenerateSubImages(PointSet):
     count = 0
     x_min, y_min, x_max, y_max = (400,400,-400,-400)
@@ -211,26 +211,3 @@ def AnglesInRange(Angle1, Angle2, threshold):
     else:
         return False
 
-def CornerTreeCoords(PointSet):
-    min_x, min_y, max_x, max_y = (400,400,-400,-400)
-    for point in PointSet:
-        if point.x < min_x:
-            point_min_x = point
-            min_x = point.x
-        elif point.y < min_y:
-            point_min_y = point
-            min_y = point.y
-        elif point.x > max_x:
-            point_max_x = point
-            max_x = point.x
-        elif point.y > max_y:
-            point_max_y = point
-            max_y = point.y
-    
-    set_to_return = []
-    set_to_return.append(Point(point_min_x.x, point_min_x.y))
-    set_to_return.append(Point(point_min_y.x, point_min_y.y))
-    set_to_return.append(Point(point_max_x.x, point_max_x.y))
-    set_to_return.append(Point(point_max_y.x, point_max_y.y))
-
-    return set_to_return
