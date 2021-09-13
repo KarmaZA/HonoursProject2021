@@ -4,6 +4,7 @@
 # Import my classes
 
 import os
+from sklearn.neighbors import KDTree
 
 import TemplateMatch
 import importData
@@ -42,16 +43,17 @@ def Run_File(filename):
     plt.scatter(xs,ys, color = 'black')
     plt.show()
     ###################################################### Functions to calc parameters and TM stuff #############################################
+    dataset = KDTree(PointSet)
     #Returns number of images to perform template matching on   
     source_image_number = DataCalculations.GenerateSubImages(PointSet)
     print(source_image_number)
     print("Sub images generated")
     #Normalise rows into lines
-    PointSet, scale_intra_row, average_angle = DataCalculations.normaliseData(PointSet)
+    PointSet, scale_intra_row, average_angle = DataCalculations.normaliseData(PointSet, dataset)
     
     angle_to_out = DataCalculations.calcWeightedAverageAngle(average_angle)
 
-    row_count, inter_spacing, road_count = ParameterCalculations.countRowNumbers(PointSet, int(angle_to_out))
+    row_count, inter_spacing, road_count = ParameterCalculations.countRowNumbers(PointSet, int(angle_to_out), dataset)
 
     TreeCoords = ParameterCalculations.CornerTreeCoords(PointSet)
     ####################################################### Send extracted parameters to output object ###########################################

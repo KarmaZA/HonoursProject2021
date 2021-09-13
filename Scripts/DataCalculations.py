@@ -29,12 +29,12 @@ def GenerateSubImages(PointSet):
             set_to_return= []    
             # Set boundaries for edges of sub image
             x_max = x_min + delta_x             
-            print(x_min, y_min, x_max, y_max)
+            # print(x_min, y_min, x_max, y_max)
             for point in PointSet:
                 if ((point.x > x_min) and (point.x < x_max)) and ((point.y > y_min) and (point.y < y_max)):
                     set_to_return.append(Point(point.x, point.y))
-            print(len(set_to_return))
-            if (len(set_to_return) > 25):
+            # print(len(set_to_return))
+            if (len(set_to_return) > 100):
                     
                 xs = [point.x for point in set_to_return]
                 ys = [point.y for point in set_to_return]
@@ -53,9 +53,8 @@ def GenerateSubImages(PointSet):
     return count
 
 
-def normaliseData(PointSet):
+def normaliseData(PointSet, dataset):
        
-    dataset = KDTree(PointSet)
     nearest_dist, nearest_ind = dataset.query(PointSet, k=4)
     scale_intra = 0
     
@@ -76,13 +75,13 @@ def normaliseData(PointSet):
         z = random.randint(0, len(PointSet))
         while z in sampled_points:
             z = random.randint(0, len(PointSet))
-            print(z)
+            # print(z)
         row_list = []
         # Origin Point
         point_list.append(nearest_ind[z][0])
         point_list.append(nearest_ind[z][1])
         angle_list.append(calcLineRotation(PointSet[point_list[0]], PointSet[point_list[1]]))
-        print("Origin point at " + str(point_list[0]))
+        # print("Origin point at " + str(point_list[0]))
         
         for i in range(2,4):
             angle = calcLineRotation(PointSet[point_list[0]], PointSet[nearest_ind[z][i]])
@@ -130,15 +129,15 @@ def normaliseData(PointSet):
                 if not (nearest_ind[z][count] in point_list):
                     angle_origin = calcLineRotation(PointSet[point_list[-1]], PointSet[nearest_ind[z][count]])
                     angle_instant = calcLineRotation(PointSet[point_list[0]], PointSet[nearest_ind[z][count]])
-                    print(angle_origin, average_angle)
-                    print(point_list, nearest_ind[z])
+                    # print(angle_origin, average_angle)
+                    # print(point_list, nearest_ind[z])
                     #Condition below super important for detections
                     if (AnglesInRange(angle_origin, average_angle, 10)):# and (AnglesInRange(angle_list[-1], angle_instant, 30)):
                         point_list.insert(0,nearest_ind[z][count])
                         angle_list_inverse.append(angle_instant)
                         building_line = True
-                    if (AnglesInRange(angle_origin, average_angle, 10)):
-                            print("origin success") 
+                    # if (AnglesInRange(angle_origin, average_angle, 10)):
+                    #         print("origin success") 
                 count += 1
                 
         # print("end of list")

@@ -32,15 +32,13 @@ def CornerTreeCoords(PointSet):
 
     return set_to_return
 
-def countRowNumbers(PointSet, angle):
+def countRowNumbers(PointSet, angle, dataset):
     row_count = 0
     inter_spacing = 0
     spacing_list = []
     point_list = []
     angle_perp_1 = (angle + 90) % 180
     angle_perp_2 = (angle - 90) % 180
-
-    dataset = KDTree(PointSet)
     nearest_dist, nearest_ind = dataset.query(PointSet, k=8)
 
     spacing_list.append(random.randint(0, len(PointSet)))
@@ -76,13 +74,13 @@ def countRowNumbers(PointSet, angle):
 
     inter_spacing /= len(spacing_list)
 
+    #If spacing is an outlier it's probably a road or ditch
     road_Thresh = int(2*inter_spacing)
     road_count = 0
     for spac in spacing_list:
         if spac > road_Thresh:
             road_count +=1 
-    #CHECK FOR ROAD OR DITCHES
-
+    
     return (row_count, inter_spacing, road_count)
 
 
