@@ -2,7 +2,6 @@
 
 
 # Import my classes
-from matplotlib.pyplot import waitforbuttonpress
 
 import os
 
@@ -35,6 +34,13 @@ def Run_File(filename):
     else: 
         exit()
     print("Data loaded")
+    # Graphing test
+    # import matplotlib.pyplot as plt
+    # xs = [point.x for point in PointSet]
+    # ys = [point.y for point in PointSet]
+    # plt.gca().set_aspect('equal')
+    # plt.scatter(xs,ys, color = 'black')
+    # plt.show()
     
     #Returns number of images to perform template matching on   
     source_image_number = DataCalculations.GenerateSubImages(PointSet)
@@ -44,6 +50,7 @@ def Run_File(filename):
     PointSet, scale_intra_row, average_angle = DataCalculations.normaliseData(PointSet)
     
     angle_to_out = DataCalculations.calcWeightedAverageAngle(average_angle)
+
     print(angle_to_out)
     #Writing to the output object
     print(scale_intra_row)
@@ -53,13 +60,13 @@ def Run_File(filename):
     Data_out.setAngle(angle_to_out)
     #Tree Count
     Data_out.setTreeCount(len(PointSet))
-    
+
     #Inter-row spacing
-
+    # Data_out.setInter()
     # Number of Rows
-
+    # Data_out.setRowNumbers()
     # Number of Trees per Row
-
+    # Data_out.setTreesPerRow()
     # Coordinates of corner Tree
     TreeCoords = DataCalculations.CornerTreeCoords(PointSet)
     Data_out.setCorner(TreeCoords)
@@ -88,46 +95,46 @@ def Run_File(filename):
     
         ################################## Template Matching
         
-        for rotation in Image_rotation_array: # Testing each template at each possible rotation
-            correlation_threshold = 0.6
-            evaluation_array = []
-            while correlation_threshold < 1:
-                print()
-                print()
-                print("Correlation threshold set to: " + str(round(correlation_threshold,2)))
-                print('Testing templates at a rotation of ' + str(rotation))
+        # for rotation in Image_rotation_array: # Testing each template at each possible rotation
+        #     correlation_threshold = 0.6
+        #     evaluation_array = []
+        #     while correlation_threshold < 1:
+        #         print()
+        #         print()
+        #         print("Correlation threshold set to: " + str(round(correlation_threshold,2)))
+        #         print('Testing templates at a rotation of ' + str(rotation))
 
-                for x in range(len(template_image_square_list)):
-                    count = SimilarityMeasures.templateMatching_correlation(source_image, template_image_square_list[x], correlation_threshold)
-                    if count > (0.5 * image_point_count):
-                        evaluation_array.append([count, numpy.round(correlation_threshold,1), x, 'Square'])
+        #         for x in range(len(template_image_square_list)):
+        #             count = TemplateMatch.templateMatching_correlation(source_image, template_image_square_list[x], correlation_threshold)
+        #             if count > (0.5 * image_point_count):
+        #                 evaluation_array.append([count, numpy.round(correlation_threshold,1), x, 'Square'])
                     
-                for x in range(len(template_image_rectangle_list)):
-                    count = SimilarityMeasures.templateMatching_correlation(source_image, template_image_rectangle_list[x], correlation_threshold)
-                    if count > (0.5 * image_point_count):
-                        evaluation_array.append([count, numpy.round(correlation_threshold,1), int(numpy.round(x/len(Image_scale_array))), 'Rectangle'])
+        #         for x in range(len(template_image_rectangle_list)):
+        #             count = TemplateMatch.templateMatching_correlation(source_image, template_image_rectangle_list[x], correlation_threshold)
+        #             if count > (0.5 * image_point_count):
+        #                 evaluation_array.append([count, numpy.round(correlation_threshold,1), int(numpy.round(x/len(Image_scale_array))), 'Rectangle'])
                     
-                for x in range(len(template_image_isosceles_triangle_list)):
-                    count = SimilarityMeasures.templateMatching_correlation(source_image, template_image_isosceles_triangle_list[x], correlation_threshold)
-                    if count > (0.5 * image_point_count):
-                        evaluation_array.append([count, numpy.round(correlation_threshold,1), x, 'Isosceles Triangle'])
+        #         for x in range(len(template_image_isosceles_triangle_list)):
+        #             count = TemplateMatch.templateMatching_correlation(source_image, template_image_isosceles_triangle_list[x], correlation_threshold)
+        #             if count > (0.5 * image_point_count):
+        #                 evaluation_array.append([count, numpy.round(correlation_threshold,1), x, 'Isosceles Triangle'])
                 
-                for x in range(len(template_image_quincunx_list)):
-                    count = SimilarityMeasures.templateMatching_correlation(source_image, template_image_quincunx_list[x], correlation_threshold)
-                    if count > (0.5 * image_point_count):
-                        evaluation_array.append([count, numpy.round(correlation_threshold,1), x, 'Quincunx'])
+        #         for x in range(len(template_image_quincunx_list)):
+        #             count = TemplateMatch.templateMatching_correlation(source_image, template_image_quincunx_list[x], correlation_threshold)
+        #             if count > (0.5 * image_point_count):
+        #                 evaluation_array.append([count, numpy.round(correlation_threshold,1), x, 'Quincunx'])
                     
-                for x in range(len(template_image_equilateral_triangle_list)):
-                    count = SimilarityMeasures.templateMatching_correlation(source_image, template_image_equilateral_triangle_list[x], correlation_threshold)
-                    if count > (0.5 * image_point_count):
-                        evaluation_array.append([count, numpy.round(correlation_threshold,1), x, 'Equilateral Triangle'])
+        #         for x in range(len(template_image_equilateral_triangle_list)):
+        #             count = TemplateMatch.templateMatching_correlation(source_image, template_image_equilateral_triangle_list[x], correlation_threshold)
+        #             if count > (0.5 * image_point_count):
+        #                 evaluation_array.append([count, numpy.round(correlation_threshold,1), x, 'Equilateral Triangle'])
                     
-                for x in range(len(template_image_double_hedgerow_list)):
-                    count = SimilarityMeasures.templateMatching_correlation(source_image, template_image_double_hedgerow_list[x], correlation_threshold)
-                    if count > (0.5 * image_point_count):
-                        evaluation_array.append([count, numpy.round(correlation_threshold,1), int(numpy.round(x/len(Image_scale_array))), 'Double HedgeRow'])
+        #         for x in range(len(template_image_double_hedgerow_list)):
+        #             count = TemplateMatch.templateMatching_correlation(source_image, template_image_double_hedgerow_list[x], correlation_threshold)
+        #             if count > (0.5 * image_point_count):
+        #                 evaluation_array.append([count, numpy.round(correlation_threshold,1), int(numpy.round(x/len(Image_scale_array))), 'Double HedgeRow'])
                 
-                correlation_threshold += 0.1
+        #         correlation_threshold += 0.1
         
     ################################################# Step 3 ###################################################################################
 
@@ -150,7 +157,7 @@ def Run_File(filename):
 
     
 def RunTestCases():
-    file_input_name = 'SquareIdeal3.txt'
+    file_input_name = 'TestIdealData/SquareIdeal3.txt'
     print("Square Template")
     
     Run_File(file_input_name)
@@ -159,7 +166,7 @@ def RunTestCases():
     print("Run for Rectangle?")
     # waitforbuttonpress()
     print("Running for rectangle")
-    file_input_name = 'RectIdeal3.txt'
+    file_input_name = 'TestIdealData/RectIdeal3.txt'
     Run_File(file_input_name)
     print()
     print()
@@ -167,7 +174,7 @@ def RunTestCases():
     print("Run for Triangle?")
     # waitforbuttonpress()
     print("Running for Triangle")
-    file_input_name = 'TriIdeal3.txt'
+    file_input_name = 'TestIdealData/TriIdeal3.txt'
     Run_File(file_input_name)
     
     print()
@@ -175,7 +182,7 @@ def RunTestCases():
     print("Run for Quincunx?")
     # waitforbuttonpress()
     print("Running for Quincunx")
-    file_input_name = 'QuincunxIdeal3.txt'
+    file_input_name = 'TestIdealData/QuincunxIdeal3.txt'
     Run_File(file_input_name)
     print()
     print()
@@ -183,7 +190,7 @@ def RunTestCases():
     print("Run for DoubleHedge?")
     # waitforbuttonpress()
     print("Running for DoubleHedge")
-    file_input_name = 'DoubleHedgeIdeal3.txt'
+    file_input_name = 'TestIdealData/DoubleHedgeIdeal3.txt'
     Run_File(file_input_name)
     
     print()
@@ -191,7 +198,7 @@ def RunTestCases():
     print("Run for Rectangle?")
     # waitforbuttonpress()
     print("Running for rectangle")
-    file_input_name = 'RectNoise24.txt'
+    file_input_name = 'TestIdealData/RectNoise24.txt'
     Run_File(file_input_name)
     print()
     print()
@@ -199,7 +206,7 @@ def RunTestCases():
     print("Run for Triangle?")
     # waitforbuttonpress()
     print("Running for Triangle")
-    file_input_name = 'TriNoise3.txt'
+    file_input_name = 'TestIdealData/TriNoise3.txt'
     Run_File(file_input_name)
     
     print()
@@ -207,7 +214,7 @@ def RunTestCases():
     print("Run for Quincunx?")
     # waitforbuttonpress()
     print("Running for Quincunx")
-    file_input_name = 'QuincunxNoise3.txt'
+    file_input_name = 'TestIdealData/QuincunxNoise3.txt'
     Run_File(file_input_name)
     print()
     print()
@@ -215,7 +222,7 @@ def RunTestCases():
     print("Run for DoubleHedge?")
     # waitforbuttonpress()
     print("Running for DoubleHedge")
-    file_input_name = 'DoubleHedgeNoise3.txt'
+    file_input_name = 'TestIdealData/DoubleHedgeNoise3.txt'
     Run_File(file_input_name)
 
 
@@ -223,7 +230,7 @@ if __name__ == '__main__':
     print('The program has started.')   
     file_input_name = input("What is the image name(0 for default)?\n")
     if file_input_name == '0':
-        file_input_name = 'SquareIdeal3.txt'
+        file_input_name = 'TestIdealData/SquareIdeal3.txt'
         print("Using default")
         print()
         Run_File(file_input_name)
