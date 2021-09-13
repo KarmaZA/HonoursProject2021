@@ -71,16 +71,22 @@ def countRowNumbers(PointSet, angle):
                 count_rows = True
                 break
 
-
     for spac in spacing_list:
         inter_spacing += spac
 
     inter_spacing /= len(spacing_list)
 
-    return (row_count, inter_spacing)
+    road_Thresh = int(2*inter_spacing)
+    road_count = 0
+    for spac in spacing_list:
+        if spac > road_Thresh:
+            road_count +=1 
+    #CHECK FOR ROAD OR DITCHES
+
+    return (row_count, inter_spacing, road_count)
 
 
-def meanRowCount(PointSet)
+def meanRowCount(PointSet):
     meanCount = 0
     #THIS SHOULD PROBABLY BE DONE DURING DETECTION
     return meanCount

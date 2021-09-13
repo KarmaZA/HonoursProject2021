@@ -6,6 +6,7 @@ class DataOut:
     image_angle = 0
     row_count = 0
     avg_tree_row = 0
+    road_count = 0
     corner_tree_coords = []
     # ['pattern', correlation measure, count(?)]
     planting_patterns = []
@@ -44,6 +45,9 @@ class DataOut:
     def setTreesPerRow(self, TRcount):
         self.avg_tree_row = TRcount
 
+    def setRoadCount(self, Rcount):
+        road_count = Rcount
+
     def writeDataToFile(self):
         print()
         print("The intra-row spacing mean value is: " + str(self.intra_spacing))
@@ -51,8 +55,9 @@ class DataOut:
         print("The Tree count detected is: " + str(self.tree_count))
         print("The number of rows detected is: " + str(row_count))
         print("The mean value per row is: " + str(avg_tree_row))
+        print("There were " + str(road_count) + ' road(s) or distches detected')
         for point in corner_tree_coords:
-            print("A corner coordinate is: " str(point.x) + " , " + str(point.y))
+            print("A corner coordinate is: " + str(point.x) + " , " + str(point.y))
         print("The detected patterns are " + patterns_list)
         # print("The angle of image is: " + str(self.image_angle))
         with open('outputFile.txt', 'w') as f:
@@ -61,8 +66,9 @@ class DataOut:
             f.write("The Tree count detected is: " + str(self.tree_count))
             f.write("The number of rows detected is: " + str(row_count))
             f.write("The mean value per row is: " + str(avg_tree_row))
+            f.write("There were " + str(road_count) + ' road(s) or distches detected')
             for point in corner_tree_coords:
-                f.write("A corner coordinate is: " str(point.x) + " , " + str(point.y))
+                f.write("A corner coordinate is: " + str(point.x) + " , " + str(point.y))
             f.write("The detected patterns are " + patterns_list)
 
         print("Data written to outputFile.txt")

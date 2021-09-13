@@ -36,12 +36,12 @@ def Run_File(filename):
         exit()
     print("Data loaded")
     # Graphing test
-    # import matplotlib.pyplot as plt
-    # xs = [point.x for point in PointSet]
-    # ys = [point.y for point in PointSet]
-    # plt.gca().set_aspect('equal')
-    # plt.scatter(xs,ys, color = 'black')
-    # plt.show()
+    import matplotlib.pyplot as plt
+    xs = [point.x for point in PointSet]
+    ys = [point.y for point in PointSet]
+    plt.gca().set_aspect('equal')
+    plt.scatter(xs,ys, color = 'black')
+    plt.show()
     
     #Returns number of images to perform template matching on   
     source_image_number = DataCalculations.GenerateSubImages(PointSet)
@@ -62,7 +62,9 @@ def Run_File(filename):
     #Tree Count
     Data_out.setTreeCount(len(PointSet))
 
-    row_count, inter_spacing = ParameterCalculations.countRowNumbers(PointSet, int(angle_to_out))
+    row_count, inter_spacing, road_count = ParameterCalculations.countRowNumbers(PointSet, int(angle_to_out))
+    # Road or ditch count
+    Data_out.setRoadCount(road_count)
     #Inter-row spacing
     Data_out.setInter(inter_spacing)
     # Number of Rows
