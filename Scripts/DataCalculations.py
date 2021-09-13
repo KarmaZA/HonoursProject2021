@@ -158,11 +158,13 @@ def calcWeightedAverageAngle(angle_list):
         if angle > 0:
             angle_avg += angle
             count += 1
-        else:
+        elif angle < 0:
             angle_avgneg += angle
             countneg += 1
-            
-    if count >= countneg:
+
+    if angle_list.count(0) > 3:
+        return 0      
+    elif count >= countneg:
         return angle_avg/count
     else:
         return angle_avgneg/countneg        

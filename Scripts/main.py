@@ -1,6 +1,4 @@
 # Developed By Jonathon Everatt
-
-
 # Import my classes
 
 import os
@@ -252,19 +250,26 @@ def RunTestCases():
 
 
 if __name__ == '__main__':
-    print('The program has started.')   
-    file_input_name = input("What is the image name(0 for default)?\n")
-    if file_input_name == '0':
-        file_input_name = 'TestIdealData/SquareIdeal3.txt'
-        print("Using default")
-        print()
-        Run_File(file_input_name)
-    elif file_input_name == '1':
-        RunTestCases()
-    elif file_input_name == '2':
-        file_input_name = 'square_real.geojson'
-        print("Using GeoJSON default")
-        print()
-        Run_File(file_input_name)
-    else:
-        Run_File(file_input_name)
+    count = array_len = [3,6]
+    genImages.genAllTemplate(array_len)
+    # source_image = importData.loadImageFromFile('Images/MainImage0.png', 0)    
+    # template_image_square_list = importData.loadImageFromFile('TemplateSquare', 1)
+    # count = TemplateMatch.templateMatching_correlation(source_image, template_image_square_list[x], correlation_threshold)
+    # print(count)
+
+    # print('The program has started.')   
+    # file_input_name = input("What is the image name(0 for default)?\n")
+    # if file_input_name == '0':
+    #     file_input_name = 'TestIdealData/SquareIdeal3.txt'
+    #     print("Using default")
+    #     print()
+    #     Run_File(file_input_name)
+    # elif file_input_name == '1':
+    #     RunTestCases()
+    # elif file_input_name == '2':
+    #     file_input_name = 'square_real.geojson'
+    #     print("Using GeoJSON default")
+    #     print()
+    #     Run_File(file_input_name)
+    # else:
+    #     Run_File(file_input_name)

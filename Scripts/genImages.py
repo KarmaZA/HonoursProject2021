@@ -15,11 +15,19 @@ def drawGuassianNoise(x,y, ImageToGen):
     for count_x in range(3):
             for count_y in range(3):
                 if (count_y == 1) and (count_x == 1):
-                    ImageToGen[x+count_x][y+count_y][0:3] = 255
+                    ImageToGen[x+count_x][y+count_y][0:3] = 0
                 else:
-                    if(ImageToGen[x+count_x][y+count_y][0] != 255):
+                    if(ImageToGen[x+count_x][y+count_y][0] != 0):
                         ImageToGen[x+count_x][y+count_y][0:3] = 128                  
     return ImageToGen
+
+def SetBackground(template):
+    height, width, depth = template.shape
+    # template[0:width][0:height][0:depth] = 255
+    for x in range(width):
+        for y in range(height):
+            template[y][x][0:3] = 255
+    return template
 
 """Generates all the templates for Template Matching at the scaleds given in the length_array
 returns the number of templates for Double Hedge and Rectangle. Other templates number == len(length_array)"""
@@ -41,6 +49,7 @@ def genSquareTemplate(length_array):
         template_size = length + 3
 
         TemplateToGen = np.zeros(shape=[template_size,template_size,3], dtype=np.uint8)
+        TemplateToGen = SetBackground(TemplateToGen)
         for Template_Points in Template_Square:
             x = 1 + Template_Points[0] * length
             y = 1 + Template_Points[1] * length
@@ -60,6 +69,7 @@ def genQuincunxTemplate(length_array):
         template_size = length + 3
 
         TemplateToGen = np.zeros(shape=[template_size,template_size,3], dtype=np.uint8)
+        TemplateToGen = SetBackground(TemplateToGen)
         for Template_Points in Template_Square:
             x = 1 + Template_Points[0] * length
             y = 1 + Template_Points[1] * length
@@ -83,6 +93,7 @@ def genIsoscelesTriangleTemplate(length_array):
     for length in length_array:
         template_size = (length) + 3
         TemplateToGen = np.zeros(shape=[template_size,length+3,3], dtype=np.uint8)
+        TemplateToGen = SetBackground(TemplateToGen)
         # Point 1
         y = 1 + Template_Square[0][0] * length
         x = 1 + Template_Square[0][1] * length
@@ -116,6 +127,7 @@ def genEquilateralTriangleTemplate(length_array):
         template_size = length + 3
 
         TemplateToGen = np.zeros(shape=[length+3,length+3,3], dtype=np.uint8)
+        TemplateToGen = SetBackground(TemplateToGen)
         for pt in template_triangle:
             x = 1 + int(pt[0] * length)
             y = 1 + int(pt[1] * length)
@@ -147,6 +159,7 @@ def genRectangleTemplate(array_length):
             # Gen the rectangle
             print('Generating Rectangle template with a Height of: ' + str(Height) + ' and a width of : ' + str(Width))
             TemplateToGen = np.zeros(shape=[(Height + 3),(Width + 3),3], dtype=np.uint8)
+            TemplateToGen = SetBackground(TemplateToGen)
             for Template_Points in Template_Square:
                 x = 1 + Template_Points[0] * Height
                 y = 1 + Template_Points[1] * Width
@@ -185,6 +198,7 @@ def genDoubleHedgeTemplate(array_length):
             size = min_length + max_length + 3 + min_length
     
             TemplateToGen = np.zeros(shape=[7,size,3], dtype=np.uint8)
+            TemplateToGen = SetBackground(TemplateToGen)
             size = 1
             drawGuassianNoise(3, size, TemplateToGen) # First point
             size += min_length
