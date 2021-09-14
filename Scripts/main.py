@@ -41,7 +41,7 @@ def Run_File(filename):
     # print(source_image_number)
     print("Sub images generated")
     #Normalise rows into lines
-    PointSet, average_angle = DataCalculations.normaliseData(PointSet, dataset)
+    PointSet, average_angle, tree_per_row = DataCalculations.normaliseData(PointSet, dataset)
     print("Rotation has been detected")
     
     angle_to_out = DataCalculations.calcWeightedAverageAngle(average_angle)
@@ -69,7 +69,7 @@ def Run_File(filename):
     # Number of Rows
     Data_out.setRowNumbers(row_count)
     # Number of Trees per Row
-    # Data_out.setTreesPerRow()
+    Data_out.setTreesPerRow(tree_per_row)
     # Coordinates of corner Tree
     Data_out.setCorner(TreeCoords)
     print("Finished parameter extraction")

@@ -54,6 +54,7 @@ def GenerateSubImages(PointSet):
 
 
 def normaliseData(PointSet, dataset):
+    max_Tree_per_Row = 0
     nearest_dist, nearest_ind = dataset.query(PointSet, k=4)
     
     sampled_points = []
@@ -115,8 +116,8 @@ def normaliseData(PointSet, dataset):
                 if not (nearest_ind[z][count] in point_list):
                     angle_origin = calcLineRotation(PointSet[point_list[-1]], PointSet[nearest_ind[z][count]])
                     angle_instant = calcLineRotation(PointSet[point_list[0]], PointSet[nearest_ind[z][count]])
-                    if (nearest_ind[z][count] in point_list):
-                        print("FAIL")
+                    # if (nearest_ind[z][count] in point_list):
+                    #     print("FAIL")
                     #Condition below super important for detections
                     if (AnglesInRange(angle_origin, average_angle, 10)):# and (AnglesInRange(angle_list[-1], angle_instant, 30)):
                         point_list.insert(0,nearest_ind[z][count])
@@ -126,6 +127,8 @@ def normaliseData(PointSet, dataset):
         for point in point_list:
             sampled_points.append(point)
         weighted_average_angles.append(AverageAngle(angle_list))#, len(point_list)])
+        if len(point_list) > max_Tree_per_Row:
+            max_Tree_per_Row = len(point_list)
         
     for coords in sampled_points:
         row_list.append(Point(PointSet[coords].x, PointSet[coords].y))  
@@ -147,7 +150,7 @@ def normaliseData(PointSet, dataset):
     # plt.scatter(x2s,y2s, color = 'blue')
     # plt.show()
     point_list.append(z)
-    return (PointSet, weighted_average_angles)
+    return (PointSet, weighted_average_angles, max_Tree_per_Row)
 
 def calcWeightedAverageAngle(angle_list):
     count = 0
