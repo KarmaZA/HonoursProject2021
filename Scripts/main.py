@@ -246,6 +246,70 @@ def RunTestCases():
     file_input_name = 'TestIdealData/DoubleHedgeNoise3.txt'
     Run_File(file_input_name)
 
+
+def IdealisedExp()
+    try:
+        timeArray = []
+        start_time = time.time()
+        file_input_name = 'SquareIdeal.txt'
+        Run_File(file_input_name)
+        timeArray.append(int(time.time() - start_time)
+    except:
+        print("SquareIdeal Fail")
+
+    try:
+        timeArray = []
+        start_time = time.time()
+        file_input_name = 'RectIdeal.txt'
+        Run_File(file_input_name)
+        timeArray.append(int(time.time() - start_time)
+    except:
+        print("SquaRectIdealre Fail")
+
+    try:
+        timeArray = []
+        start_time = time.time()
+        file_input_name = 'HexagonalIdeal.txt'
+        Run_File(file_input_name)
+        timeArray.append(int(time.time() - start_time)
+    except:
+        print("HexagonalIdeal Fail")
+
+    try:
+        timeArray = []
+        start_time = time.time()
+        file_input_name = 'IsoscelesIdeal.txt'
+        Run_File(file_input_name)
+        timeArray.append(int(time.time() - start_time)
+    except:
+        print("IsoscelesIdeal Fail")
+
+    try:
+        timeArray = []
+        start_time = time.time()
+        file_input_name = 'QuincunxIdeal.txt'
+        Run_File(file_input_name)
+        timeArray.append(int(time.time() - start_time)
+    except:
+        print("QuincunxIdeal Fail")
+
+    try:
+        timeArray = []
+        start_time = time.time()
+        file_input_name = 'DoubleRowIdeal.txt'
+        Run_File(file_input_name)
+        timeArray.append(int(time.time() - start_time)
+    except:
+        print("DoubleRowIdeal Fail")
+
+    print("Time array")
+    primte(timeArray)
+    with open("performance.txt", 'w'):
+        f.write(timeArray)
+
+
+
+
 if __name__ == '__main__':
     
     print('The program has started.')   
@@ -257,7 +321,7 @@ if __name__ == '__main__':
         print()
         Run_File(file_input_name)
     elif file_input_name == '1':
-        RunTestCases()
+        IdealisedExp()
     elif file_input_name == '2':
         file_input_name = 'square_real.geojson'
         print("Using GeoJSON default")
