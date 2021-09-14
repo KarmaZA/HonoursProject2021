@@ -87,46 +87,57 @@ def Run_File(filename):
     isostri_score = 0
     quincunx_score = 0
     dblhdg_score = 0
-
+    temp_array = []
+    repeat_flag = False
     for x in range(source_image_number):
-        image_scale_array = [] 
-################################################# Generate Images ################################################################################
-        source_image = importData.loadImageFromFile('Images/MainImage' + str(x) + '.png', 0)
-        source_image = TemplateMatch.cleanTheGraph(source_image)        
-        image_scale_array = TemplateMatch.CalcScale(source_image)       
+        for rotation in Image_rotation_array: # Testing each template at each possible rotation
+            image_scale_array = [0] 
+    ################################################# Generate Images ################################################################################
+            source_image = importData.loadImageFromFile('Images/MainImage' + str(x) + '.png', 0)
+            source_image = TemplateMatch.cleanTheGraph(source_image)        
+            temp_array = TemplateMatch.CalcScale(source_image)   
+            count_check = 0
+            #Efficiency speedup for idealised
 
-        print("The Source Image has been generated")
-        print()
-        double_rectangle_count = genImages.genAllTemplate(image_scale_array)
-        image_count = len(image_scale_array)
+            for k in range(len(temp_array)):
+                if temp_array[k] in image_scale_array:
+                    count_check += 1
+            if count_check > int(0.7*len(image_scale_array)):
+                print("Success")
+                repeat_flag = True
+            else:
+                repeat_flag = False
+            if not repeat_flag:
+                image_scale_array = temp_array
+                double_rectangle_count = genImages.genAllTemplate(image_scale_array)
+                print("The Source Image has been generated")
+                print()
+                
+                image_count = len(image_scale_array)
 
-################################################# Load Images into array at different scales #####################################################
- 
-        template_image_square_list = importData.loadImageFromFile('TemplateSquare', image_count)
-        template_image_rectangle_list = importData.loadImageFromFile('TemplateRectangle', double_rectangle_count)
-        template_image_isosceles_triangle_list = importData.loadImageFromFile('TemplateTriangle', image_count)
-        template_image_quincunx_list = importData.loadImageFromFile('TemplateQuincunx', image_count)
-        template_image_equilateral_triangle_list = importData.loadImageFromFile('TemplateEquilateralTriangle', image_count)
-        template_image_double_hedgerow_list = importData.loadImageFromFile('TemplateDoubleHedge', double_rectangle_count)
-        print("Source image and Templates loaded")
-        print()
-    
+        ################################################# Load Images into array at different scales #####################################################
+        
+                template_image_square_list = importData.loadImageFromFile('TemplateSquare', image_count)
+                template_image_rectangle_list = importData.loadImageFromFile('TemplateRectangle', double_rectangle_count)
+                template_image_isosceles_triangle_list = importData.loadImageFromFile('TemplateTriangle', image_count)
+                template_image_quincunx_list = importData.loadImageFromFile('TemplateQuincunx', image_count)
+                template_image_equilateral_triangle_list = importData.loadImageFromFile('TemplateEquilateralTriangle', image_count)
+                template_image_double_hedgerow_list = importData.loadImageFromFile('TemplateDoubleHedge', double_rectangle_count)
+                print("Source image and Templates loaded")
+                print()
+        
 ################################################ Template Matching ################################################################################
         
-        for rotation in Image_rotation_array: # Testing each template at each possible rotation
-            # cv2.imshow("test", source_image)
-            # cv2.waitKey(0)
-            # source_image = imutils.rotate(source_image, angle=rotation)
-            # cv2.imshow("test", source_image)
-            # cv2.waitKey(0)
+        # for rotation in Image_rotation_array: # Testing each template at each possible rotation
             source_image = imutils.rotate(source_image, angle=rotation)
             evaluation_array = []
             print()
             print('Testing templates at a rotation of ' + str(rotation))
 
-            for x in range(len(template_image_square_list)):
-                count = TemplateMatch.templateMatching_correlation(source_image, template_image_square_list[x])
-                square_score = EvaluateData.scoreMatches(count, square_score)
+            if rotation < 90:
+                for x in range(len(template_image_square_list)):
+                    count = TemplateMatch.templateMatching_correlation(source_image, template_image_square_list[x])
+                    square_score = EvaluateData.scoreMatches(count, square_score)
 
             for x in range(len(template_image_rectangle_list)):
                 count = TemplateMatch.templateMatching_correlation(source_image, template_image_rectangle_list[x])
@@ -154,6 +165,7 @@ def Run_File(filename):
 
 #####Evaluation methods
     pattern_out_array = [square_score, rectangle_score, isostri_score, equitri_score, quincunx_score, dblhdg_score]
+    print(pattern_out_array)
     pattern_out = EvaluateData.Evaluate(pattern_out_array)
     Data_out.setPatterns(pattern_out)
 #####
