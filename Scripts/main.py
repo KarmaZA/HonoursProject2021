@@ -17,7 +17,7 @@ Image_scale_array = []
 
 def Run_File(filename):
 ################################################# Step 1 ###################################################################################
-    ############################################ Import Data ###################################################################################
+############################################ Import Data ###################################################################################
     if filename.find('.txt') != -1:
         print('Running for for idealised data')
         PointSet = importData.importIdealisedData(filename)
@@ -35,16 +35,14 @@ def Run_File(filename):
         exit()
     print("Data loaded")
  
-    ###################################################### Functions to calc parameters and TM stuff #############################################
+###################################################### Functions to calc parameters and TM problem values #############################################
     dataset = KDTree(PointSet)
-    #Returns number of images to perform template matching on   
     source_image_number = DataCalculations.GenerateSubImages(PointSet)
-    # print(source_image_number)
     print("Sub images generated")
-    #Normalise rows into lines
+
     PointSet, average_angle, tree_per_row = DataCalculations.normaliseData(PointSet, dataset)
-    print("Rotation has been detected")
-    
+    print("Rotation has been detected") 
+
     angle_to_out = DataCalculations.calcWeightedAverageAngle(average_angle)
     print("Calculated average angle:")
     print(angle_to_out)
@@ -54,9 +52,8 @@ def Run_File(filename):
 
     TreeCoords = ParameterCalculations.CornerTreeCoords(PointSet)
     scale_intra_row = ParameterCalculations.calcScaleIntra(PointSet, dataset)
-    ####################################################### Send extracted parameters to output object ###########################################
+####################################################### Send extracted parameters to output object ###########################################
     Data_out = DataOutput.DataOut()
-    
     #Intra-row spacing
     Data_out.setIntra(scale_intra_row)
     # Row Rotation
@@ -109,7 +106,6 @@ def Run_File(filename):
             evaluation_array = []
             print()
             print()
-            print("Correlation threshold set to: " + str(round(correlation_threshold,2)))
             print('Testing templates at a rotation of ' + str(rotation))
 
             for x in range(len(template_image_square_list)):
@@ -140,7 +136,7 @@ def Run_File(filename):
             for x in range(len(template_image_double_hedgerow_list)):
                 count = TemplateMatch.templateMatching_correlation(source_image, template_image_double_hedgerow_list[x])
                 evaluation_array.append(count)
-                # Evaluate double
+            # Evaluate double
         
 ##################################################### Step 3 ###################################################################################
 
@@ -151,6 +147,8 @@ def Run_File(filename):
     # Data_out.setPatterns(pattern_out_array)
 #####
     outFileName = filename.split('.')[0]
+    if outFileName.find('/') > -1:
+        outFileName = outFileName.split('/')[-1]
     Data_out.writeDataToFile(outFileName)
 
 #################################################### Memory Clean Up ##########################################################################

@@ -29,11 +29,10 @@ def GenerateSubImages(PointSet):
             set_to_return= []    
             # Set boundaries for edges of sub image
             x_max = x_min + delta_x             
-            # print(x_min, y_min, x_max, y_max)
             for point in PointSet:
-                if ((point.x > x_min) and (point.x < x_max)) and ((point.y > y_min) and (point.y < y_max)):
+                if ((point.x >= x_min) and (point.x <= x_max)) and ((point.y >= y_min) and (point.y <= y_max)):
                     set_to_return.append(Point(point.x, point.y))
-            # print(len(set_to_return))
+            print(len(set_to_return))
             if (len(set_to_return) > 99):
                     
                 xs = [point.x for point in set_to_return]
@@ -44,10 +43,8 @@ def GenerateSubImages(PointSet):
                 plt.savefig('Images/MainImage' + str(count) + '.png')
                 plt.clf()
                 count +=1 
-            
             #Update the boundaries of the sub - image
-            x_min = x_max            
-            
+            x_min = x_max                     
         y_min = y_max
         x_min -= (delta_x*max_image_number)
     return count
@@ -186,7 +183,6 @@ def calcLineRotation(origin_point, endpoint):
         
         
 def AnglesInRange(Angle1, Angle2, threshold):
-    # print(abs(Angle1-Angle2))
     if abs(Angle1-Angle2) <= threshold:
         return True
     else:

@@ -34,6 +34,7 @@ def CornerTreeCoords(PointSet):
 
 def countRowNumbers(PointSet, angle, dataset):
     row_count = 0
+    max_row_count = 0
     inter_spacing = 0
     spacing_list = []
     point_list = []
@@ -42,89 +43,57 @@ def countRowNumbers(PointSet, angle, dataset):
     print(angle, angle_perp_1, angle_perp_2)
     nearest_dist, nearest_ind = dataset.query(PointSet, k=8)
 
-    # spacing_list
-    row_count += 1
+    for z in range(10):
+        row_count = 0
+        spacing_list = []
+        point_list = []
 
-    count_rows = True
-    point_list.append(random.randint(0, len(PointSet)))
-    while count_rows:
-        count_rows = False
-        for x in range(8):
-            if not (nearest_ind[point_list[-1]][x] in  point_list):
-                angle_check = DataCalculations.calcLineRotation(PointSet[nearest_ind[point_list[-1]][0]],PointSet[nearest_ind[point_list[-1]][x]])
-                if DataCalculations.AnglesInRange(angle_perp_1, angle_check, 23):
-                    row_count += 1
-                    point_list.append(nearest_ind[point_list[-1]][x])
-                    spacing_list.append(nearest_dist[point_list[-1]][x])
-                    count_rows = True
-                    break
-    # print(row_count)
+        # spacing_list
+        row_count += 1
 
-    # row_list = []
-    # for val in point_list:
-    #     row_list.append(PointSet[val])
-    # xs = [point.x for point in PointSet]
-    # ys = [point.y for point in PointSet]
-    # plt.scatter(xs,ys, color = 'black')
-    # x1s = [point.x for point in row_list]
-    # y1s = [point.y for point in row_list]
-    # # colors = cm.rainbow(np.linspace(0, 1, len(y1s)))
-    # # for x, y, c in zip(x1s, y1s, colors):
-    # #     plt.scatter(x, y, color=c)
-    # plt.scatter(x1s,y1s, color = 'red')
-    # plt.show()
+        count_rows = True
+        point_list.append(random.randint(0, len(PointSet)-1))
+        while count_rows:
+            count_rows = False
+            for x in range(8):
+                if not (nearest_ind[point_list[-1]][x] in  point_list):
+                    angle_check = DataCalculations.calcLineRotation(PointSet[nearest_ind[point_list[-1]][0]],PointSet[nearest_ind[point_list[-1]][x]])
+                    if DataCalculations.AnglesInRange(angle_perp_1, angle_check, 23):
+                        row_count += 1
+                        point_list.append(nearest_ind[point_list[-1]][x])
+                        spacing_list.append(nearest_dist[point_list[-1]][x])
+                        count_rows = True
+                        break
 
-    # Count rows in opposite direction
-    count_rows = True
-    while count_rows:
-        count_rows = False
-        for x in range(8):
-            # print("here")
-            # print(angle_check, angle_perp_2)
-            if not (nearest_ind[point_list[0]][x] in  point_list):
-                angle_check = DataCalculations.calcLineRotation(PointSet[nearest_ind[point_list[0]][0]],PointSet[nearest_ind[point_list[0]][x]])
-                if DataCalculations.AnglesInRange(angle_perp_2, angle_check, 23):
-                    row_count += 1
-                    point_list.insert(0, nearest_ind[point_list[0]][x])
-                    spacing_list.append(nearest_dist[point_list[0]][x])
-                    count_rows = True
-                    # print("here")
-                    break
-
-    # print(row_count)
-    # row_list = []
-    # for val in point_list:
-    #     row_list.append(PointSet[val])
-    # xs = [point.x for point in PointSet]
-    # ys = [point.y for point in PointSet]
-    # plt.scatter(xs,ys, color = 'black')
-    # x1s = [point.x for point in row_list]
-    # y1s = [point.y for point in row_list]
-    # # colors = cm.rainbow(np.linspace(0, 1, len(y1s)))
-    # # for x, y, c in zip(x1s, y1s, colors):
-    # #     plt.scatter(x, y, color=c)
-    # plt.scatter(x1s,y1s, color = 'red')
-    # plt.show()
-
-    for spac in spacing_list:
-        inter_spacing += spac
-
-    inter_spacing /= len(spacing_list)
-
-    #If spacing is an outlier it's probably a road or ditch
-    road_Thresh = int(2*inter_spacing)
-    road_count = 0
-    for spac in spacing_list:
-        if spac > road_Thresh:
-            road_count +=1 
-    
+        # Count rows in opposite direction
+        count_rows = True
+        while count_rows:
+            count_rows = False
+            for x in range(8):
+                # print("here")
+                # print(angle_check, angle_perp_2)
+                if not (nearest_ind[point_list[0]][x] in  point_list):
+                    angle_check = DataCalculations.calcLineRotation(PointSet[nearest_ind[point_list[0]][0]],PointSet[nearest_ind[point_list[0]][x]])
+                    if DataCalculations.AnglesInRange(angle_perp_2, angle_check, 23):
+                        row_count += 1
+                        point_list.insert(0, nearest_ind[point_list[0]][x])
+                        spacing_list.append(nearest_dist[point_list[0]][x])
+                        count_rows = True
+                        break
+        if row_count > max_row_count:
+            # Reset road count because a road would be present in whole dataset
+            road_count = 0
+            for spac in spacing_list:
+                inter_spacing += spac
+            inter_spacing /= len(spacing_list)
+            #If spacing is an outlier it's probably a road or ditch
+            road_Thresh = int(2*inter_spacing)
+            road_count = 0
+            for spac in spacing_list:
+                if spac > road_Thresh:
+                    road_count +=1   
     return (row_count, inter_spacing, road_count)
 
-
-def meanRowCount(PointSet):
-    meanCount = 0
-    #THIS SHOULD PROBABLY BE DONE DURING DETECTION
-    return meanCount
 
 def calcScaleIntra(PointSet, dataset):
     nearest_dist, nearest_ind = dataset.query(PointSet, k=4)
@@ -143,6 +112,6 @@ def appAngleRange(angle):
         angle = abs(angle - 90)
     for x in range(8):
         testAngles[x] += angle
-    return angle
+    return testAngles
 
 
