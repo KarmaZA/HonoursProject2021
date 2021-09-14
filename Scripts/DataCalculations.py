@@ -63,9 +63,9 @@ def normaliseData(PointSet, dataset):
         point_list = []
         # If for values not in point line angle is not in range make false
         building_line = True
-        z = random.randint(0, len(PointSet))
+        z = random.randint(0, len(PointSet)-1)
         while z in sampled_points:
-            z = random.randint(0, len(PointSet))
+            z = random.randint(0, len(PointSet)-1)
             # print(z)
         row_list = []
         # Origin Point

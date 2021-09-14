@@ -37,8 +37,9 @@ def countRowNumbers(PointSet, angle, dataset):
     inter_spacing = 0
     spacing_list = []
     point_list = []
-    angle_perp_1 = (angle + 90) % 180
-    angle_perp_2 = (angle - 90) % 180
+    angle_perp_1 = (angle + 90)
+    angle_perp_2 = (angle - 90)
+    print(angle, angle_perp_1, angle_perp_2)
     nearest_dist, nearest_ind = dataset.query(PointSet, k=8)
 
     # spacing_list
@@ -57,20 +58,53 @@ def countRowNumbers(PointSet, angle, dataset):
                     spacing_list.append(nearest_dist[point_list[-1]][x])
                     count_rows = True
                     break
-    print("1")
+    # print(row_count)
+
+    # row_list = []
+    # for val in point_list:
+    #     row_list.append(PointSet[val])
+    # xs = [point.x for point in PointSet]
+    # ys = [point.y for point in PointSet]
+    # plt.scatter(xs,ys, color = 'black')
+    # x1s = [point.x for point in row_list]
+    # y1s = [point.y for point in row_list]
+    # # colors = cm.rainbow(np.linspace(0, 1, len(y1s)))
+    # # for x, y, c in zip(x1s, y1s, colors):
+    # #     plt.scatter(x, y, color=c)
+    # plt.scatter(x1s,y1s, color = 'red')
+    # plt.show()
+
     # Count rows in opposite direction
+    count_rows = True
     while count_rows:
         count_rows = False
         for x in range(8):
+            # print("here")
+            # print(angle_check, angle_perp_2)
             if not (nearest_ind[point_list[0]][x] in  point_list):
                 angle_check = DataCalculations.calcLineRotation(PointSet[nearest_ind[point_list[0]][0]],PointSet[nearest_ind[point_list[0]][x]])
-                if DataCalculations.AnglesInRange(angle_perp_1, angle_check, 23):
+                if DataCalculations.AnglesInRange(angle_perp_2, angle_check, 23):
                     row_count += 1
                     point_list.insert(0, nearest_ind[point_list[0]][x])
                     spacing_list.append(nearest_dist[point_list[0]][x])
                     count_rows = True
+                    # print("here")
                     break
-    print("2")
+
+    # print(row_count)
+    # row_list = []
+    # for val in point_list:
+    #     row_list.append(PointSet[val])
+    # xs = [point.x for point in PointSet]
+    # ys = [point.y for point in PointSet]
+    # plt.scatter(xs,ys, color = 'black')
+    # x1s = [point.x for point in row_list]
+    # y1s = [point.y for point in row_list]
+    # # colors = cm.rainbow(np.linspace(0, 1, len(y1s)))
+    # # for x, y, c in zip(x1s, y1s, colors):
+    # #     plt.scatter(x, y, color=c)
+    # plt.scatter(x1s,y1s, color = 'red')
+    # plt.show()
 
     for spac in spacing_list:
         inter_spacing += spac

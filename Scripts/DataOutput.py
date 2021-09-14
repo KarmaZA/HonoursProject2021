@@ -56,14 +56,14 @@ class DataOut:
 
         # Write to the outputFile
         with open(str(filename) + '.txt', 'w') as f:
-            f.write("The intra-row spacing mean value is: " + str(self.intra_spacing))
-            f.write("The inter-row spacing mean value is: " + str(self.inter_spacing))
-            f.write("The Tree count detected is: " + str(self.tree_count))
-            f.write("The number of rows detected is: " + str(self.row_count))
-            f.write("The mean value per row is: " + str(self.avg_tree_row))
-            f.write("There were " + str(self.road_count) + ' road(s) or distches detected')
+            f.write("The intra-row spacing mean value is: " + str(self.intra_spacing) + '\n')
+            f.write("The inter-row spacing mean value is: " + str(self.inter_spacing) + '\n')
+            f.write("The Tree count detected is: " + str(self.tree_count) + '\n')
+            f.write("The number of rows detected is: " + str(self.row_count) + '\n')
+            f.write("The mean value per row is: " + str(self.avg_tree_row) + '\n')
+            f.write("There were " + str(self.road_count) + ' road(s) or distches detected\n')
             for point in self.corner_tree_coords:
-                f.write("A corner coordinate is: " + str(point.x) + " , " + str(point.y))
+                f.write("A corner coordinate is: " + str(point.x) + " , " + str(point.y) + '\n')
             # f.write("The detected patterns are " + self.patterns_list)
 
         print("Data written to " + str(filename) + ".txt")

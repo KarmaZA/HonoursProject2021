@@ -33,13 +33,7 @@ def Run_File(filename):
     else: 
         exit()
     print("Data loaded")
-    # # Graphing test
-    # import matplotlib.pyplot as plt
-    # xs = [point.x for point in PointSet]
-    # ys = [point.y for point in PointSet]
-    # plt.gca().set_aspect('equal')
-    # plt.scatter(xs,ys, color = 'black')
-    # plt.show()
+ 
     ###################################################### Functions to calc parameters and TM stuff #############################################
     dataset = KDTree(PointSet)
     #Returns number of images to perform template matching on   
@@ -80,6 +74,7 @@ def Run_File(filename):
     Data_out.setCorner(TreeCoords)
     print("Finished parameter extraction")
 ################################################# Step 2 #########################################################################################
+    double_rectangle_count = 0
     for x in range(source_image_number):
         image_scale_array = [] 
 ################################################# Generate Images ################################################################################
@@ -105,46 +100,44 @@ def Run_File(filename):
     
 ################################################ Template Matching ################################################################################
         
-        # for rotation in Image_rotation_array: # Testing each template at each possible rotation
-        #     correlation_threshold = 0.6
-        #     evaluation_array = []
-        #     while correlation_threshold < 1:
-        #         print()
-        #         print()
-        #         print("Correlation threshold set to: " + str(round(correlation_threshold,2)))
-        #         print('Testing templates at a rotation of ' + str(rotation))
+        for rotation in Image_rotation_array: # Testing each template at each possible rotation
+            correlation_threshold = 0.6
+            evaluation_array = []
+            while correlation_threshold < 1:
+                print()
+                print()
+                print("Correlation threshold set to: " + str(round(correlation_threshold,2)))
+                print('Testing templates at a rotation of ' + str(rotation))
 
-        #         for x in range(len(template_image_square_list)):
-        #             count = TemplateMatch.templateMatching_correlation(source_image, template_image_square_list[x], correlation_threshold)
-        #             if count > (0.5 * image_point_count):
-        #                 evaluation_array.append([count, numpy.round(correlation_threshold,1), x, 'Square'])
+                for x in range(len(template_image_square_list)):
+                    count = TemplateMatch.templateMatching_correlation(source_image, template_image_square_list[x])
+                    evaluation_array.append(count)
+                # Evaluate Square
                     
-        #         for x in range(len(template_image_rectangle_list)):
-        #             count = TemplateMatch.templateMatching_correlation(source_image, template_image_rectangle_list[x], correlation_threshold)
-        #             if count > (0.5 * image_point_count):
-        #                 evaluation_array.append([count, numpy.round(correlation_threshold,1), int(numpy.round(x/len(Image_scale_array))), 'Rectangle'])
-                    
-        #         for x in range(len(template_image_isosceles_triangle_list)):
-        #             count = TemplateMatch.templateMatching_correlation(source_image, template_image_isosceles_triangle_list[x], correlation_threshold)
-        #             if count > (0.5 * image_point_count):
-        #                 evaluation_array.append([count, numpy.round(correlation_threshold,1), x, 'Isosceles Triangle'])
-                
-        #         for x in range(len(template_image_quincunx_list)):
-        #             count = TemplateMatch.templateMatching_correlation(source_image, template_image_quincunx_list[x], correlation_threshold)
-        #             if count > (0.5 * image_point_count):
-        #                 evaluation_array.append([count, numpy.round(correlation_threshold,1), x, 'Quincunx'])
-                    
-        #         for x in range(len(template_image_equilateral_triangle_list)):
-        #             count = TemplateMatch.templateMatching_correlation(source_image, template_image_equilateral_triangle_list[x], correlation_threshold)
-        #             if count > (0.5 * image_point_count):
-        #                 evaluation_array.append([count, numpy.round(correlation_threshold,1), x, 'Equilateral Triangle'])
-                    
-        #         for x in range(len(template_image_double_hedgerow_list)):
-        #             count = TemplateMatch.templateMatching_correlation(source_image, template_image_double_hedgerow_list[x], correlation_threshold)
-        #             if count > (0.5 * image_point_count):
-        #                 evaluation_array.append([count, numpy.round(correlation_threshold,1), int(numpy.round(x/len(Image_scale_array))), 'Double HedgeRow'])
-                
-        #         correlation_threshold += 0.1
+                for x in range(len(template_image_rectangle_list)):
+                    count = TemplateMatch.templateMatching_correlation(source_image, template_image_rectangle_list[x])
+                    evaluation_array.append(count)
+                    # Evaluate  Rect
+
+                for x in range(len(template_image_isosceles_triangle_list)):
+                    count = TemplateMatch.templateMatching_correlation(source_image, template_image_isosceles_triangle_list[x])
+                    evaluation_array.append(count)
+                # Evaluate isos
+
+                for x in range(len(template_image_quincunx_list)):
+                    count = TemplateMatch.templateMatching_correlation(source_image, template_image_quincunx_list[x])
+                    evaluation_array.append(count)
+                # Evaluate quin
+
+                for x in range(len(template_image_equilateral_triangle_list)):
+                    count = TemplateMatch.templateMatching_correlation(source_image, template_image_equilateral_triangle_list[x])
+                    evaluation_array.append(count)
+                # Evaluate equi
+
+                for x in range(len(template_image_double_hedgerow_list)):
+                    count = TemplateMatch.templateMatching_correlation(source_image, template_image_double_hedgerow_list[x])
+                    evaluation_array.append(count)
+                # Evaluate double
         
 ##################################################### Step 3 ###################################################################################
 
