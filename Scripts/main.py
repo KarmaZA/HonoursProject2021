@@ -258,15 +258,28 @@ if __name__ == '__main__':
     xs = [point.x for point in PointSet]
     ys = [point.y for point in PointSet]
     plt.gca().set_aspect('equal')
+    plt.axis('off') 
     plt.scatter(xs,ys, color = 'black')
     plt.savefig('Images/MainImage0.png')
+
+    source_image = importData.loadImageFromFile('Images/MainImage0.png', 0) 
     
-    source_image = importData.loadImageFromFile('Images/MainImage0.png', 0)    
-    template_image_square_list = importData.loadImageFromFile('TemplateSquare', 2)
+
+################## Thresholding pixel values code ####################################
+    width, height = source_image.shape
+    for x in range(width):
+        for y in range(height):
+            if source_image[x][y] > 0:
+                source_image[x][y] = 255
+    # genImages.genAllTemplate(array_len)
+    import imageio
+    imageio.imsave("Images/MainImage0.png", source_image)
+########################################################################
 
     array_len = TemplateMatch.CalcScale(source_image)
-    genImages.genAllTemplate(array_len)
-
+    print(array_len)
+    genImages.genSquareTemplate(array_len)
+    template_image_square_list = importData.loadImageFromFile('TemplateSquare', 2)
     for x in range(2):
         count = TemplateMatch.templateMatching_correlation(source_image, template_image_square_list[x])
         print(count)
