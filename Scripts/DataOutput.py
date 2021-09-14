@@ -53,7 +53,7 @@ class DataOut:
         print("There were " + str(self.road_count) + ' road(s) or ditches detected')
         for point in self.corner_tree_coords:
             print("A corner coordinate is: " + str(point.x) + " , " + str(point.y))
-        print("The detected patterns are " + self.patterns)
+        print("The detected pattern(s) are " + self.patterns)
 
         # Write to the outputFile
         with open(str(filename) + '.txt', 'w') as f:
@@ -65,7 +65,7 @@ class DataOut:
             f.write("There were " + str(self.road_count) + ' road(s) or ditches detected\n')
             for point in self.corner_tree_coords:
                 f.write("A corner coordinate is: " + str(point.x) + " , " + str(point.y) + '\n')
-            f.write("The detected patterns are " + self.patterns)
+            f.write("The detected pattern(s) are " + self.patterns)
 
         print("Data written to " + str(filename) + ".txt")
 

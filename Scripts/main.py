@@ -3,6 +3,8 @@
 
 import os
 import time
+import cv2
+import imutils
 from sklearn.neighbors import KDTree
 
 import TemplateMatch
@@ -112,6 +114,12 @@ def Run_File(filename):
 ################################################ Template Matching ################################################################################
         
         for rotation in Image_rotation_array: # Testing each template at each possible rotation
+            # cv2.imshow("test", source_image)
+            # cv2.waitKey(0)
+            # source_image = imutils.rotate(source_image, angle=rotation)
+            # cv2.imshow("test", source_image)
+            # cv2.waitKey(0)
+            source_image = imutils.rotate(source_image, angle=rotation)
             evaluation_array = []
             print()
             print('Testing templates at a rotation of ' + str(rotation))
