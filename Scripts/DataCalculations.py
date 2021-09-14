@@ -34,7 +34,7 @@ def GenerateSubImages(PointSet):
                 if ((point.x > x_min) and (point.x < x_max)) and ((point.y > y_min) and (point.y < y_max)):
                     set_to_return.append(Point(point.x, point.y))
             # print(len(set_to_return))
-            if (len(set_to_return) > 100):
+            if (len(set_to_return) > 99):
                     
                 xs = [point.x for point in set_to_return]
                 ys = [point.y for point in set_to_return]
@@ -119,7 +119,7 @@ def normaliseData(PointSet, dataset):
                     # if (nearest_ind[z][count] in point_list):
                     #     print("FAIL")
                     #Condition below super important for detections
-                    if (AnglesInRange(angle_origin, average_angle, 10)):# and (AnglesInRange(angle_list[-1], angle_instant, 30)):
+                    if (AnglesInRange(angle_origin, average_angle, 10)) and (AnglesInRange(angle_list[-1], angle_instant, 30)):
                         point_list.insert(0,nearest_ind[z][count])
                         angle_list_inverse.append(angle_instant)
                         building_line = True

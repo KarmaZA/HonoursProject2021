@@ -2,6 +2,7 @@
 # Import my classes
 
 import os
+import time
 from sklearn.neighbors import KDTree
 
 import TemplateMatch
@@ -75,6 +76,10 @@ def Run_File(filename):
     print("Finished parameter extraction")
 ################################################# Step 2 #########################################################################################
     double_rectangle_count = 0
+    Image_rotation_array = []
+    Image_rotation_array = ParameterCalculations.appAngleRange(int(angle_to_out))
+    print("Angle Array")
+    print(Image_rotation_array)
     for x in range(source_image_number):
         image_scale_array = [] 
 ################################################# Generate Images ################################################################################
@@ -101,42 +106,40 @@ def Run_File(filename):
 ################################################ Template Matching ################################################################################
         
         for rotation in Image_rotation_array: # Testing each template at each possible rotation
-            correlation_threshold = 0.6
             evaluation_array = []
-            while correlation_threshold < 1:
-                print()
-                print()
-                print("Correlation threshold set to: " + str(round(correlation_threshold,2)))
-                print('Testing templates at a rotation of ' + str(rotation))
+            print()
+            print()
+            print("Correlation threshold set to: " + str(round(correlation_threshold,2)))
+            print('Testing templates at a rotation of ' + str(rotation))
 
-                for x in range(len(template_image_square_list)):
-                    count = TemplateMatch.templateMatching_correlation(source_image, template_image_square_list[x])
-                    evaluation_array.append(count)
-                # Evaluate Square
-                    
-                for x in range(len(template_image_rectangle_list)):
-                    count = TemplateMatch.templateMatching_correlation(source_image, template_image_rectangle_list[x])
-                    evaluation_array.append(count)
-                    # Evaluate  Rect
+            for x in range(len(template_image_square_list)):
+                count = TemplateMatch.templateMatching_correlation(source_image, template_image_square_list[x])
+                evaluation_array.append(count)
+            # Evaluate Square
+            print(count)
+            for x in range(len(template_image_rectangle_list)):
+                count = TemplateMatch.templateMatching_correlation(source_image, template_image_rectangle_list[x])
+                evaluation_array.append(count)
+                # Evaluate  Rect
 
-                for x in range(len(template_image_isosceles_triangle_list)):
-                    count = TemplateMatch.templateMatching_correlation(source_image, template_image_isosceles_triangle_list[x])
-                    evaluation_array.append(count)
-                # Evaluate isos
+            for x in range(len(template_image_isosceles_triangle_list)):
+                count = TemplateMatch.templateMatching_correlation(source_image, template_image_isosceles_triangle_list[x])
+                evaluation_array.append(count)
+            # Evaluate isos
 
-                for x in range(len(template_image_quincunx_list)):
-                    count = TemplateMatch.templateMatching_correlation(source_image, template_image_quincunx_list[x])
-                    evaluation_array.append(count)
-                # Evaluate quin
+            for x in range(len(template_image_quincunx_list)):
+                count = TemplateMatch.templateMatching_correlation(source_image, template_image_quincunx_list[x])
+                evaluation_array.append(count)
+            # Evaluate quin
 
-                for x in range(len(template_image_equilateral_triangle_list)):
-                    count = TemplateMatch.templateMatching_correlation(source_image, template_image_equilateral_triangle_list[x])
-                    evaluation_array.append(count)
-                # Evaluate equi
+            for x in range(len(template_image_equilateral_triangle_list)):
+                count = TemplateMatch.templateMatching_correlation(source_image, template_image_equilateral_triangle_list[x])
+                evaluation_array.append(count)
+            # Evaluate equi
 
-                for x in range(len(template_image_double_hedgerow_list)):
-                    count = TemplateMatch.templateMatching_correlation(source_image, template_image_double_hedgerow_list[x])
-                    evaluation_array.append(count)
+            for x in range(len(template_image_double_hedgerow_list)):
+                count = TemplateMatch.templateMatching_correlation(source_image, template_image_double_hedgerow_list[x])
+                evaluation_array.append(count)
                 # Evaluate double
         
 ##################################################### Step 3 ###################################################################################
@@ -181,7 +184,6 @@ def RunTestCases():
     print()
     print()
     print("Run for Rectangle?")
-    # waitforbuttonpress()
     print("Running for rectangle")
     file_input_name = 'TestIdealData/RectIdeal3.txt'
     Run_File(file_input_name)
@@ -189,7 +191,6 @@ def RunTestCases():
     print()
     
     print("Run for Triangle?")
-    # waitforbuttonpress()
     print("Running for Triangle")
     file_input_name = 'TestIdealData/TriIdeal3.txt'
     Run_File(file_input_name)
@@ -197,7 +198,6 @@ def RunTestCases():
     print()
     print()
     print("Run for Quincunx?")
-    # waitforbuttonpress()
     print("Running for Quincunx")
     file_input_name = 'TestIdealData/QuincunxIdeal3.txt'
     Run_File(file_input_name)
@@ -205,7 +205,6 @@ def RunTestCases():
     print()
     
     print("Run for DoubleHedge?")
-    # waitforbuttonpress()
     print("Running for DoubleHedge")
     file_input_name = 'TestIdealData/DoubleHedgeIdeal3.txt'
     Run_File(file_input_name)
@@ -213,7 +212,6 @@ def RunTestCases():
     print()
     print()
     print("Run for Rectangle?")
-    # waitforbuttonpress()
     print("Running for rectangle")
     file_input_name = 'TestIdealData/RectNoise24.txt'
     Run_File(file_input_name)
@@ -221,7 +219,6 @@ def RunTestCases():
     print()
     
     print("Run for Triangle?")
-    # waitforbuttonpress()
     print("Running for Triangle")
     file_input_name = 'TestIdealData/TriNoise3.txt'
     Run_File(file_input_name)
@@ -229,7 +226,6 @@ def RunTestCases():
     print()
     print()
     print("Run for Quincunx?")
-    # waitforbuttonpress()
     print("Running for Quincunx")
     file_input_name = 'TestIdealData/QuincunxNoise3.txt'
     Run_File(file_input_name)
@@ -237,47 +233,15 @@ def RunTestCases():
     print()
     
     print("Run for DoubleHedge?")
-    # waitforbuttonpress()
     print("Running for DoubleHedge")
     file_input_name = 'TestIdealData/DoubleHedgeNoise3.txt'
     Run_File(file_input_name)
 
-
 if __name__ == '__main__':
     
-#     file_input_name = 'TestIdealData/SquareIdeal3.txt'
-#     # # Graphing test
-#     PointSet = importData.importIdealisedData(file_input_name)
-#     import matplotlib.pyplot as plt
-#     xs = [point.x for point in PointSet]
-#     ys = [point.y for point in PointSet]
-#     plt.gca().set_aspect('equal')
-#     plt.axis('off') 
-#     plt.scatter(xs,ys, color = 'black')
-#     plt.savefig('Images/MainImage0.png')
-
-#     source_image = importData.loadImageFromFile('Images/MainImage0.png', 0) 
-    
-
-# ################## Thresholding pixel values code ####################################
-#     width, height = source_image.shape
-#     for x in range(width):
-#         for y in range(height):
-#             if source_image[x][y] > 0:
-#                 source_image[x][y] = 255
-#     # genImages.genAllTemplate(array_len)
-#     import imageio
-#     imageio.imsave("Images/MainImage0.png", source_image)
-# ########################################################################
-
-#     array_len = TemplateMatch.CalcScale(source_image)
-#     print(array_len)
-#     genImages.genAllTemplate(array_len)
-#     template_image_square_list = importData.loadImageFromFile('TemplateSquare', 1)
-#     count = TemplateMatch.templateMatching_correlation(source_image, template_image_square_list[0])
-
     print('The program has started.')   
     file_input_name = input("What is the image name(0 for default)?\n")
+    start_time = time.time()
     if file_input_name == '0':
         file_input_name = 'TestIdealData/SquareIdeal3.txt'
         print("Using default")
@@ -292,3 +256,4 @@ if __name__ == '__main__':
         Run_File(file_input_name)
     else:
         Run_File(file_input_name)
+    print("--- %s seconds ---" % (time.time() - start_time))

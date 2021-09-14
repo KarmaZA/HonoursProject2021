@@ -136,4 +136,13 @@ def calcScaleIntra(PointSet, dataset):
     # print("Average scale: " + str(scale_intra))
     return scale_intra
 
+def appAngleRange(angle):
+    testAngles = [0,23,45,67,90,112,135,167]
+    angle = angle % 90
+    if angle > 45:
+        angle = abs(angle - 90)
+    for x in range(8):
+        testAngles[x] += angle
+    return angle
+
 
