@@ -87,8 +87,6 @@ def Run_File(filename):
     isostri_score = 0
     quincunx_score = 0
     dblhdg_score = 0
-    temp_array = []
-    repeat_flag = False
     for x in range(source_image_number):
         for rotation in Image_rotation_array: # Testing each template at each possible rotation
             image_scale_array = [0] 
@@ -97,34 +95,24 @@ def Run_File(filename):
             source_image = TemplateMatch.cleanTheGraph(source_image)        
             temp_array = TemplateMatch.CalcScale(source_image)   
             count_check = 0
-            #Efficiency speedup for idealised
 
-            for k in range(len(temp_array)):
-                if temp_array[k] in image_scale_array:
-                    count_check += 1
-            if count_check > int(0.7*len(image_scale_array)):
-                print("Success")
-                repeat_flag = True
-            else:
-                repeat_flag = False
-            if not repeat_flag:
-                image_scale_array = temp_array
-                double_rectangle_count = genImages.genAllTemplate(image_scale_array)
-                print("The Source Image has been generated")
-                print()
-                
-                image_count = len(image_scale_array)
+            image_scale_array = temp_array
+            double_rectangle_count = genImages.genAllTemplate(image_scale_array)
+            print("The Source Image has been generated")
+            print()
+            
+            image_count = len(image_scale_array)
 
-        ################################################# Load Images into array at different scales #####################################################
-        
-                template_image_square_list = importData.loadImageFromFile('TemplateSquare', image_count)
-                template_image_rectangle_list = importData.loadImageFromFile('TemplateRectangle', double_rectangle_count)
-                template_image_isosceles_triangle_list = importData.loadImageFromFile('TemplateTriangle', image_count)
-                template_image_quincunx_list = importData.loadImageFromFile('TemplateQuincunx', image_count)
-                template_image_equilateral_triangle_list = importData.loadImageFromFile('TemplateEquilateralTriangle', image_count)
-                template_image_double_hedgerow_list = importData.loadImageFromFile('TemplateDoubleHedge', double_rectangle_count)
-                print("Source image and Templates loaded")
-                print()
+    ################################################# Load Images into array at different scales #####################################################
+    
+            template_image_square_list = importData.loadImageFromFile('TemplateSquare', image_count)
+            template_image_rectangle_list = importData.loadImageFromFile('TemplateRectangle', double_rectangle_count)
+            template_image_isosceles_triangle_list = importData.loadImageFromFile('TemplateTriangle', image_count)
+            template_image_quincunx_list = importData.loadImageFromFile('TemplateQuincunx', image_count)
+            template_image_equilateral_triangle_list = importData.loadImageFromFile('TemplateEquilateralTriangle', image_count)
+            template_image_double_hedgerow_list = importData.loadImageFromFile('TemplateDoubleHedge', double_rectangle_count)
+            print("Source image and Templates loaded")
+            print()
         
 ################################################ Template Matching ################################################################################
         
