@@ -27,6 +27,15 @@ def templateMatching_correlation(source_image, template_image):
         threshold -= 0.1
     return correlation_array
 
+
+def cleanTheGraph(source_image):
+    width, height = source_image.shape
+    for x in range(width):
+        for y in range(height):
+            if source_image[x][y] > 0:
+                source_image[x][y] = 255
+    return source_image
+
 #Calc Scale will return an array of mean distances. These could number from 1 to several
 def CalcScale(image):
     min_pixel_value = 0

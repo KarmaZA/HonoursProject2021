@@ -83,7 +83,8 @@ def Run_File(filename):
     for x in range(source_image_number):
         image_scale_array = [] 
 ################################################# Generate Images ################################################################################
-        source_image = importData.loadImageFromFile('Images/MainImage' + str(x) + '.png', 0)        
+        source_image = importData.loadImageFromFile('Images/MainImage' + str(x) + '.png', 0)
+        source_image = TemplateMatch.cleanTheGraph(source_image)        
         image_scale_array = TemplateMatch.CalcScale(source_image)       
 
         print("The Source Image has been generated")
@@ -251,50 +252,50 @@ def RunTestCases():
 
 if __name__ == '__main__':
     
-    file_input_name = 'TestIdealData/SquareIdeal3.txt'
-    # # Graphing test
-    PointSet = importData.importIdealisedData(file_input_name)
-    import matplotlib.pyplot as plt
-    xs = [point.x for point in PointSet]
-    ys = [point.y for point in PointSet]
-    plt.gca().set_aspect('equal')
-    plt.axis('off') 
-    plt.scatter(xs,ys, color = 'black')
-    plt.savefig('Images/MainImage0.png')
+#     file_input_name = 'TestIdealData/SquareIdeal3.txt'
+#     # # Graphing test
+#     PointSet = importData.importIdealisedData(file_input_name)
+#     import matplotlib.pyplot as plt
+#     xs = [point.x for point in PointSet]
+#     ys = [point.y for point in PointSet]
+#     plt.gca().set_aspect('equal')
+#     plt.axis('off') 
+#     plt.scatter(xs,ys, color = 'black')
+#     plt.savefig('Images/MainImage0.png')
 
-    source_image = importData.loadImageFromFile('Images/MainImage0.png', 0) 
+#     source_image = importData.loadImageFromFile('Images/MainImage0.png', 0) 
     
 
-################## Thresholding pixel values code ####################################
-    width, height = source_image.shape
-    for x in range(width):
-        for y in range(height):
-            if source_image[x][y] > 0:
-                source_image[x][y] = 255
-    # genImages.genAllTemplate(array_len)
-    import imageio
-    imageio.imsave("Images/MainImage0.png", source_image)
-########################################################################
+# ################## Thresholding pixel values code ####################################
+#     width, height = source_image.shape
+#     for x in range(width):
+#         for y in range(height):
+#             if source_image[x][y] > 0:
+#                 source_image[x][y] = 255
+#     # genImages.genAllTemplate(array_len)
+#     import imageio
+#     imageio.imsave("Images/MainImage0.png", source_image)
+# ########################################################################
 
-    array_len = TemplateMatch.CalcScale(source_image)
-    print(array_len)
-    genImages.genAllTemplate(array_len)
-    template_image_square_list = importData.loadImageFromFile('TemplateSquare', 1)
-    count = TemplateMatch.templateMatching_correlation(source_image, template_image_square_list[0])
+#     array_len = TemplateMatch.CalcScale(source_image)
+#     print(array_len)
+#     genImages.genAllTemplate(array_len)
+#     template_image_square_list = importData.loadImageFromFile('TemplateSquare', 1)
+#     count = TemplateMatch.templateMatching_correlation(source_image, template_image_square_list[0])
 
-    # print('The program has started.')   
-    # file_input_name = input("What is the image name(0 for default)?\n")
-    # if file_input_name == '0':
-    #     file_input_name = 'TestIdealData/SquareIdeal3.txt'
-    #     print("Using default")
-    #     print()
-    #     Run_File(file_input_name)
-    # elif file_input_name == '1':
-    #     RunTestCases()
-    # elif file_input_name == '2':
-    #     file_input_name = 'square_real.geojson'
-    #     print("Using GeoJSON default")
-    #     print()
-    #     Run_File(file_input_name)
-    # else:
-    #     Run_File(file_input_name)
+    print('The program has started.')   
+    file_input_name = input("What is the image name(0 for default)?\n")
+    if file_input_name == '0':
+        file_input_name = 'TestIdealData/SquareIdeal3.txt'
+        print("Using default")
+        print()
+        Run_File(file_input_name)
+    elif file_input_name == '1':
+        RunTestCases()
+    elif file_input_name == '2':
+        file_input_name = 'square_real.geojson'
+        print("Using GeoJSON default")
+        print()
+        Run_File(file_input_name)
+    else:
+        Run_File(file_input_name)
