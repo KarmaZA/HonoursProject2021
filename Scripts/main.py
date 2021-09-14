@@ -11,6 +11,7 @@ import genImages
 import DataCalculations
 import DataOutput
 import ParameterCalculations
+import EvaluateData
 
 Image_scale_array = []
 
@@ -77,6 +78,14 @@ def Run_File(filename):
     Image_rotation_array = ParameterCalculations.appAngleRange(int(angle_to_out))
     print("Angle Array")
     print(Image_rotation_array)
+
+    square_score = 0
+    rectangle_score = 0
+    equitri_score = 0
+    isostri_score = 0
+    quincunx_score = 0
+    dblhdg_score = 0
+
     for x in range(source_image_number):
         image_scale_array = [] 
 ################################################# Generate Images ################################################################################
@@ -105,46 +114,40 @@ def Run_File(filename):
         for rotation in Image_rotation_array: # Testing each template at each possible rotation
             evaluation_array = []
             print()
-            print()
             print('Testing templates at a rotation of ' + str(rotation))
 
             for x in range(len(template_image_square_list)):
                 count = TemplateMatch.templateMatching_correlation(source_image, template_image_square_list[x])
-                evaluation_array.append(count)
-            # Evaluate Square
-            print(count)
+                square_score = EvaluateData.scoreMatches(count, square_score)
+
             for x in range(len(template_image_rectangle_list)):
                 count = TemplateMatch.templateMatching_correlation(source_image, template_image_rectangle_list[x])
-                evaluation_array.append(count)
-                # Evaluate  Rect
+                rectangle_score = EvaluateData.scoreMatches(count, rectangle_score)
 
             for x in range(len(template_image_isosceles_triangle_list)):
                 count = TemplateMatch.templateMatching_correlation(source_image, template_image_isosceles_triangle_list[x])
-                evaluation_array.append(count)
-            # Evaluate isos
+                isostri_score = EvaluateData.scoreMatches(count, isostri_score)
 
             for x in range(len(template_image_quincunx_list)):
                 count = TemplateMatch.templateMatching_correlation(source_image, template_image_quincunx_list[x])
-                evaluation_array.append(count)
-            # Evaluate quin
+                quincunx_score = EvaluateData.scoreMatches(count, quincunx_score)
 
             for x in range(len(template_image_equilateral_triangle_list)):
                 count = TemplateMatch.templateMatching_correlation(source_image, template_image_equilateral_triangle_list[x])
-                evaluation_array.append(count)
-            # Evaluate equi
+                equitri_score = EvaluateData.scoreMatches(count, equitri_score)
 
             for x in range(len(template_image_double_hedgerow_list)):
                 count = TemplateMatch.templateMatching_correlation(source_image, template_image_double_hedgerow_list[x])
-                evaluation_array.append(count)
-            # Evaluate double
+                dblhdg_score = EvaluateData.scoreMatches(count, dblhdg_score)
         
 ##################################################### Step 3 ###################################################################################
 
 #   Send data for evaluation
 
 #####Evaluation methods
-    # pattern_out_array = []
-    # Data_out.setPatterns(pattern_out_array)
+    pattern_out_array = [square_score, rectangle_score, isostri_score, equitri_score, quincunx_score, dblhdg_score]
+    pattern_out = EvaluateData.Evaluate(pattern_out_array)
+    Data_out.setPatterns(pattern_out)
 #####
     outFileName = filename.split('.')[0]
     if outFileName.find('/') > -1:

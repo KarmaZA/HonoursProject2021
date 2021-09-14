@@ -2,11 +2,10 @@
 
 from LinkedList import LinkedList, Node
 from sklearn.neighbors import KDTree
-
 from shapely.geometry import Point
+from math import atan2, degrees
 
 import matplotlib.pyplot as plt
-from math import atan2, degrees
 import random
 
 """Breaks up the pointset into a number of sub images that can be efficiently dealt with in the Template Matching step"""

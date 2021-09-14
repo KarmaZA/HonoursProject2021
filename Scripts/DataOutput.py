@@ -8,8 +8,9 @@ class DataOut:
     avg_tree_row = 0
     road_count = 0
     corner_tree_coords = []
-    planting_patterns = []
+    patterns = ''
     
+
     def __init__(self) -> None:
         pass
 
@@ -27,7 +28,7 @@ class DataOut:
         self.inter_spacing = inte
 
     def setPatterns(self, patterns_list):
-        self.planting_patterns = patterns_list
+        self.patterns = patterns_list
         
     def setCorner(self, CornerT):
         # min x, min y, max x, max y
@@ -49,10 +50,10 @@ class DataOut:
         print("The Tree count detected is: " + str(self.tree_count))
         print("The number of rows detected is: " + str(self.row_count))
         print("The mean value per row is: " + str(self.avg_tree_row))
-        print("There were " + str(self.road_count) + ' road(s) or distches detected')
+        print("There were " + str(self.road_count) + ' road(s) or ditches detected')
         for point in self.corner_tree_coords:
             print("A corner coordinate is: " + str(point.x) + " , " + str(point.y))
-        # print("The detected patterns are " + self.patterns_list)
+        print("The detected patterns are " + self.patterns)
 
         # Write to the outputFile
         with open(str(filename) + '.txt', 'w') as f:
@@ -61,10 +62,10 @@ class DataOut:
             f.write("The Tree count detected is: " + str(self.tree_count) + '\n')
             f.write("The number of rows detected is: " + str(self.row_count) + '\n')
             f.write("The mean value per row is: " + str(self.avg_tree_row) + '\n')
-            f.write("There were " + str(self.road_count) + ' road(s) or distches detected\n')
+            f.write("There were " + str(self.road_count) + ' road(s) or ditches detected\n')
             for point in self.corner_tree_coords:
                 f.write("A corner coordinate is: " + str(point.x) + " , " + str(point.y) + '\n')
-            # f.write("The detected patterns are " + self.patterns_list)
+            f.write("The detected patterns are " + self.patterns)
 
         print("Data written to " + str(filename) + ".txt")
 
