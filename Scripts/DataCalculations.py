@@ -18,16 +18,25 @@ def GenerateSubImages(PointSet):
         if point.x > x_max : x_max = point.x
         if point.y > y_max : y_max = point.y
 
-    max_image_number = int((len(PointSet)/500)+1)
-    # print(max_image_number)
+    length_test = len(PointSet)
+    if length_test < 1500:
+        max_image_number = 3
+    elif length_test < 2550:
+        max_image_number = 4
+    elif length_test < 3550:
+        max_image_number = 5
+    elif length_test < 4550:
+        max_image_number = 6
+    elif length_test < 5550:
+        max_image_number = 7
+    else:
+        max_image_number = 7 + int((len(PointSet - length_test))/1000)
+
     delta_x = (x_max-x_min)/max_image_number
     delta_y = (y_max-y_min)/max_image_number
     # print(delta_x,delta_y)
     test_set = []
-    # print("X")
-    # print(x_min, x_max)
-    # print("Y")
-    # print(y_min, y_max)
+
 
     for x in range (max_image_number):    
         y_max = y_min + delta_y 
@@ -38,7 +47,6 @@ def GenerateSubImages(PointSet):
             for point in PointSet:
                 if ((point.x >= x_min) and (point.x <= x_max)) and ((point.y >= y_min) and (point.y <= y_max)):
                     set_to_return.append(Point(point.x, point.y))
-            # print(len(set_to_return))
             if (len(set_to_return) > 99):          
                 xs = [point.x for point in set_to_return]
                 ys = [point.y for point in set_to_return]

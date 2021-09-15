@@ -46,7 +46,7 @@ def CalcScale(image):
     ## Vertical Search
     for x in range(width):
         pixel_array = []
-        for y in range(height):
+        for y in range(height-1):
             if image[x][y] == min_pixel_value:
                 # We are on a black pixel
                 if image[x][y+1] != min_pixel_value:
@@ -66,7 +66,7 @@ def CalcScale(image):
 ################### Horizontal search 
     
     image_scale_y = []
-    for y in range(height):
+    for y in range(height-1):
         pixel_array = []
         for x in range(width):
             if image[x][y] == min_pixel_value:

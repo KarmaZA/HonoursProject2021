@@ -92,32 +92,6 @@ def genQuincunxTemplate(length_array):
         count += 1
 
 
-"""Generates the Isosceles triangle template which is used to determine the Triangle planting pattern
-Not to be confused with equilateral triangle which is used for Hexagonal pattern
-All images are saved as TemplateTriangleX.png 
-where x is the position of the scale in the length array"""
-def genIsoscelesTriangleTemplate(length_array):
-    count = 0
-    for length in length_array:
-        template_size = (length) + 14
-        TemplateToGen = np.zeros(shape=[template_size,length+14], dtype=np.uint8)
-        TemplateToGen = SetBackground(TemplateToGen)
-        y = 5 + Template_Square[0][0] * length
-        x = 5 + Template_Square[0][1] * length
-        # print(y,x)
-        drawGuassianNoise(x, y, TemplateToGen)
-        # Point 2
-        y = 5 + Template_Square[1][0] * length
-        x = 5 + Template_Square[1][1] * length
-        drawGuassianNoise(x, y, TemplateToGen)
-        # Point 3
-        y = 5 + Template_Square[2][0] * length
-        x = 5 + int(0.5 * length)
-        drawGuassianNoise(x, y, TemplateToGen)
-        # drawGuassianNoise(x, y, TemplateToGen)
-        file_name = 'Images/TemplateTriangle' + str(count) + '.png'
-        imageio.imsave(file_name, TemplateToGen)
-        count += 1
         
 """Generates the Equilateral triangle template which is used to determine the Hexagonal pattern
 Not to be confused with Isosceles triangle which is used for Triangle planting pattern
@@ -139,6 +113,35 @@ def genEquilateralTriangleTemplate(length_array):
         file_name = 'Images/TemplateEquilateralTriangle' + str(count) + '.png'
         imageio.imsave(file_name, TemplateToGen)
         count += 1
+
+
+
+"""Generates the Isosceles triangle template which is used to determine the Triangle planting pattern
+Not to be confused with equilateral triangle which is used for Hexagonal pattern
+All images are saved as TemplateTriangleX.png 
+where x is the position of the scale in the length array"""
+#Template_Square = [[0,0],[0,1],[1,0],[1,1]]
+def genIsoscelesTriangleTemplate(length_array):
+    count = 0
+    for length in length_array:
+        template_size = (length) + 14
+        TemplateToGen = np.zeros(shape=[template_size,length+14], dtype=np.uint8)
+        TemplateToGen = SetBackground(TemplateToGen)
+        y = 5
+        x = 5
+        # print(y,x)
+        drawGuassianNoise(x, y, TemplateToGen)
+        # Point 2
+        y += length
+        drawGuassianNoise(x, y, TemplateToGen)
+        # Point 3
+        x += length
+        y -= int(0.5 * length)
+        drawGuassianNoise(x, y, TemplateToGen)
+        # drawGuassianNoise(x, y, TemplateToGen)
+        file_name = 'Images/TemplateTriangle' + str(count) + '.png'
+        imageio.imsave(file_name, TemplateToGen)
+        count += 1
         
 
 """Generates a Rectangle template for every combination of 2 lengths in the length array
@@ -158,8 +161,8 @@ def genRectangleTemplate(array_length):
     while width_count > 0:
         height_count = 0
         while height_count < width_count:
-            Height = array_length[height_count]
-            Width = array_length[width_count]
+            Width = array_length[height_count]
+            Height = array_length[width_count]
             # Gen the rectangle
             print('Generating Rectangle template with a Height of: ' + str(Height) + ' and a width of : ' + str(Width))
             TemplateToGen = np.zeros(shape=[(Height + 14),(Width + 14)], dtype=np.uint8)

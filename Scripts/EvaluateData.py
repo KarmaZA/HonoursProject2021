@@ -24,11 +24,12 @@ def Evaluate(Patterns_list):
     return patterns
 
 def scoreMatches(match_array, current_score):
-    modifier = 1000
+    modifier = 2000
     point_score = 0
     for x in range(6):
         point_score += match_array[x] * modifier
+        modifier *=0.5
     if point_score > current_score:
-        return point_score
+        return point_score, True
     else:
-        return current_score
+        return current_score, False
