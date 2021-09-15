@@ -37,6 +37,15 @@ def Run_File(filename):
     else: 
         exit()
     print("Data loaded")
+
+    # import matplotlib.pyplot as plt
+    # xs = [point.x for point in PointSet]
+    # ys = [point.y for point in PointSet]
+    # plt.gca().set_aspect('equal')
+    # plt.scatter(xs,ys, color = 'black')
+    # # plt.axis('off') # So the image only has points
+    # print(len(PointSet))
+    # plt.show()
  
 ###################################################### Functions to calc parameters and TM problem values #############################################
     dataset = KDTree(PointSet)
@@ -331,11 +340,11 @@ def IdealisedExp():
     # with open("performance.txt", 'w'):
     #     f.write(timeArray)
 
-
+                   
+             
 
 
 if __name__ == '__main__':
-    
     print('The program has started.')   
     file_input_name = input("What is the image name(0 for default)?\n")
     start_time = time.time()
@@ -347,7 +356,7 @@ if __name__ == '__main__':
     elif file_input_name == '1':
         IdealisedExp()
     elif file_input_name == '2':
-        file_input_name = 'square_real.geojson'
+        file_input_name = 'detections_raw.geojson'
         print("Using GeoJSON default")
         print()
         Run_File(file_input_name)

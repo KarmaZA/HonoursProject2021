@@ -98,15 +98,16 @@ def countRowNumbers(PointSet, angle, dataset):
         if row_count > max_row_count:
             # Reset road count because a road would be present in whole dataset
             road_count = 0
-            for spac in spacing_list:
-                inter_spacing += spac
-            inter_spacing /= len(spacing_list)
-            #If spacing is an outlier it's probably a road or ditch
-            road_Thresh = int(2*inter_spacing)
-            road_count = 0
-            for spac in spacing_list:
-                if spac > road_Thresh:
-                    road_count +=1   
+            if len(spacing_list) > 0:
+                for spac in spacing_list:
+                    inter_spacing += spac
+                inter_spacing /= len(spacing_list)
+                #If spacing is an outlier it's probably a road or ditch
+                road_Thresh = int(2*inter_spacing)
+                road_count = 0
+                for spac in spacing_list:
+                    if spac > road_Thresh:
+                        road_count +=1   
     return (row_count, inter_spacing, road_count)
 
 
