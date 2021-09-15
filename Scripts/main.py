@@ -5,6 +5,7 @@ import os
 import time
 import cv2
 import imutils
+
 from sklearn.neighbors import KDTree
 
 import TemplateMatch
@@ -22,7 +23,7 @@ def Run_File(filename):
 ################################################# Step 1 ###################################################################################
 ############################################ Import Data ###################################################################################
     if filename.find('.txt') != -1:
-        print('Running for for idealised data')
+        # print('Running for for idealised data')
         PointSet = importData.importIdealisedData(filename)
     elif filename.find('geo') != -1: # GeoJSON file
         somevar = ''
@@ -48,12 +49,12 @@ def Run_File(filename):
     # plt.show()
  
 ###################################################### Functions to calc parameters and TM problem values #############################################
-#     dataset = KDTree(PointSet)
-#     source_image_number = DataCalculations.GenerateSubImages(PointSet)
-#     print("Sub images generated")
+    dataset = KDTree(PointSet)
+    source_image_number = DataCalculations.GenerateSubImages(PointSet)
+    # print("Sub images generated")
 
-#     PointSet, average_angle, tree_per_row = DataCalculations.normaliseData(PointSet, dataset)
-#     print("Rotation has been detected") 
+    PointSet, average_angle, tree_per_row = DataCalculations.normaliseData(PointSet, dataset)
+    # print("Rotation has been detected") 
 
 #     angle_to_out = DataCalculations.calcWeightedAverageAngle(average_angle)
 #     print("Calculated average angle:")
@@ -82,13 +83,13 @@ def Run_File(filename):
 #     Data_out.setTreesPerRow(tree_per_row)
 #     # Coordinates of corner Tree
 #     Data_out.setCorner(TreeCoords)
-#     print("Finished parameter extraction")
+    print("Finished parameter extraction")
 # ################################################# Step 2 #########################################################################################
 #     double_rectangle_count = 0
 #     Image_rotation_array = []
 #     Image_rotation_array = ParameterCalculations.appAngleRange(int(angle_to_out))
-#     print("Angle Array")
-#     print(Image_rotation_array)
+# #     print("Angle Array")
+# #     print(Image_rotation_array)
 
 #     square_score = 0
 #     rectangle_score = 0
@@ -116,8 +117,8 @@ def Run_File(filename):
 #                 if temp_array[k] in image_scale_array:
 #                     count_check += 1
 #             if count_check > 0.7*len(image_scale_array):
-#                 print()
-#                 print("Success")
+# #                 print()
+# #                 print("Success")
 #                 repeat_flag = True
 #                 # image_count = len(image_scale_array)
 #             else:
@@ -128,13 +129,13 @@ def Run_File(filename):
 #                 image_count = len(image_scale_array)
 
 #             # double_rectangle_count = genImages.genAllTemplate(image_scale_array)
-#             print("The Source Image has been generated")
-#             print()
+# #             print("The Source Image has been generated")
+# #             print()
             
 #             # image_count = len(image_scale_array)
 
-#             print(image_scale_array)
-#             print("The Source Image has been generated")
+# #             print(image_scale_array)
+# #             print("The Source Image has been generated")
 
 #     ################################################# Load Images into array at different scales #####################################################
     
@@ -144,16 +145,16 @@ def Run_File(filename):
 #             template_image_quincunx_list = importData.loadImageFromFile('TemplateQuincunx', image_count)
 #             template_image_equilateral_triangle_list = importData.loadImageFromFile('TemplateEquilateralTriangle', image_count)
 #             template_image_double_hedgerow_list = importData.loadImageFromFile('TemplateDoubleHedge', double_rectangle_count)
-#             print("Source image and Templates loaded")
-#             print()
+# #             print("Source image and Templates loaded")
+# #             print()
         
 # ################################################ Template Matching ################################################################################
         
 #         # for rotation in Image_rotation_array: # Testing each template at each possible rotation
 #             source_image = imutils.rotate(source_image, angle=rotation)
 #             evaluation_array = []
-#             print()
-#             print('Testing templates at a rotation of ' + str(rotation))
+# #             print()
+# #             print('Testing templates at a rotation of ' + str(rotation))
 
 #             if rotation < 90:
 #                 for x in range(len(template_image_square_list)):
@@ -215,7 +216,7 @@ def Run_File(filename):
 
     print("The program has completed running")
     # print("The most likely pattern is " + str(pattern_out_array[0]))
-    print("See " + str(outFileName) + ".txt for more information")
+    # print("See " + str(outFileName) + ".txt for more information")
 
     
 def RunTestCases():
@@ -332,14 +333,13 @@ def IdealisedExp():
 
     print("Time array")
     print(timeArray)
-    with open("performance.txt", 'w'):
+    with open("performance.txt", 'w') as f:
         f.write(str(timeArray))   
 
 
 def runGeoJSON():    
     timeArray = []
     try:
-        
         start_time = time.time()
         file_input_name = '32377/raw-detections.geojson'
         Run_File(file_input_name)
@@ -373,11 +373,11 @@ def runGeoJSON():
 
     try:
         start_time = time.time()
-        file_input_name = '36512/detections_raw.geojson'
+        file_input_name = '36513/detections_raw.geojson'
         Run_File(file_input_name)
         timeArray.append(int(time.time() - start_time))
     except:
-        print("36512 Fail")
+        print("36513 Fail")
 
     try:
         start_time = time.time()
@@ -397,7 +397,7 @@ def runGeoJSON():
 
     print("Time array")
     print(timeArray)
-    with open("performance.txt", 'w'):
+    with open("performance.txt", 'w') as f:
         f.write(str(timeArray)) 
              
 
