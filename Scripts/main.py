@@ -48,168 +48,168 @@ def Run_File(filename):
     # plt.show()
  
 ###################################################### Functions to calc parameters and TM problem values #############################################
-    dataset = KDTree(PointSet)
-    source_image_number = DataCalculations.GenerateSubImages(PointSet)
-    print("Sub images generated")
+#     dataset = KDTree(PointSet)
+#     source_image_number = DataCalculations.GenerateSubImages(PointSet)
+#     print("Sub images generated")
 
-    PointSet, average_angle, tree_per_row = DataCalculations.normaliseData(PointSet, dataset)
-    print("Rotation has been detected") 
+#     PointSet, average_angle, tree_per_row = DataCalculations.normaliseData(PointSet, dataset)
+#     print("Rotation has been detected") 
 
-    angle_to_out = DataCalculations.calcWeightedAverageAngle(average_angle)
-    print("Calculated average angle:")
-    print(angle_to_out)
+#     angle_to_out = DataCalculations.calcWeightedAverageAngle(average_angle)
+#     print("Calculated average angle:")
+#     print(angle_to_out)
 
-    row_count, inter_spacing, road_count = ParameterCalculations.countRowNumbers(PointSet, int(angle_to_out), dataset)
-    print("Calculated Row data")
+#     row_count, inter_spacing, road_count = ParameterCalculations.countRowNumbers(PointSet, int(angle_to_out), dataset)
+#     print("Calculated Row data")
 
-    TreeCoords = ParameterCalculations.CornerTreeCoords(PointSet)
-    scale_intra_row = ParameterCalculations.calcScaleIntra(PointSet, dataset)
-####################################################### Send extracted parameters to output object ###########################################
-    Data_out = DataOutput.DataOut()
-    #Intra-row spacing
-    Data_out.setIntra(scale_intra_row)
-    # Row Rotation
-    Data_out.setAngle(angle_to_out)
-    #Tree Count
-    Data_out.setTreeCount(len(PointSet))
-    # Road or ditch count
-    Data_out.setRoadCount(road_count)
-    #Inter-row spacing
-    Data_out.setInter(inter_spacing)
-    # Number of Rows
-    Data_out.setRowNumbers(row_count)
-    # Number of Trees per Row
-    Data_out.setTreesPerRow(tree_per_row)
-    # Coordinates of corner Tree
-    Data_out.setCorner(TreeCoords)
-    print("Finished parameter extraction")
-################################################# Step 2 #########################################################################################
-    double_rectangle_count = 0
-    Image_rotation_array = []
-    Image_rotation_array = ParameterCalculations.appAngleRange(int(angle_to_out))
-    print("Angle Array")
-    print(Image_rotation_array)
+#     TreeCoords = ParameterCalculations.CornerTreeCoords(PointSet)
+#     scale_intra_row = ParameterCalculations.calcScaleIntra(PointSet, dataset)
+# ####################################################### Send extracted parameters to output object ###########################################
+#     Data_out = DataOutput.DataOut()
+#     #Intra-row spacing
+#     Data_out.setIntra(scale_intra_row)
+#     # Row Rotation
+#     Data_out.setAngle(angle_to_out)
+#     #Tree Count
+#     Data_out.setTreeCount(len(PointSet))
+#     # Road or ditch count
+#     Data_out.setRoadCount(road_count)
+#     #Inter-row spacing
+#     Data_out.setInter(inter_spacing)
+#     # Number of Rows
+#     Data_out.setRowNumbers(row_count)
+#     # Number of Trees per Row
+#     Data_out.setTreesPerRow(tree_per_row)
+#     # Coordinates of corner Tree
+#     Data_out.setCorner(TreeCoords)
+#     print("Finished parameter extraction")
+# ################################################# Step 2 #########################################################################################
+#     double_rectangle_count = 0
+#     Image_rotation_array = []
+#     Image_rotation_array = ParameterCalculations.appAngleRange(int(angle_to_out))
+#     print("Angle Array")
+#     print(Image_rotation_array)
 
-    square_score = 0
-    rectangle_score = 0
-    equitri_score = 0
-    isostri_score = 0
-    quincunx_score = 0
-    dblhdg_score = 0
-    image_scale_array = [0]
-    double_rectangle_count = 1
-    for rotation in Image_rotation_array: # Testing each template at each possible rotation
-        for x in range(source_image_number):
+#     square_score = 0
+#     rectangle_score = 0
+#     equitri_score = 0
+#     isostri_score = 0
+#     quincunx_score = 0
+#     dblhdg_score = 0
+#     image_scale_array = [0]
+#     double_rectangle_count = 1
+#     for rotation in Image_rotation_array: # Testing each template at each possible rotation
+#         for x in range(source_image_number):
             
-    ################################################# Generate Images ################################################################################
-            source_image = importData.loadImageFromFile('Images/MainImage' + str(x) + '.png', 0)
-            source_image = TemplateMatch.cleanTheGraph(source_image)        
-            temp_array = TemplateMatch.CalcScale(source_image)   
-            # if temp_array != image_scale_array:
-            #     print('true')
-            #     image_scale_array = TemplateMatch.CalcScale(source_image)  
-            #     double_rectangle_count = genImages.genAllTemplate(image_scale_array)
-            # else:
-            #     print('false')
-            count_check = 0
-            for k in range(len(temp_array)):
-                if temp_array[k] in image_scale_array:
-                    count_check += 1
-            if count_check > 0.7*len(image_scale_array):
-                print()
-                print("Success")
-                repeat_flag = True
-                # image_count = len(image_scale_array)
-            else:
-                repeat_flag = False
-            if not repeat_flag:
-                image_scale_array = temp_array
-                double_rectangle_count = genImages.genAllTemplate(image_scale_array)
-                image_count = len(image_scale_array)
+#     ################################################# Generate Images ################################################################################
+#             source_image = importData.loadImageFromFile('Images/MainImage' + str(x) + '.png', 0)
+#             source_image = TemplateMatch.cleanTheGraph(source_image)        
+#             temp_array = TemplateMatch.CalcScale(source_image)   
+#             # if temp_array != image_scale_array:
+#             #     print('true')
+#             #     image_scale_array = TemplateMatch.CalcScale(source_image)  
+#             #     double_rectangle_count = genImages.genAllTemplate(image_scale_array)
+#             # else:
+#             #     print('false')
+#             count_check = 0
+#             for k in range(len(temp_array)):
+#                 if temp_array[k] in image_scale_array:
+#                     count_check += 1
+#             if count_check > 0.7*len(image_scale_array):
+#                 print()
+#                 print("Success")
+#                 repeat_flag = True
+#                 # image_count = len(image_scale_array)
+#             else:
+#                 repeat_flag = False
+#             if not repeat_flag:
+#                 image_scale_array = temp_array
+#                 double_rectangle_count = genImages.genAllTemplate(image_scale_array)
+#                 image_count = len(image_scale_array)
 
-            # double_rectangle_count = genImages.genAllTemplate(image_scale_array)
-            print("The Source Image has been generated")
-            print()
+#             # double_rectangle_count = genImages.genAllTemplate(image_scale_array)
+#             print("The Source Image has been generated")
+#             print()
             
-            # image_count = len(image_scale_array)
+#             # image_count = len(image_scale_array)
 
-            print(image_scale_array)
-            print("The Source Image has been generated")
+#             print(image_scale_array)
+#             print("The Source Image has been generated")
 
-    ################################################# Load Images into array at different scales #####################################################
+#     ################################################# Load Images into array at different scales #####################################################
     
-            template_image_square_list = importData.loadImageFromFile('TemplateSquare', image_count)
-            template_image_rectangle_list = importData.loadImageFromFile('TemplateRectangle', double_rectangle_count)
-            template_image_isosceles_triangle_list = importData.loadImageFromFile('TemplateTriangle', image_count)
-            template_image_quincunx_list = importData.loadImageFromFile('TemplateQuincunx', image_count)
-            template_image_equilateral_triangle_list = importData.loadImageFromFile('TemplateEquilateralTriangle', image_count)
-            template_image_double_hedgerow_list = importData.loadImageFromFile('TemplateDoubleHedge', double_rectangle_count)
-            print("Source image and Templates loaded")
-            print()
+#             template_image_square_list = importData.loadImageFromFile('TemplateSquare', image_count)
+#             template_image_rectangle_list = importData.loadImageFromFile('TemplateRectangle', double_rectangle_count)
+#             template_image_isosceles_triangle_list = importData.loadImageFromFile('TemplateTriangle', image_count)
+#             template_image_quincunx_list = importData.loadImageFromFile('TemplateQuincunx', image_count)
+#             template_image_equilateral_triangle_list = importData.loadImageFromFile('TemplateEquilateralTriangle', image_count)
+#             template_image_double_hedgerow_list = importData.loadImageFromFile('TemplateDoubleHedge', double_rectangle_count)
+#             print("Source image and Templates loaded")
+#             print()
         
-################################################ Template Matching ################################################################################
+# ################################################ Template Matching ################################################################################
         
-        # for rotation in Image_rotation_array: # Testing each template at each possible rotation
-            source_image = imutils.rotate(source_image, angle=rotation)
-            evaluation_array = []
-            print()
-            print('Testing templates at a rotation of ' + str(rotation))
+#         # for rotation in Image_rotation_array: # Testing each template at each possible rotation
+#             source_image = imutils.rotate(source_image, angle=rotation)
+#             evaluation_array = []
+#             print()
+#             print('Testing templates at a rotation of ' + str(rotation))
 
-            if rotation < 90:
-                for x in range(len(template_image_square_list)):
-                    count = TemplateMatch.templateMatching_correlation(source_image, template_image_square_list[x])
-                    square_score = EvaluateData.scoreMatches(count, square_score)
+#             if rotation < 90:
+#                 for x in range(len(template_image_square_list)):
+#                     count = TemplateMatch.templateMatching_correlation(source_image, template_image_square_list[x])
+#                     square_score = EvaluateData.scoreMatches(count, square_score)
 
-            for x in range(len(template_image_rectangle_list)):
-                count = TemplateMatch.templateMatching_correlation(source_image, template_image_rectangle_list[x])
-                rectangle_score = EvaluateData.scoreMatches(count, rectangle_score)
+#             for x in range(len(template_image_rectangle_list)):
+#                 count = TemplateMatch.templateMatching_correlation(source_image, template_image_rectangle_list[x])
+#                 rectangle_score = EvaluateData.scoreMatches(count, rectangle_score)
 
-            for x in range(len(template_image_isosceles_triangle_list)):
-                count = TemplateMatch.templateMatching_correlation(source_image, template_image_isosceles_triangle_list[x])
-                isostri_score = EvaluateData.scoreMatches(count, isostri_score)
+#             for x in range(len(template_image_isosceles_triangle_list)):
+#                 count = TemplateMatch.templateMatching_correlation(source_image, template_image_isosceles_triangle_list[x])
+#                 isostri_score = EvaluateData.scoreMatches(count, isostri_score)
 
-            for x in range(len(template_image_quincunx_list)):
-                count = TemplateMatch.templateMatching_correlation(source_image, template_image_quincunx_list[x])
-                quincunx_score = EvaluateData.scoreMatches(count, quincunx_score)
+#             for x in range(len(template_image_quincunx_list)):
+#                 count = TemplateMatch.templateMatching_correlation(source_image, template_image_quincunx_list[x])
+#                 quincunx_score = EvaluateData.scoreMatches(count, quincunx_score)
 
-            for x in range(len(template_image_equilateral_triangle_list)):
-                count = TemplateMatch.templateMatching_correlation(source_image, template_image_equilateral_triangle_list[x])
-                equitri_score = EvaluateData.scoreMatches(count, equitri_score)
+#             for x in range(len(template_image_equilateral_triangle_list)):
+#                 count = TemplateMatch.templateMatching_correlation(source_image, template_image_equilateral_triangle_list[x])
+#                 equitri_score = EvaluateData.scoreMatches(count, equitri_score)
 
-            for x in range(len(template_image_double_hedgerow_list)):
-                count = TemplateMatch.templateMatching_correlation(source_image, template_image_double_hedgerow_list[x])
-                dblhdg_score = EvaluateData.scoreMatches(count, dblhdg_score)
+#             for x in range(len(template_image_double_hedgerow_list)):
+#                 count = TemplateMatch.templateMatching_correlation(source_image, template_image_double_hedgerow_list[x])
+#                 dblhdg_score = EvaluateData.scoreMatches(count, dblhdg_score)
         
-##################################################### Step 3 ###################################################################################
+# ##################################################### Step 3 ###################################################################################
 
-#   Send data for evaluation
+# #   Send data for evaluation
 
-#####Evaluation methods
-    pattern_out_array = [square_score, rectangle_score, isostri_score, equitri_score, quincunx_score, dblhdg_score]
-    print(pattern_out_array)
-    pattern_out = EvaluateData.Evaluate(pattern_out_array)
-    Data_out.setPatterns(pattern_out)
-#####
-    outFileName = filename.split('.')[0]
-    if outFileName.find('/') > -1:
-        outFileName = outFileName.split('/')[-1]
-    Data_out.writeDataToFile(outFileName)
+# #####Evaluation methods
+#     pattern_out_array = [square_score, rectangle_score, isostri_score, equitri_score, quincunx_score, dblhdg_score]
+#     print(pattern_out_array)
+#     pattern_out = EvaluateData.Evaluate(pattern_out_array)
+#     Data_out.setPatterns(pattern_out)
+# #####
+#     outFileName = filename.split('.')[0]
+#     if outFileName.find('/') > -1:
+#         outFileName = outFileName.split('/')[-1]
+#     Data_out.writeDataToFile(outFileName)
 
-#################################################### Memory Clean Up ##########################################################################
-    for x in range(double_rectangle_count):
-        if x < source_image_number:
-            os.remove('Images/MainImage' + str(x) + '.png')
-        if x < image_count:
-            os.remove('Images/TemplateSquare' + str(x) + '.png')
-            os.remove('Images/TemplateEquilateralTriangle' + str(x) + '.png')
-            os.remove('Images/TemplateQuincunx' + str(x) + '.png')
-            os.remove('Images/TemplateTriangle' + str(x) + '.png')
-        os.remove('Images/TemplateRectangle' + str(x) + '.png')
-        os.remove('Images/TemplateDoubleHedge' + str(x) + '.png')
-    if(source_image_number > double_rectangle_count):
-        for x in range(double_rectangle_count, source_image_number,1):
-            if x < source_image_number:
-                os.remove('Images/MainImage' + str(x) + '.png')
+# #################################################### Memory Clean Up ##########################################################################
+#     for x in range(double_rectangle_count):
+#         if x < source_image_number:
+#             os.remove('Images/MainImage' + str(x) + '.png')
+#         if x < image_count:
+#             os.remove('Images/TemplateSquare' + str(x) + '.png')
+#             os.remove('Images/TemplateEquilateralTriangle' + str(x) + '.png')
+#             os.remove('Images/TemplateQuincunx' + str(x) + '.png')
+#             os.remove('Images/TemplateTriangle' + str(x) + '.png')
+#         os.remove('Images/TemplateRectangle' + str(x) + '.png')
+#         os.remove('Images/TemplateDoubleHedge' + str(x) + '.png')
+#     if(source_image_number > double_rectangle_count):
+#         for x in range(double_rectangle_count, source_image_number,1):
+#             if x < source_image_number:
+#                 os.remove('Images/MainImage' + str(x) + '.png')
 
 #################################################### Completed ################################################################################
 
@@ -281,8 +281,8 @@ def RunTestCases():
 
 
 def IdealisedExp():
+    timeArray = []
     try:
-        timeArray = []
         start_time = time.time()
         file_input_name = 'SquareIdeal.txt'
         Run_File(file_input_name)
@@ -291,7 +291,6 @@ def IdealisedExp():
         print("SquareIdeal Fail")
 
     try:
-        timeArray = []
         start_time = time.time()
         file_input_name = 'RectIdeal.txt'
         Run_File(file_input_name)
@@ -300,7 +299,6 @@ def IdealisedExp():
         print("SquaRectIdealre Fail")
 
     try:
-        timeArray = []
         start_time = time.time()
         file_input_name = 'HexagonalIdeal.txt'
         Run_File(file_input_name)
@@ -309,7 +307,6 @@ def IdealisedExp():
         print("HexagonalIdeal Fail")
 
     try:
-        timeArray = []
         start_time = time.time()
         file_input_name = 'IsoscelesIdeal.txt'
         Run_File(file_input_name)
@@ -318,7 +315,6 @@ def IdealisedExp():
         print("IsoscelesIdeal Fail")
 
     try:
-        timeArray = []
         start_time = time.time()
         file_input_name = 'QuincunxIdeal.txt'
         Run_File(file_input_name)
@@ -327,7 +323,6 @@ def IdealisedExp():
         print("QuincunxIdeal Fail")
 
     try:
-        timeArray = []
         start_time = time.time()
         file_input_name = 'DoubleRowIdeal.txt'
         Run_File(file_input_name)
@@ -338,9 +333,72 @@ def IdealisedExp():
     print("Time array")
     print(timeArray)
     with open("performance.txt", 'w'):
-        f.write(str(timeArray))
+        f.write(str(timeArray))   
 
-                   
+
+def runGeoJSON():    
+    timeArray = []
+    try:
+        
+        start_time = time.time()
+        file_input_name = '32377/raw-detections.geojson'
+        Run_File(file_input_name)
+        timeArray.append(int(time.time() - start_time))
+    except:
+        print("32377 Fail")
+
+    try:
+        start_time = time.time()
+        file_input_name = '35516/raw_detections.geojson'
+        Run_File(file_input_name)
+        timeArray.append(int(time.time() - start_time))
+    except:
+        print("35516 Fail")
+
+    try:
+        start_time = time.time()
+        file_input_name = '36502/detections_raw.geojson'
+        Run_File(file_input_name)
+        timeArray.append(int(time.time() - start_time))
+    except:
+        print("36502 Fail")
+
+    try:
+        start_time = time.time()
+        file_input_name = '36507/raw_detections.geojson'
+        Run_File(file_input_name)
+        timeArray.append(int(time.time() - start_time))
+    except:
+        print("36507 Fail")
+
+    try:
+        start_time = time.time()
+        file_input_name = '36512/detections_raw.geojson'
+        Run_File(file_input_name)
+        timeArray.append(int(time.time() - start_time))
+    except:
+        print("36512 Fail")
+
+    try:
+        start_time = time.time()
+        file_input_name = '41630/detections_raw.geojson'
+        Run_File(file_input_name)
+        timeArray.append(int(time.time() - start_time))
+    except:
+        print("41630 Fail")
+
+    try:
+        start_time = time.time()
+        file_input_name = '43581/detections_raw.geojson'
+        Run_File(file_input_name)
+        timeArray.append(int(time.time() - start_time))
+    except:
+        print("43581 Fail")
+
+    print("Time array")
+    print(timeArray)
+    with open("performance.txt", 'w'):
+        f.write(str(timeArray)) 
              
 
 
@@ -360,6 +418,8 @@ if __name__ == '__main__':
         print("Using GeoJSON default")
         print()
         Run_File(file_input_name)
+    elif file_input_name == '3':
+        runGeoJSON()
     else:
         Run_File(file_input_name)
     print("--- %s seconds ---" % (time.time() - start_time))
