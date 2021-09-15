@@ -172,20 +172,20 @@ def Run_File(filename):
     Data_out.writeDataToFile(outFileName)
 
 #################################################### Memory Clean Up ##########################################################################
-    # for x in range(double_rectangle_count):
-    #     if x < source_image_number:
-    #         os.remove('Images/MainImage' + str(x) + '.png')
-    #     if x < image_count:
-    #         os.remove('Images/TemplateSquare' + str(x) + '.png')
-    #         os.remove('Images/TemplateEquilateralTriangle' + str(x) + '.png')
-    #         os.remove('Images/TemplateQuincunx' + str(x) + '.png')
-    #         os.remove('Images/TemplateTriangle' + str(x) + '.png')
-    #     os.remove('Images/TemplateRectangle' + str(x) + '.png')
-    #     os.remove('Images/TemplateDoubleHedge' + str(x) + '.png')
-    # if(source_image_number > double_rectangle_count):
-    #     for x in range(double_rectangle_count, source_image_number,1):
-    #         if x < source_image_number:
-    #             os.remove('Images/MainImage' + str(x) + '.png')
+    for x in range(double_rectangle_count):
+        if x < source_image_number:
+            os.remove('Images/MainImage' + str(x) + '.png')
+        if x < image_count:
+            os.remove('Images/TemplateSquare' + str(x) + '.png')
+            os.remove('Images/TemplateEquilateralTriangle' + str(x) + '.png')
+            os.remove('Images/TemplateQuincunx' + str(x) + '.png')
+            os.remove('Images/TemplateTriangle' + str(x) + '.png')
+        os.remove('Images/TemplateRectangle' + str(x) + '.png')
+        os.remove('Images/TemplateDoubleHedge' + str(x) + '.png')
+    if(source_image_number > double_rectangle_count):
+        for x in range(double_rectangle_count, source_image_number,1):
+            if x < source_image_number:
+                os.remove('Images/MainImage' + str(x) + '.png')
 
 #################################################### Completed ################################################################################
 
@@ -390,7 +390,7 @@ if __name__ == '__main__':
     file_input_name = input("What is the image name(0 for default)?\n")
     start_time = time.time()
     if file_input_name == '0':
-        file_input_name = 'TestIdealData/SquareIdeal3.txt'
+        file_input_name = 'SquareIdeal.txt'
         print("Using default")
         print()
         Run_File(file_input_name)
