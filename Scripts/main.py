@@ -290,55 +290,55 @@ def IdealisedExp():
     except:
         print("SquareIdeal Fail")
 
-    # try:
-    #     timeArray = []
-    #     start_time = time.time()
-    #     file_input_name = 'RectIdeal.txt'
-    #     Run_File(file_input_name)
-    #     timeArray.append(int(time.time() - start_time))
-    # except:
-    #     print("SquaRectIdealre Fail")
+    try:
+        timeArray = []
+        start_time = time.time()
+        file_input_name = 'RectIdeal.txt'
+        Run_File(file_input_name)
+        timeArray.append(int(time.time() - start_time))
+    except:
+        print("SquaRectIdealre Fail")
 
-    # try:
-    #     timeArray = []
-    #     start_time = time.time()
-    #     file_input_name = 'HexagonalIdeal.txt'
-    #     Run_File(file_input_name)
-    #     timeArray.append(int(time.time() - start_time))
-    # except:
-    #     print("HexagonalIdeal Fail")
+    try:
+        timeArray = []
+        start_time = time.time()
+        file_input_name = 'HexagonalIdeal.txt'
+        Run_File(file_input_name)
+        timeArray.append(int(time.time() - start_time))
+    except:
+        print("HexagonalIdeal Fail")
 
-    # try:
-    #     timeArray = []
-    #     start_time = time.time()
-    #     file_input_name = 'IsoscelesIdeal.txt'
-    #     Run_File(file_input_name)
-    #     timeArray.append(int(time.time() - start_time))
-    # except:
-    #     print("IsoscelesIdeal Fail")
+    try:
+        timeArray = []
+        start_time = time.time()
+        file_input_name = 'IsoscelesIdeal.txt'
+        Run_File(file_input_name)
+        timeArray.append(int(time.time() - start_time))
+    except:
+        print("IsoscelesIdeal Fail")
 
-    # try:
-    #     timeArray = []
-    #     start_time = time.time()
-    #     file_input_name = 'QuincunxIdeal.txt'
-    #     Run_File(file_input_name)
-    #     timeArray.append(int(time.time() - start_time))
-    # except:
-    #     print("QuincunxIdeal Fail")
+    try:
+        timeArray = []
+        start_time = time.time()
+        file_input_name = 'QuincunxIdeal.txt'
+        Run_File(file_input_name)
+        timeArray.append(int(time.time() - start_time))
+    except:
+        print("QuincunxIdeal Fail")
 
-    # try:
-    #     timeArray = []
-    #     start_time = time.time()
-    #     file_input_name = 'DoubleRowIdeal.txt'
-    #     Run_File(file_input_name)
-    #     timeArray.append(int(time.time() - start_time))
-    # except:
-    #     print("DoubleRowIdeal Fail")
+    try:
+        timeArray = []
+        start_time = time.time()
+        file_input_name = 'DoubleRowIdeal.txt'
+        Run_File(file_input_name)
+        timeArray.append(int(time.time() - start_time))
+    except:
+        print("DoubleRowIdeal Fail")
 
-    # print("Time array")
-    # print(timeArray)
-    # with open("performance.txt", 'w'):
-    #     f.write(timeArray)
+    print("Time array")
+    print(timeArray)
+    with open("performance.txt", 'w'):
+        f.write(str(timeArray))
 
                    
              
