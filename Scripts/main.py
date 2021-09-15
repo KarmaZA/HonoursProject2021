@@ -56,9 +56,9 @@ def Run_File(filename):
     PointSet, average_angle, tree_per_row = DataCalculations.normaliseData(PointSet, dataset)
     # print("Rotation has been detected") 
 
-#     angle_to_out = DataCalculations.calcWeightedAverageAngle(average_angle)
+    angle_to_out = DataCalculations.getCommonAngle(average_angle)
 #     print("Calculated average angle:")
-#     print(angle_to_out)
+    print(angle_to_out)
 
 #     row_count, inter_spacing, road_count = ParameterCalculations.countRowNumbers(PointSet, int(angle_to_out), dataset)
 #     print("Calculated Row data")
@@ -100,11 +100,16 @@ def Run_File(filename):
 #     image_scale_array = [0]
 #     double_rectangle_count = 1
 #     for rotation in Image_rotation_array: # Testing each template at each possible rotation
-#         for x in range(source_image_number):
+    for x in range(source_image_number):
             
 #     ################################################# Generate Images ################################################################################
-#             source_image = importData.loadImageFromFile('Images/MainImage' + str(x) + '.png', 0)
-#             source_image = TemplateMatch.cleanTheGraph(source_image)        
+        source_image = importData.loadImageFromFile('Images/MainImage' + str(x) + '.png', 0)
+        source_image = TemplateMatch.cleanTheGraph(source_image) 
+        
+        source_image = imutils.rotate(source_image, angle=angle_to_out)
+        cv2.imshow("test", source_image)
+        cv2.waitKey(0)
+
 #             temp_array = TemplateMatch.CalcScale(source_image)   
 #             # if temp_array != image_scale_array:
 #             #     print('true')
@@ -169,10 +174,6 @@ def Run_File(filename):
 #                 count = TemplateMatch.templateMatching_correlation(source_image, template_image_isosceles_triangle_list[x])
 #                 isostri_score = EvaluateData.scoreMatches(count, isostri_score)
 
-#             for x in range(len(template_image_quincunx_list)):
-#                 count = TemplateMatch.templateMatching_correlation(source_image, template_image_quincunx_list[x])
-#                 quincunx_score = EvaluateData.scoreMatches(count, quincunx_score)
-
 #             for x in range(len(template_image_equilateral_triangle_list)):
 #                 count = TemplateMatch.templateMatching_correlation(source_image, template_image_equilateral_triangle_list[x])
 #                 equitri_score = EvaluateData.scoreMatches(count, equitri_score)
@@ -180,7 +181,15 @@ def Run_File(filename):
 #             for x in range(len(template_image_double_hedgerow_list)):
 #                 count = TemplateMatch.templateMatching_correlation(source_image, template_image_double_hedgerow_list[x])
 #                 dblhdg_score = EvaluateData.scoreMatches(count, dblhdg_score)
-        
+
+#             for x in range(len(template_image_quincunx_list)):
+#                 count = TemplateMatch.templateMatching_correlation(source_image, template_image_quincunx_list[x])
+                # quincunx_score = EvaluateData.scoreMatches(count, quincunx_score)
+                # rot_source = imutils.rotate(source_image, angle=angle_to_out) # Quin also must test for 45 degree rotations
+                # Gen new templates for new rotation
+                # count = TemplateMatch.templateMatching_correlation(rot_source, template_image_quincunx_list[x])
+                # quincunx_score = EvaluateData.scoreMatches(count, quincunx_score)
+
 # ##################################################### Step 3 ###################################################################################
 
 # #   Send data for evaluation

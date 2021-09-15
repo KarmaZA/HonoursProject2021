@@ -11,7 +11,7 @@ from shapely.geometry.polygon import Polygon
 if count > 0 file naming format is filename + count + .png"""
 def loadImageFromFile(file_name, count):
     if count == 0:
-        print("Loading the image file.")
+        # print("Loading the image file.")
         file_name = str(file_name)
         image = cv2.imread(file_name, 0)
         if not image.any():
@@ -20,11 +20,11 @@ def loadImageFromFile(file_name, count):
     else:
         image = []
         for x in range(count):
-            print("Loading the image file.")
+            # print("Loading the image file.")
             load_file_name = 'Images/' + str(file_name) + str(x) + '.png'
             image_load = cv2.imread(load_file_name, 0)
                 
-            print("Images loaded.")
+            # print("Images loaded.")
             image.append(image_load)
         return image
     

@@ -19,10 +19,10 @@ def GenerateSubImages(PointSet):
         if point.y > y_max : y_max = int(point.y)
 
     max_image_number = int((len(PointSet)/1500)+1)
-    print(max_image_number)
-    delta_x = (x_max-x_min)/max_image_number
-    delta_y = (y_max-y_min)/max_image_number
-    print(delta_x,delta_y)
+    # print(max_image_number)
+    delta_x = (int(x_max-x_min)/max_image_number)
+    delta_y = (int(y_max-y_min)/max_image_number)
+    # print(delta_x,delta_y)
     test_set = []
     
 
@@ -153,25 +153,27 @@ def normaliseData(PointSet, dataset):
     point_list.append(z)
     return (PointSet, weighted_average_angles, max_Tree_per_Row)
 
-def calcWeightedAverageAngle(angle_list):
+def getCommonAngle(angle_list):
+    angle_list.sort()
+    curr_angle = 0
+    max_count = 0
     count = 0
-    angle_avg = 0
-    countneg = 0
-    angle_avgneg = 0
-    for angle in angle_list:
-        if angle > 0:
-            angle_avg += angle
+    sum_Arr = []
+    final_Arr = []
+    for x in range(len(angle_list)-1):
+        sum_Arr.append(angle_list[x])
+        if AnglesInRange(angle_list[x], angle_list[x+1], 5):
             count += 1
-        elif angle < 0:
-            angle_avgneg += angle
-            countneg += 1
+        else:
+            if count > max_count:
+                final_Arr = sum_Arr
+                max_count = count
+                count = 0
+            sum_Arr = []
 
-    if angle_list.count(0) > 3:
-        return 0      
-    elif count >= countneg:
-        return angle_avg/count
-    else:
-        return angle_avgneg/countneg        
+    for angle in final_Arr:
+        curr_angle += angle
+    return int(curr_angle/len(final_Arr))     
         
 def AverageAngle(angle_list):
     count = 0
