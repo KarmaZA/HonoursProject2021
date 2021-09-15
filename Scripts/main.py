@@ -87,21 +87,45 @@ def Run_File(filename):
     isostri_score = 0
     quincunx_score = 0
     dblhdg_score = 0
-    for x in range(source_image_number):
-        for rotation in Image_rotation_array: # Testing each template at each possible rotation
-            image_scale_array = [0] 
+    image_scale_array = [0]
+    double_rectangle_count = 1
+    for rotation in Image_rotation_array: # Testing each template at each possible rotation
+        for x in range(source_image_number):
+            
     ################################################# Generate Images ################################################################################
             source_image = importData.loadImageFromFile('Images/MainImage' + str(x) + '.png', 0)
             source_image = TemplateMatch.cleanTheGraph(source_image)        
             temp_array = TemplateMatch.CalcScale(source_image)   
+            # if temp_array != image_scale_array:
+            #     print('true')
+            #     image_scale_array = TemplateMatch.CalcScale(source_image)  
+            #     double_rectangle_count = genImages.genAllTemplate(image_scale_array)
+            # else:
+            #     print('false')
             count_check = 0
+            for k in range(len(temp_array)):
+                if temp_array[k] in image_scale_array:
+                    count_check += 1
+            if count_check > 0.7*len(image_scale_array):
+                print()
+                print("Success")
+                repeat_flag = True
+                # image_count = len(image_scale_array)
+            else:
+                repeat_flag = False
+            if not repeat_flag:
+                image_scale_array = temp_array
+                double_rectangle_count = genImages.genAllTemplate(image_scale_array)
+                image_count = len(image_scale_array)
 
-            image_scale_array = temp_array
-            double_rectangle_count = genImages.genAllTemplate(image_scale_array)
+            # double_rectangle_count = genImages.genAllTemplate(image_scale_array)
             print("The Source Image has been generated")
             print()
             
-            image_count = len(image_scale_array)
+            # image_count = len(image_scale_array)
+
+            print(image_scale_array)
+            print("The Source Image has been generated")
 
     ################################################# Load Images into array at different scales #####################################################
     
@@ -247,65 +271,65 @@ def RunTestCases():
     Run_File(file_input_name)
 
 
-def IdealisedExp()
+def IdealisedExp():
     try:
         timeArray = []
         start_time = time.time()
         file_input_name = 'SquareIdeal.txt'
         Run_File(file_input_name)
-        timeArray.append(int(time.time() - start_time)
+        timeArray.append(int(time.time() - start_time))
     except:
         print("SquareIdeal Fail")
 
-    try:
-        timeArray = []
-        start_time = time.time()
-        file_input_name = 'RectIdeal.txt'
-        Run_File(file_input_name)
-        timeArray.append(int(time.time() - start_time)
-    except:
-        print("SquaRectIdealre Fail")
+    # try:
+    #     timeArray = []
+    #     start_time = time.time()
+    #     file_input_name = 'RectIdeal.txt'
+    #     Run_File(file_input_name)
+    #     timeArray.append(int(time.time() - start_time))
+    # except:
+    #     print("SquaRectIdealre Fail")
 
-    try:
-        timeArray = []
-        start_time = time.time()
-        file_input_name = 'HexagonalIdeal.txt'
-        Run_File(file_input_name)
-        timeArray.append(int(time.time() - start_time)
-    except:
-        print("HexagonalIdeal Fail")
+    # try:
+    #     timeArray = []
+    #     start_time = time.time()
+    #     file_input_name = 'HexagonalIdeal.txt'
+    #     Run_File(file_input_name)
+    #     timeArray.append(int(time.time() - start_time))
+    # except:
+    #     print("HexagonalIdeal Fail")
 
-    try:
-        timeArray = []
-        start_time = time.time()
-        file_input_name = 'IsoscelesIdeal.txt'
-        Run_File(file_input_name)
-        timeArray.append(int(time.time() - start_time)
-    except:
-        print("IsoscelesIdeal Fail")
+    # try:
+    #     timeArray = []
+    #     start_time = time.time()
+    #     file_input_name = 'IsoscelesIdeal.txt'
+    #     Run_File(file_input_name)
+    #     timeArray.append(int(time.time() - start_time))
+    # except:
+    #     print("IsoscelesIdeal Fail")
 
-    try:
-        timeArray = []
-        start_time = time.time()
-        file_input_name = 'QuincunxIdeal.txt'
-        Run_File(file_input_name)
-        timeArray.append(int(time.time() - start_time)
-    except:
-        print("QuincunxIdeal Fail")
+    # try:
+    #     timeArray = []
+    #     start_time = time.time()
+    #     file_input_name = 'QuincunxIdeal.txt'
+    #     Run_File(file_input_name)
+    #     timeArray.append(int(time.time() - start_time))
+    # except:
+    #     print("QuincunxIdeal Fail")
 
-    try:
-        timeArray = []
-        start_time = time.time()
-        file_input_name = 'DoubleRowIdeal.txt'
-        Run_File(file_input_name)
-        timeArray.append(int(time.time() - start_time)
-    except:
-        print("DoubleRowIdeal Fail")
+    # try:
+    #     timeArray = []
+    #     start_time = time.time()
+    #     file_input_name = 'DoubleRowIdeal.txt'
+    #     Run_File(file_input_name)
+    #     timeArray.append(int(time.time() - start_time))
+    # except:
+    #     print("DoubleRowIdeal Fail")
 
-    print("Time array")
-    primte(timeArray)
-    with open("performance.txt", 'w'):
-        f.write(timeArray)
+    # print("Time array")
+    # print(timeArray)
+    # with open("performance.txt", 'w'):
+    #     f.write(timeArray)
 
 
 
