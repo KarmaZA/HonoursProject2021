@@ -64,18 +64,29 @@ def genQuincunxTemplate(length_array):
     count = 0
     for length in length_array:
         print('Generating Quincunx template with a length of: ' + str(length))
-        template_size = length + 13
+        template_size = length * 2 + 13
 
         TemplateToGen = np.zeros(shape=[template_size,template_size], dtype=np.uint8)
         TemplateToGen = SetBackground(TemplateToGen)
-        for Template_Points in Template_Square:
-            x = 5 + Template_Points[0] * length
-            y = 5 + Template_Points[1] * length
-            drawGuassianNoise(x, y, TemplateToGen)
-        
-        x = 5 + int(0.5 * length)
-        y = 5 + int(0.5 * length)
+
+        #1
+        x = 5
+        y = 5 + length
         drawGuassianNoise(x, y, TemplateToGen)
+        #2
+        x += length
+        drawGuassianNoise(x, y, TemplateToGen)
+        #3
+        x += length
+        drawGuassianNoise(x, y, TemplateToGen)
+        #4
+        x -= length
+        y += length
+        drawGuassianNoise(x, y, TemplateToGen)
+        #5
+        y -= 2*length
+        drawGuassianNoise(x, y, TemplateToGen)
+        
         file_name = 'Images/TemplateQuincunx' + str(count) + '.png'
         imageio.imsave(file_name, TemplateToGen)
         count += 1

@@ -85,20 +85,20 @@ def Run_File(filename):
 #     Data_out.setCorner(TreeCoords)
     print("Finished parameter extraction")
 # ################################################# Step 2 #########################################################################################
-#     double_rectangle_count = 0
-#     Image_rotation_array = []
-#     Image_rotation_array = ParameterCalculations.appAngleRange(int(angle_to_out))
-# #     print("Angle Array")
-# #     print(Image_rotation_array)
+    double_rectangle_count = 0
+    # Image_rotation_array = []
+    # Image_rotation_array = ParameterCalculations.appAngleRange(int(angle_to_out))
+#     print("Angle Array")
+#     print(Image_rotation_array)
 
-#     square_score = 0
-#     rectangle_score = 0
-#     equitri_score = 0
-#     isostri_score = 0
-#     quincunx_score = 0
-#     dblhdg_score = 0
-#     image_scale_array = [0]
-#     double_rectangle_count = 1
+    square_score = 0
+    rectangle_score = 0
+    equitri_score = 0
+    isostri_score = 0
+    quincunx_score = 0
+    dblhdg_score = 0
+    image_scale_array = [0]
+    double_rectangle_count = 1
 #     for rotation in Image_rotation_array: # Testing each template at each possible rotation
     for x in range(source_image_number):
             
@@ -107,8 +107,8 @@ def Run_File(filename):
         source_image = TemplateMatch.cleanTheGraph(source_image) 
         
         source_image = imutils.rotate(source_image, angle=angle_to_out)
-        cv2.imshow("test", source_image)
-        cv2.waitKey(0)
+        # cv2.imshow("test", source_image)
+        # cv2.waitKey(0)
 
 #             temp_array = TemplateMatch.CalcScale(source_image)   
 #             # if temp_array != image_scale_array:
@@ -136,68 +136,69 @@ def Run_File(filename):
 #             # double_rectangle_count = genImages.genAllTemplate(image_scale_array)
 # #             print("The Source Image has been generated")
 # #             print()
-            
+        
 #             # image_count = len(image_scale_array)
 
 # #             print(image_scale_array)
 # #             print("The Source Image has been generated")
 
-#     ################################################# Load Images into array at different scales #####################################################
+################################################# Load Images into array at different scales #####################################################
+
+        template_image_square_list = importData.loadImageFromFile('TemplateSquare', image_count)
+        template_image_rectangle_list = importData.loadImageFromFile('TemplateRectangle', double_rectangle_count)
+        template_image_isosceles_triangle_list = importData.loadImageFromFile('TemplateTriangle', image_count)
+        template_image_quincunx_list = importData.loadImageFromFile('TemplateQuincunx', image_count)
+        template_image_equilateral_triangle_list = importData.loadImageFromFile('TemplateEquilateralTriangle', image_count)
+        template_image_double_hedgerow_list = importData.loadImageFromFile('TemplateDoubleHedge', double_rectangle_count)
+#             print("Source image and Templates loaded")
+#             print()
     
-#             template_image_square_list = importData.loadImageFromFile('TemplateSquare', image_count)
-#             template_image_rectangle_list = importData.loadImageFromFile('TemplateRectangle', double_rectangle_count)
-#             template_image_isosceles_triangle_list = importData.loadImageFromFile('TemplateTriangle', image_count)
-#             template_image_quincunx_list = importData.loadImageFromFile('TemplateQuincunx', image_count)
-#             template_image_equilateral_triangle_list = importData.loadImageFromFile('TemplateEquilateralTriangle', image_count)
-#             template_image_double_hedgerow_list = importData.loadImageFromFile('TemplateDoubleHedge', double_rectangle_count)
-# #             print("Source image and Templates loaded")
-# #             print()
-        
-# ################################################ Template Matching ################################################################################
-        
-#         # for rotation in Image_rotation_array: # Testing each template at each possible rotation
-#             source_image = imutils.rotate(source_image, angle=rotation)
-#             evaluation_array = []
-# #             print()
-# #             print('Testing templates at a rotation of ' + str(rotation))
+################################################ Template Matching ################################################################################
+    
+    # for rotation in Image_rotation_array: # Testing each template at each possible rotation
+        source_image = imutils.rotate(source_image, angle=rotation)
+        evaluation_array = []
+#             print()
+#             print('Testing templates at a rotation of ' + str(rotation))
 
-#             if rotation < 90:
-#                 for x in range(len(template_image_square_list)):
-#                     count = TemplateMatch.templateMatching_correlation(source_image, template_image_square_list[x])
-#                     square_score = EvaluateData.scoreMatches(count, square_score)
+        if rotation < 90:
+            for x in range(len(template_image_square_list)):
+                count = TemplateMatch.templateMatching_correlation(source_image, template_image_square_list[x])
+                square_score = EvaluateData.scoreMatches(count, square_score)
 
-#             for x in range(len(template_image_rectangle_list)):
-#                 count = TemplateMatch.templateMatching_correlation(source_image, template_image_rectangle_list[x])
-#                 rectangle_score = EvaluateData.scoreMatches(count, rectangle_score)
+        for x in range(len(template_image_rectangle_list)):
+            count = TemplateMatch.templateMatching_correlation(source_image, template_image_rectangle_list[x])
+            rectangle_score = EvaluateData.scoreMatches(count, rectangle_score)
 
-#             for x in range(len(template_image_isosceles_triangle_list)):
-#                 count = TemplateMatch.templateMatching_correlation(source_image, template_image_isosceles_triangle_list[x])
-#                 isostri_score = EvaluateData.scoreMatches(count, isostri_score)
+        for x in range(len(template_image_isosceles_triangle_list)):
+            count = TemplateMatch.templateMatching_correlation(source_image, template_image_isosceles_triangle_list[x])
+            isostri_score = EvaluateData.scoreMatches(count, isostri_score)
 
-#             for x in range(len(template_image_equilateral_triangle_list)):
-#                 count = TemplateMatch.templateMatching_correlation(source_image, template_image_equilateral_triangle_list[x])
-#                 equitri_score = EvaluateData.scoreMatches(count, equitri_score)
+        for x in range(len(template_image_equilateral_triangle_list)):
+            count = TemplateMatch.templateMatching_correlation(source_image, template_image_equilateral_triangle_list[x])
+            equitri_score = EvaluateData.scoreMatches(count, equitri_score)
 
-#             for x in range(len(template_image_double_hedgerow_list)):
-#                 count = TemplateMatch.templateMatching_correlation(source_image, template_image_double_hedgerow_list[x])
-#                 dblhdg_score = EvaluateData.scoreMatches(count, dblhdg_score)
+        for x in range(len(template_image_double_hedgerow_list)):
+            count = TemplateMatch.templateMatching_correlation(source_image, template_image_double_hedgerow_list[x])
+            dblhdg_score = EvaluateData.scoreMatches(count, dblhdg_score)
 
-#             for x in range(len(template_image_quincunx_list)):
-#                 count = TemplateMatch.templateMatching_correlation(source_image, template_image_quincunx_list[x])
-                # quincunx_score = EvaluateData.scoreMatches(count, quincunx_score)
-                # rot_source = imutils.rotate(source_image, angle=angle_to_out) # Quin also must test for 45 degree rotations
-                # Gen new templates for new rotation
-                # count = TemplateMatch.templateMatching_correlation(rot_source, template_image_quincunx_list[x])
-                # quincunx_score = EvaluateData.scoreMatches(count, quincunx_score)
+        for x in range(len(template_image_quincunx_list)):
+            count = TemplateMatch.templateMatching_correlation(source_image, template_image_quincunx_list[x])
+            quincunx_score = EvaluateData.scoreMatches(count, quincunx_score)
+            # rot_source = imutils.rotate(source_image, angle=angle_to_out) # Quin also must test for 45 degree rotations
+            # Gen new templates for new rotation
+            # count = TemplateMatch.templateMatching_correlation(rot_source, template_image_quincunx_list[x])
+            # quincunx_score = EvaluateData.scoreMatches(count, quincunx_score)
 
 # ##################################################### Step 3 ###################################################################################
 
 # #   Send data for evaluation
 
 # #####Evaluation methods
-#     pattern_out_array = [square_score, rectangle_score, isostri_score, equitri_score, quincunx_score, dblhdg_score]
-#     print(pattern_out_array)
-#     pattern_out = EvaluateData.Evaluate(pattern_out_array)
+    pattern_out_array = [square_score, rectangle_score, isostri_score, equitri_score, quincunx_score, dblhdg_score]
+    print(pattern_out_array)
+    pattern_out = EvaluateData.Evaluate(pattern_out_array)
+    print(pattern_out)
 #     Data_out.setPatterns(pattern_out)
 # #####
 #     outFileName = filename.split('.')[0]
@@ -296,7 +297,7 @@ def IdealisedExp():
         start_time = time.time()
         file_input_name = 'SquareIdeal.txt'
         Run_File(file_input_name)
-        timeArray.append(int(time.time() - start_time))
+        timeArray.append(time.time() - start_time)
     except:
         print("SquareIdeal Fail")
 
@@ -304,7 +305,7 @@ def IdealisedExp():
         start_time = time.time()
         file_input_name = 'RectIdeal.txt'
         Run_File(file_input_name)
-        timeArray.append(int(time.time() - start_time))
+        timeArray.append(time.time() - start_time)
     except:
         print("SquaRectIdealre Fail")
 
@@ -312,7 +313,7 @@ def IdealisedExp():
         start_time = time.time()
         file_input_name = 'HexagonalIdeal.txt'
         Run_File(file_input_name)
-        timeArray.append(int(time.time() - start_time))
+        timeArray.append(time.time() - start_time)
     except:
         print("HexagonalIdeal Fail")
 
@@ -320,7 +321,7 @@ def IdealisedExp():
         start_time = time.time()
         file_input_name = 'IsoscelesIdeal.txt'
         Run_File(file_input_name)
-        timeArray.append(int(time.time() - start_time))
+        timeArray.append(time.time() - start_time)
     except:
         print("IsoscelesIdeal Fail")
 
@@ -328,7 +329,7 @@ def IdealisedExp():
         start_time = time.time()
         file_input_name = 'QuincunxIdeal.txt'
         Run_File(file_input_name)
-        timeArray.append(int(time.time() - start_time))
+        timeArray.append(time.time() - start_time)
     except:
         print("QuincunxIdeal Fail")
 
@@ -336,7 +337,7 @@ def IdealisedExp():
         start_time = time.time()
         file_input_name = 'DoubleRowIdeal.txt'
         Run_File(file_input_name)
-        timeArray.append(int(time.time() - start_time))
+        timeArray.append(time.time() - start_time)
     except:
         print("DoubleRowIdeal Fail")
 
@@ -352,7 +353,7 @@ def runGeoJSON():
         start_time = time.time()
         file_input_name = '32377/raw-detections.geojson'
         Run_File(file_input_name)
-        timeArray.append(int(time.time() - start_time))
+        timeArray.append(time.time() - start_time)
     except:
         print("32377 Fail")
 
@@ -360,7 +361,7 @@ def runGeoJSON():
         start_time = time.time()
         file_input_name = '35516/raw_detections.geojson'
         Run_File(file_input_name)
-        timeArray.append(int(time.time() - start_time))
+        timeArray.append(time.time() - start_time)
     except:
         print("35516 Fail")
 
@@ -368,7 +369,7 @@ def runGeoJSON():
         start_time = time.time()
         file_input_name = '36502/detections_raw.geojson'
         Run_File(file_input_name)
-        timeArray.append(int(time.time() - start_time))
+        timeArray.append(time.time() - start_time)
     except:
         print("36502 Fail")
 
@@ -376,7 +377,7 @@ def runGeoJSON():
         start_time = time.time()
         file_input_name = '36507/raw_detections.geojson'
         Run_File(file_input_name)
-        timeArray.append(int(time.time() - start_time))
+        timeArray.append(time.time() - start_time)
     except:
         print("36507 Fail")
 
@@ -384,7 +385,7 @@ def runGeoJSON():
         start_time = time.time()
         file_input_name = '36513/detections_raw.geojson'
         Run_File(file_input_name)
-        timeArray.append(int(time.time() - start_time))
+        timeArray.append(time.time() - start_time)
     except:
         print("36513 Fail")
 
@@ -392,7 +393,7 @@ def runGeoJSON():
         start_time = time.time()
         file_input_name = '41630/detections_raw.geojson'
         Run_File(file_input_name)
-        timeArray.append(int(time.time() - start_time))
+        timeArray.append(time.time() - start_time)
     except:
         print("41630 Fail")
 
@@ -400,7 +401,7 @@ def runGeoJSON():
         start_time = time.time()
         file_input_name = '43581/detections_raw.geojson'
         Run_File(file_input_name)
-        timeArray.append(int(time.time() - start_time))
+        timeArray.append(time.time() - start_time)
     except:
         print("43581 Fail")
 

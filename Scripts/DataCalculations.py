@@ -13,18 +13,21 @@ def GenerateSubImages(PointSet):
     count = 0
     x_min, y_min, x_max, y_max = (400,400,-400,-400)
     for point in PointSet:
-        if point.x < x_min : x_min = int(point.x)
-        if point.y < y_min : y_min = int(point.y)
-        if point.x > x_max : x_max = int(point.x)
-        if point.y > y_max : y_max = int(point.y)
+        if point.x < x_min : x_min = point.x
+        if point.y < y_min : y_min = point.y
+        if point.x > x_max : x_max = point.x
+        if point.y > y_max : y_max = point.y
 
-    max_image_number = int((len(PointSet)/1500)+1)
+    max_image_number = int((len(PointSet)/500)+1)
     # print(max_image_number)
-    delta_x = (int(x_max-x_min)/max_image_number)
-    delta_y = (int(y_max-y_min)/max_image_number)
+    delta_x = (x_max-x_min)/max_image_number
+    delta_y = (y_max-y_min)/max_image_number
     # print(delta_x,delta_y)
     test_set = []
-    
+    # print("X")
+    # print(x_min, x_max)
+    # print("Y")
+    # print(y_min, y_max)
 
     for x in range (max_image_number):    
         y_max = y_min + delta_y 
@@ -36,9 +39,7 @@ def GenerateSubImages(PointSet):
                 if ((point.x >= x_min) and (point.x <= x_max)) and ((point.y >= y_min) and (point.y <= y_max)):
                     set_to_return.append(Point(point.x, point.y))
             # print(len(set_to_return))
-            if (len(set_to_return) > 99):
-                # print("here")
-                    
+            if (len(set_to_return) > 99):          
                 xs = [point.x for point in set_to_return]
                 ys = [point.y for point in set_to_return]
                 plt.gca().set_aspect('equal')
@@ -153,6 +154,29 @@ def normaliseData(PointSet, dataset):
     point_list.append(z)
     return (PointSet, weighted_average_angles, max_Tree_per_Row)
 
+
+
+def calcWeightedAverageAngle(angle_list):
+    count = 0
+    angle_avg = 0
+    countneg = 0
+    angle_avgneg = 0
+    for angle in angle_list:
+        if angle > 0:
+            angle_avg += angle
+            count += 1
+        elif angle < 0:
+            angle_avgneg += angle
+            countneg += 1
+
+    if angle_list.count(0) > 3:
+        return 0      
+    elif count >= countneg:
+        return angle_avg/count
+    else:
+        return angle_avgneg/countneg
+
+
 def getCommonAngle(angle_list):
     angle_list.sort()
     curr_angle = 0
@@ -173,7 +197,11 @@ def getCommonAngle(angle_list):
 
     for angle in final_Arr:
         curr_angle += angle
-    return int(curr_angle/len(final_Arr))     
+    if max_count < 2:
+        return int(curr_angle/len(final_Arr))     
+    else:
+        #Result is arbitrary take an average
+        return calcWeightedAverageAngle(angle_list)
         
 def AverageAngle(angle_list):
     count = 0
