@@ -384,6 +384,26 @@ def runGeoJSON():
         f.write(str(timeArray)) 
              
 
+def addNoise(filename):
+    import random
+    count = 0
+    with open("Data/IdealData/" + filename) as dataFile:
+        with open("Data/" + filename, 'w') as f:
+        # point_set = []
+            for line in dataFile:
+                count = random.randint(0,10)
+                coords = line.split()
+                x = float(coords[0])
+                y = float(coords[1])
+                if count == 6:
+                    x += (random.randint(-10,10)/10)
+                    print(x)
+                elif count == 7:
+                    y += (random.randint(-10,10)/10)
+                    print(y)
+                # point_set.append(Point(x,y))            
+                f.write(str(x) + ' ' + str(y) + '\n')
+
 
 if __name__ == '__main__':
     print('The program has started.')   
