@@ -81,7 +81,7 @@ def Run_File(filename):
     square_score, rectangle_score, equitri_score, isostri_score, quincunx_score, dblhdg_score = (0,0,0,0,0,0)
     squareL, rectangleL, equitri, isostri, quincunxL, dblhdg = ([],[],[],[],[],[])
     flag = False
-    image_scale_array = [0]
+    image_scale_array = []
     image_count = 1
     double_rectangle_count = 1
     evaluation_array = []
@@ -93,9 +93,26 @@ def Run_File(filename):
         
         source_image = imutils.rotate(source_image, angle=angle_to_out)
 
-        image_scale_array = TemplateMatch.CalcScale(source_image)   
-        print(image_scale_array)
-        double_rectangle_count = genImages.genAllTemplate(image_scale_array)
+        image_scale_intra, image_scale_inter = TemplateMatch.CalcScale(source_image)
+         
+        for values in image_scale_intra:
+            if values < 10:
+                values *= 10
+        for values in image_scale_inter:
+            if values < 10:
+                values *= 10
+        print("len_x")
+        print(image_scale_intra)
+        print("len_y")
+        print(image_scale_inter)
+
+        double_rectangle_count = genImages.genAllTemplate(image_scale_intra, image_scale_inter)
+        for scales in image_scale_intra:
+            if not(scales in image_scale_array):
+                image_scale_array.append(scales)
+        for scales in image_scale_inter:
+            if not(scales in image_scale_array):
+                image_scale_array.append(scales)
         image_count = len(image_scale_array)
 
 ################################################# Load Images into array at different scales #####################################################
@@ -157,6 +174,9 @@ def Run_File(filename):
     if inter_spacing > (1.7 * scale_intra_row):
         square_score *= 0.5
         quincunx_score *= 0.5
+    else:
+        rectangle_score *= 0.5
+        dblhdg_score *= 0.5
 
 
 #####Evaluation methods

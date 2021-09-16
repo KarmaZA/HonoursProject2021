@@ -40,7 +40,7 @@ def cleanTheGraph(source_image):
 def CalcScale(image):
     min_pixel_value = 0
     width, height  = image.shape    
-    image_scale_array = []    
+    image_scale_x = []    
     image_scale_y = []
     
     ## Vertical Search
@@ -57,42 +57,34 @@ def CalcScale(image):
                 image_scale_y.append(int(scalar_difference))       
           
     # image_scale_array = image_scale_array.sort()  
-    image_scale_y.sort(key=sortFunc)    
-    for count in range(len(image_scale_y)):
-        if image_scale_y[count] < int(1.5 *image_scale_y[0]):
-            if not image_scale_y[count] in image_scale_array:
-                image_scale_array.append(image_scale_y[count])      
+    image_scale_y.sort(key=sortFunc)  
+    toRe_y = []
+    for x in range(len(image_scale_y)-1,1,-1):
+        if image_scale_y[x] < 40  and image_scale_y[x] > 10 :
+            toRe_y.append(image_scale_y[x])
                 
 ################### Horizontal search 
     
-    image_scale_y = []
+    image_scale_x = []
     for y in range(height-1):
         pixel_array = []
         for x in range(width):
             if image[x][y] == min_pixel_value:
-                # We are on a black pixel
                 if image[x][y+1] != min_pixel_value:
-                    pixel_array.append(y)        
+                    pixel_array.append(x) 
+                          
         for z in range(len(pixel_array)-1):
             scalar_difference = pixel_array[z+1] - pixel_array[z]
-            if not scalar_difference in image_scale_y:
-                image_scale_y.append(int(scalar_difference))                
+            if not scalar_difference in image_scale_x:
+                image_scale_x.append(int(scalar_difference))                
           
     # image_scale_array = image_scale_array.sort()  
-    image_scale_y.sort(key=sortFunc)    
-    for count in range(len(image_scale_y)):
-        if image_scale_y[count] < int(1.5 *image_scale_y[0]):
-            if not image_scale_y[count] in image_scale_array:
-                image_scale_array.append(image_scale_y[count])
-
-    x = 0
-    while x < len(image_scale_array):
-        # print(image_scale_array[x], image_scale_array[x]+1)
-        if image_scale_array[x] == (image_scale_array[x-1]+1):
-            image_scale_array.pop(x)
-        x += 1
-            
-    return image_scale_array
+    image_scale_x.sort(key=sortFunc)  
+    toRe_x = []
+    for x in range(len(image_scale_x)-1,1,-1):
+        if image_scale_x[x] < 40  and image_scale_x[x] > 10 :
+            toRe_x.append(image_scale_x[x])
+    return toRe_y, toRe_x
 
 def sortFunc(e):
     return int(e)
