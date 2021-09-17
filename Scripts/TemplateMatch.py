@@ -38,6 +38,7 @@ def cleanTheGraph(source_image):
 
 #Calc Scale will return an array of mean distances. These could number from 1 to several
 def CalcScale(image):
+    dict = {}
     min_pixel_value = 0
     width, height  = image.shape    
     image_scale_x = []    
@@ -53,9 +54,22 @@ def CalcScale(image):
                     pixel_array.append(y)        
         for z in range(len(pixel_array)-1):
             scalar_difference = pixel_array[z+1] - pixel_array[z]
+            if scalar_difference in dict.keys():
+                dict[scalar_difference] += 1
+            else:
+                dict[scalar_difference] = 1
             if not scalar_difference in image_scale_y:
-                image_scale_y.append(int(scalar_difference))       
-          
+                image_scale_y.append(int(scalar_difference))  
+    max_count = 0
+    outArr = []
+    for key in dict.keys():     
+        if dict[key] > max_count:
+            max_count = dict[key]
+    for key in dict.keys():
+        if key > 10 and int(dict[key]) > (0.75*max_count):
+            outArr.append(key)
+    print("dict")
+    print(outArr)
     # image_scale_array = image_scale_array.sort()  
     image_scale_y.sort(key=sortFunc)  
     toRe_y = []
