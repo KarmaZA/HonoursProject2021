@@ -29,14 +29,7 @@ def SetBackground(template):
 
 """Generates all the templates for Template Matching at the scaleds given in the length_array
 returns the number of templates for Double Hedge and Rectangle. Other templates number == len(length_array)"""
-def genAllTemplate(len_x, len_y):
-    length_array = []
-    for scales in len_x:
-        if not(scales in length_array):
-            length_array.append(scales)
-    for scales in len_x:
-        if not(scales in length_array):
-            length_array.append(scales)
+def genAllTemplate(len_x, len_y, length_array):
     genSquareTemplate(length_array)
     genQuincunxTemplate(length_array)
     genEquilateralTriangleTemplate(length_array)

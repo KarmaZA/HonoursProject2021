@@ -10,6 +10,8 @@ import imageio
 def templateMatching_correlation(source_image, template_image):
     threshold = 0.9
     source_image_gray = source_image
+    # print(type(source_image_gray))
+    # print(type(template_image))
     res = cv2.matchTemplate(source_image_gray, template_image, cv2.TM_CCOEFF_NORMED)
     correlation_array = []
     # 0 (1-0.9), 1 (0.9-0.8), 2 (0.8-0.7), 3 (0.7-0.6), 4 (0.6-0.5), 5 (0.5-0.4), 6 (0.4-0.3)   
@@ -58,27 +60,18 @@ def CalcScale(image):
                 dict[scalar_difference] += 1
             else:
                 dict[scalar_difference] = 1
-            if not scalar_difference in image_scale_y:
-                image_scale_y.append(int(scalar_difference))  
     max_count = 0
-    outArr = []
     for key in dict.keys():     
         if dict[key] > max_count:
             max_count = dict[key]
     for key in dict.keys():
         if key > 10 and int(dict[key]) > (0.75*max_count):
-            outArr.append(key)
-    print("dict")
-    print(outArr)
-    # image_scale_array = image_scale_array.sort()  
+            image_scale_y.append(key)
     image_scale_y.sort(key=sortFunc)  
-    toRe_y = []
-    for x in range(len(image_scale_y)-1,1,-1):
-        if image_scale_y[x] < 40  and image_scale_y[x] > 10 :
-            toRe_y.append(image_scale_y[x])
+   
                 
 ################### Horizontal search 
-    
+    dict = {}
     image_scale_x = []
     for y in range(height-1):
         pixel_array = []
@@ -89,16 +82,23 @@ def CalcScale(image):
                           
         for z in range(len(pixel_array)-1):
             scalar_difference = pixel_array[z+1] - pixel_array[z]
-            if not scalar_difference in image_scale_x:
-                image_scale_x.append(int(scalar_difference))                
-          
-    # image_scale_array = image_scale_array.sort()  
-    image_scale_x.sort(key=sortFunc)  
-    toRe_x = []
-    for x in range(len(image_scale_x)-1,1,-1):
-        if image_scale_x[x] < 40  and image_scale_x[x] > 10 :
-            toRe_x.append(image_scale_x[x])
-    return toRe_y, toRe_x
+            if scalar_difference in dict.keys():
+                dict[scalar_difference] += 1
+            else:
+                dict[scalar_difference] = 1
+ 
+    max_count = 0
+    for key in dict.keys():     
+        if dict[key] > max_count and key > 10:
+            max_count = dict[key]
+    for key in dict.keys():
+        if key > 10 and int(dict[key]) > (0.75*max_count):
+                image_scale_x.append(key)
+
+    image_scale_x.sort(key=sortFunc) 
+    
+    return image_scale_y, image_scale_x
+
 
 def sortFunc(e):
     return int(e)

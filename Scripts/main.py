@@ -95,31 +95,24 @@ def Run_File(filename):
 
         image_scale_intra, image_scale_inter = TemplateMatch.CalcScale(source_image)
          
-        for values in image_scale_intra:
-            if values < 10:
-                values *= 10
-        for values in image_scale_inter:
-            if values < 10:
-                values *= 10
-        print("len_x")
-        print(image_scale_intra)
-        print("len_y")
-        print(image_scale_inter)
 
-        double_rectangle_count = genImages.genAllTemplate(image_scale_intra, image_scale_inter)
+        
         for scales in image_scale_intra:
             if not(scales in image_scale_array):
                 image_scale_array.append(scales)
         for scales in image_scale_inter:
             if not(scales in image_scale_array):
                 image_scale_array.append(scales)
+        double_rectangle_count = genImages.genAllTemplate(image_scale_intra, image_scale_inter, image_scale_array)
         image_count = len(image_scale_array)
+        print(image_count)
+        print(image_scale_array)
 
 ################################################# Load Images into array at different scales #####################################################
 
         template_image_square_list = importData.loadImageFromFile('TemplateSquare', image_count)
         template_image_rectangle_list = importData.loadImageFromFile('TemplateRectangle', double_rectangle_count)
-        template_image_isosceles_triangle_list = importData.loadImageFromFile('TemplateTriangle', image_count)
+        template_image_isosceles_triangle_list = importData.loadImageFromFile('TemplateTriangle', double_rectangle_count)
         template_image_quincunx_list = importData.loadImageFromFile('TemplateQuincunx', image_count)
         template_image_equilateral_triangle_list = importData.loadImageFromFile('TemplateEquilateralTriangle', image_count)
         template_image_double_hedgerow_list = importData.loadImageFromFile('TemplateDoubleHedge', double_rectangle_count)
@@ -128,6 +121,7 @@ def Run_File(filename):
         
 
         for x in range(len(template_image_square_list)):
+            # print(x)
             count = TemplateMatch.templateMatching_correlation(source_image, template_image_square_list[x])
             square_score, flag = EvaluateData.scoreMatches(count, square_score)
             if flag:
@@ -142,6 +136,7 @@ def Run_File(filename):
                 rectangleL = count
 
         for x in range(len(template_image_isosceles_triangle_list)):
+            # print(len(template_image_isosceles_triangle_list))
             count = TemplateMatch.templateMatching_correlation(source_image, template_image_isosceles_triangle_list[x])
             isostri_score, flag = EvaluateData.scoreMatches(count, isostri_score)
             if flag:
