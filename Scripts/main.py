@@ -20,6 +20,7 @@ Image_scale_array = []
 
 
 def Run_File(filename):
+    RWdata = False
 ################################################# Step 1 ###################################################################################
 ############################################ Import Data ###################################################################################
     if filename.find('.txt') != -1:
@@ -28,6 +29,7 @@ def Run_File(filename):
     elif filename.find('geo') != -1: # GeoJSON file
         somevar = ''
         threshold = 0.6
+        RWdata = True
         # while somevar == '':
             # print('Loading GeoJSON file')
         PointSet = importData.importGeoJSonAsPoints("Data/RealWorldData/" + str(filename), threshold)  
@@ -65,15 +67,22 @@ def Run_File(filename):
     print(angle_to_out, test2)
 ####################################################### Send extracted parameters to output object ###########################################
     Data_out = DataOutput.DataOut()
-    #Intra-row spacing
-    Data_out.setIntra(scale_intra_row)
+    
     # Row Rotation
     Data_out.setAngle(angle_to_out)
     #Tree Count
     Data_out.setTreeCount(len(PointSet))
     # Road or ditch count
     Data_out.setRoadCount(road_count)
-    #Inter-row spacing
+    #Spacing
+    if RWdata:
+        coords1= (0,0)
+        coords2 = (inter_spacing, 0)
+        import geopy.distance
+        inter_spacing = geopy.distance.geodesic(coords1, coords2).m
+        coords2 = (scale_intra_row, 0)
+        scale_intra_row = geopy.distance.geodesic(coords1, coords2).m
+    Data_out.setIntra(scale_intra_row)   
     Data_out.setInter(inter_spacing)
     # Number of Rows
     Data_out.setRowNumbers(row_count)
@@ -175,7 +184,9 @@ def Run_File(filename):
     if inter_spacing > (1.7 * scale_intra_row):
         square_score *= 0.5
         quincunx_score *= 0.5
+        print("Square penalty")
     else:
+        print("Rect pantly")
         rectangle_score *= 0.5
         dblhdg_score *= 0.5
 
