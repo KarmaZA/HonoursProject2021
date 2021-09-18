@@ -10,8 +10,6 @@ import imageio
 def templateMatching_correlation(source_image, template_image):
     threshold = 0.9
     source_image_gray = source_image
-    # print(type(source_image_gray))
-    # print(type(template_image))
     res = cv2.matchTemplate(source_image_gray, template_image, cv2.TM_CCOEFF_NORMED)
     correlation_array = []
     # 0 (1-0.9), 1 (0.9-0.8), 2 (0.8-0.7), 3 (0.7-0.6), 4 (0.6-0.5), 5 (0.5-0.4), 6 (0.4-0.3)   

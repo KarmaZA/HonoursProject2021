@@ -31,22 +31,6 @@ def CornerTreeCoords(PointSet):
     set_to_return.append(Point(point_max_y.x, point_max_y.y))
 
     return set_to_return
-    # xs = [point.x for point in PointSet]
-    # ys = [point.y for point in PointSet]
-    # plt.scatter(xs,ys, color = 'black')
-    # x1s = [point.x for point in set_to_return]
-    # y1s = [point.y for point in set_to_return]
-    # # colors = cm.rainbow(np.linspace(0, 1, len(y1s)))
-    # # for x, y, c in zip(x1s, y1s, colors):
-    # #     plt.scatter(x, y, color=c)
-    # plt.scatter(x1s,y1s, color = 'red')
-    # plt.title("Are these acceptable corner trees(y/n)?")
-    # plt.show()
-    # somevar = input("Are these acceptable corner trees(y/n)?")
-    # if somevar != 'n':
-    #     return set_to_return
-    # else:
-    #     return["Trees not correctly determined"]
 
 def countRowNumbers(PointSet, angle, dataset):
     row_count = 0

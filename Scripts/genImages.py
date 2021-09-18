@@ -6,6 +6,7 @@ import imageio
 # References
     # https://www.agrihortieducation.com/2016/09/systems-of-planting.html
 Template_Square = [[0,0],[0,1],[1,0],[1,1]]
+# template_size = []
 
 point_array = [255,255,255,0,0,0,255,255,255],[255,255,0,0,0,0,255,255,255],[255,0,0,0,0,0,0,255,255],[0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0],[255,255,0,0,0,0,0,255,255],[255,255,255,0,0,0,255,255,255],[255,255,255,0,0,0,255,255,255]  
 """This method draws polygons around the centroid given by the xy coordinate
@@ -30,6 +31,13 @@ def SetBackground(template):
 """Generates all the templates for Template Matching at the scaleds given in the length_array
 returns the number of templates for Double Hedge and Rectangle. Other templates number == len(length_array)"""
 def genAllTemplate(len_x, len_y, length_array):
+    # global template_size
+    # height = max(len_x) + 14
+    # width = max(len_y) + 14
+    # print("SD")
+    # #len_y is smaller
+    # template_size = [ height, width]
+
     genSquareTemplate(length_array)
     genQuincunxTemplate(length_array)
     genEquilateralTriangleTemplate(length_array)
