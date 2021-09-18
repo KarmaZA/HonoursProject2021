@@ -1,8 +1,8 @@
 The intra-row spacing mean value is: 3.103828590536644
-The inter-row spacing mean value is: 8.526844272969281
+The inter-row spacing mean value is: 8.177426382170303
 The Tree count detected is: 2412
-The number of rows detected is: 15
-The mean value per row is: 88
+The number of rows detected is: 13
+The mean value per row is: 84
 There were 0 road(s) or ditches detected
 A corner coordinate is: 30.952235789689155 , -25.305281818730094
 A corner coordinate is: 30.953726134711317 , -25.30851159348046

@@ -63,7 +63,7 @@ def GenerateSubImages(PointSet):
     return count
 
 
-def normaliseData(PointSet, dataset):
+def rowDetection(PointSet, dataset):
     max_Tree_per_Row = 0
     nearest_dist, nearest_ind = dataset.query(PointSet, k=4)
     

@@ -28,7 +28,7 @@ def Run_File(filename):
         PointSet = importData.importIdealisedData(filename)
     elif filename.find('geo') != -1: # GeoJSON file
         somevar = ''
-        threshold = 0.6
+        threshold = 0.4
         RWdata = True
         # while somevar == '':
             # print('Loading GeoJSON file')
@@ -55,7 +55,7 @@ def Run_File(filename):
     source_image_number = DataCalculations.GenerateSubImages(PointSet)
     # print(source_image_number)
 
-    PointSet, average_angle, tree_per_row = DataCalculations.normaliseData(PointSet, dataset)
+    PointSet, average_angle, tree_per_row = DataCalculations.rowDetection(PointSet, dataset)
     angle_to_out = DataCalculations.getCommonAngle(average_angle)
     row_count, inter_spacing, road_count = ParameterCalculations.countRowNumbers(PointSet, int(angle_to_out), dataset)
     TreeCoords = ParameterCalculations.CornerTreeCoords(PointSet)
@@ -120,6 +120,8 @@ def Run_File(filename):
         for scales in image_scale_inter:
             if not(scales in image_scale_array):
                 image_scale_array.append(scales)
+        if len(image_scale_inter) == 0 or len(image_scale_intra) == 0:
+            pass
         double_rectangle_count = genImages.genAllTemplate(image_scale_intra, image_scale_inter, image_scale_array)
         image_count = len(image_scale_array)
         # print(image_count)
