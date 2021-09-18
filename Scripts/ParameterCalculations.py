@@ -106,6 +106,32 @@ def calcScaleIntra(PointSet, dataset):
     # print("Average scale: " + str(scale_intra))
     return scale_intra
 
+def calcScaleInter(PointSet, angle):
+    dataset = KDTree(PointSet)
+    nearest_dist, nearest_ind = dataset.query(PointSet, k=10) #high k to account for noise
+    inter_list = []
+    angle_list = []
+    for i in range(len(nearest_ind)):
+        for j in range(10):
+            angle_curr = DataCalculations.calcLineRotation(PointSet[nearest_ind[i][0]], PointSet[nearest_ind[i][j]])
+            angle_curr = angle_curr - angle
+            # print(angle_curr, angle)
+            angle_curr = angle_curr % 180
+            # print(angle_curr)
+            if DataCalculations.AnglesInRange(angle_curr,90,10) or DataCalculations.AnglesInRange(angle_curr,60,10):
+                inter_list.append(nearest_dist[i][j])
+                angle_list.append(DataCalculations.calcLineRotation(PointSet[nearest_ind[i][0]], PointSet[nearest_ind[i][j]]))
+                break
+
+    inter_val = 0
+    for spac in inter_list:
+        inter_val += spac
+    inter_val /= len(inter_list)
+    angle_curr = DataCalculations.AverageAngle(angle_list)
+    print('out')
+    print(inter_val, angle_curr)
+    return (inter_val, angle_curr)
+
 def appAngleRange(angle):
     testAngles = [0,23,45,67,90,112,135,167]
     angle = angle % 90

@@ -58,6 +58,8 @@ def Run_File(filename):
     row_count, inter_spacing, road_count = ParameterCalculations.countRowNumbers(PointSet, int(angle_to_out), dataset)
     TreeCoords = ParameterCalculations.CornerTreeCoords(PointSet)
     scale_intra_row = ParameterCalculations.calcScaleIntra(PointSet, dataset)
+
+    test1, test2 = ParameterCalculations.calcScaleInter(PointSet, angle_to_out)
 ####################################################### Send extracted parameters to output object ###########################################
     Data_out = DataOutput.DataOut()
     #Intra-row spacing
@@ -432,7 +434,7 @@ if __name__ == '__main__':
     elif file_input_name == '1':
         IdealisedExp()
     elif file_input_name == '2':
-        file_input_name = 'detections_raw.geojson'
+        file_input_name = 'square_real.geojson'
         print("Using GeoJSON default")
         print()
         Run_File(file_input_name)
