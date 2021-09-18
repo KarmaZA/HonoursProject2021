@@ -34,7 +34,7 @@ def genAllTemplate(len_x, len_y, length_array):
     global template_size
     height = max(length_array) + 14
     # width = max(len_y) + 14
-    print("SD")
+    # print("SD")
     #len_y is smaller
     template_size = [height, height]
 

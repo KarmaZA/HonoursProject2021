@@ -62,9 +62,9 @@ def Run_File(filename):
     scale_intra_row = ParameterCalculations.calcScaleIntra(PointSet, dataset)
 
     test1, test2 = ParameterCalculations.calcScaleInter(PointSet, angle_to_out)
-    print("is it worth it")
-    print(inter_spacing, test1)
-    print(angle_to_out, test2)
+    # print("is it worth it")
+    # print(inter_spacing, test1)
+    # print(angle_to_out, test2)
 ####################################################### Send extracted parameters to output object ###########################################
     Data_out = DataOutput.DataOut()
     
@@ -105,7 +105,10 @@ def Run_File(filename):
         source_image = importData.loadImageFromFile('Images/MainImage' + str(x) + '.png', 0)
         source_image = TemplateMatch.cleanTheGraph(source_image) 
         
-        source_image = imutils.rotate(source_image, angle=angle_to_out+90)
+        source_image = imutils.rotate(source_image, angle=(abs(angle_to_out)-90))
+        # cv2.imshow('test', source_image)
+        # print(angle_to_out)
+        # cv2.waitKey(0)
 
         image_scale_intra, image_scale_inter = TemplateMatch.CalcScale(source_image)
          
@@ -119,8 +122,8 @@ def Run_File(filename):
                 image_scale_array.append(scales)
         double_rectangle_count = genImages.genAllTemplate(image_scale_intra, image_scale_inter, image_scale_array)
         image_count = len(image_scale_array)
-        print(image_count)
-        print(image_scale_array)
+        # print(image_count)
+        # print(image_scale_array)
 
 ################################################# Load Images into array at different scales #####################################################
 
@@ -149,6 +152,8 @@ def Run_File(filename):
             if flag:
                 flag = False
                 rectangleL = count
+            # if rectangle_score > 152700:
+            #     TemplateMatch.templateMatching_display(source_image, template_image_rectangle_list[x])
 
         for x in range(len(template_image_isosceles_triangle_list)):
             # print(len(template_image_isosceles_triangle_list))
@@ -184,23 +189,23 @@ def Run_File(filename):
     if inter_spacing > (1.7 * scale_intra_row):
         square_score *= 0.5
         quincunx_score *= 0.5
-        print("Square penalty")
+        # print("Square penalty")
     else:
-        print("Rect pantly")
+        # print("Rect pantly")
         rectangle_score *= 0.5
         dblhdg_score *= 0.5
 
 
 #####Evaluation methods
     pattern_out_array = [square_score, rectangle_score, isostri_score, equitri_score, quincunx_score, dblhdg_score]
-    print(pattern_out_array)
+    # print(pattern_out_array)
     pattern_out = EvaluateData.Evaluate(pattern_out_array)
-    print(pattern_out)
+    # print(pattern_out)
     Data_out.setPatterns(pattern_out)
 ##### Write data to output object
     outFileName = filename.split('.')[0]
     if outFileName.find('/') > -1:
-        outFileName = outFileName.split('/')[-1]
+        outFileName = outFileName.split('/')[-2]
     Data_out.writeDataToFile(outFileName)
 
 #################################################### Memory Clean Up ##########################################################################
