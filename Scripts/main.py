@@ -96,7 +96,7 @@ def Run_File(filename):
         source_image = importData.loadImageFromFile('Images/MainImage' + str(x) + '.png', 0)
         source_image = TemplateMatch.cleanTheGraph(source_image) 
         
-        source_image = imutils.rotate(source_image, angle=angle_to_out)
+        source_image = imutils.rotate(source_image, angle=angle_to_out+90)
 
         image_scale_intra, image_scale_inter = TemplateMatch.CalcScale(source_image)
          

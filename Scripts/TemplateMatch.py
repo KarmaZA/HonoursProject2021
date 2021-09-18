@@ -18,10 +18,14 @@ def templateMatching_correlation(source_image, template_image):
     for x in range(7):       
         curr_count = 0   
         loc = np.where( res >= threshold)
-        
+        width, height = template_image.shape
         for pt in zip(*loc[::-1]):
-            #cv2.rectangle(source_image_gray, pt, (pt[0] + width, pt[1] + height), (128,128,128), 2)
+            # cv2.rectangle(source_image_gray, pt, (pt[0] + width, pt[1] + height), (128,128,128), 2)
+            
             curr_count += 1
+        # cv2.imshow("oijasd", source_image_gray)
+        # cv2.waitKey(0)
+
         correlation_array.append(curr_count)
         count += curr_count
         threshold -= 0.1
