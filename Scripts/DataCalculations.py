@@ -146,19 +146,19 @@ def normaliseData(PointSet, dataset):
     for coords in nearest_ind[point_list[-1]]:
         row_list2.append(Point(PointSet[coords].x, PointSet[coords].y))   
     
-    xs = [point.x for point in PointSet]
-    ys = [point.y for point in PointSet]
-    plt.scatter(xs,ys, color = 'black')
-    x1s = [point.x for point in row_list]
-    y1s = [point.y for point in row_list]
-    # colors = cm.rainbow(np.linspace(0, 1, len(y1s)))
-    # for x, y, c in zip(x1s, y1s, colors):
-    #     plt.scatter(x, y, color=c)
-    plt.scatter(x1s,y1s, color = 'red')
-    x2s = [point.x for point in row_list2]
-    y2s = [point.y for point in row_list2]
-    plt.scatter(x2s,y2s, color = 'blue')
-    plt.show()
+    # xs = [point.x for point in PointSet]
+    # ys = [point.y for point in PointSet]
+    # plt.scatter(xs,ys, color = 'black')
+    # x1s = [point.x for point in row_list]
+    # y1s = [point.y for point in row_list]
+    # # colors = cm.rainbow(np.linspace(0, 1, len(y1s)))
+    # # for x, y, c in zip(x1s, y1s, colors):
+    # #     plt.scatter(x, y, color=c)
+    # plt.scatter(x1s,y1s, color = 'red')
+    # x2s = [point.x for point in row_list2]
+    # y2s = [point.y for point in row_list2]
+    # plt.scatter(x2s,y2s, color = 'blue')
+    # plt.show()
     point_list.append(z)
     return (PointSet, weighted_average_angles, max_Tree_per_Row)
 
@@ -192,9 +192,11 @@ def getCommonAngle(angle_list):
     count = 0
     sum_Arr = []
     final_Arr = []
+    # print("Angle List")
+    # print(angle_list)
     for x in range(len(angle_list)-1):
         sum_Arr.append(angle_list[x])
-        if AnglesInRange(angle_list[x], angle_list[x+1], 5):
+        if AnglesInRange(angle_list[x], angle_list[x+1], 10):
             count += 1
         else:
             if count > max_count:
@@ -202,10 +204,12 @@ def getCommonAngle(angle_list):
                 max_count = count
                 count = 0
             sum_Arr = []
-
+    print(final_Arr, max_count)
     for angle in final_Arr:
         curr_angle += angle
-    if max_count < 2:
+    max_count = len(final_Arr)
+    if max_count > 2:
+        # print('here')
         return int(curr_angle/len(final_Arr))     
     else:
         #Result is arbitrary take an average

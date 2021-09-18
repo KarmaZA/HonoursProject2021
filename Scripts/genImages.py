@@ -6,7 +6,7 @@ import imageio
 # References
     # https://www.agrihortieducation.com/2016/09/systems-of-planting.html
 Template_Square = [[0,0],[0,1],[1,0],[1,1]]
-# template_size = []
+template_size = []
 
 point_array = [255,255,255,0,0,0,255,255,255],[255,255,0,0,0,0,255,255,255],[255,0,0,0,0,0,0,255,255],[0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0],[255,255,0,0,0,0,0,255,255],[255,255,255,0,0,0,255,255,255],[255,255,255,0,0,0,255,255,255]  
 """This method draws polygons around the centroid given by the xy coordinate
@@ -31,12 +31,12 @@ def SetBackground(template):
 """Generates all the templates for Template Matching at the scaleds given in the length_array
 returns the number of templates for Double Hedge and Rectangle. Other templates number == len(length_array)"""
 def genAllTemplate(len_x, len_y, length_array):
-    # global template_size
-    # height = max(len_x) + 14
+    global template_size
+    height = max(length_array) + 14
     # width = max(len_y) + 14
-    # print("SD")
-    # #len_y is smaller
-    # template_size = [ height, width]
+    print("SD")
+    #len_y is smaller
+    template_size = [height, height]
 
     genSquareTemplate(length_array)
     genQuincunxTemplate(length_array)
@@ -52,9 +52,9 @@ def genSquareTemplate(length_array):
     count = 0
     for length in length_array:
         # print('Generating Square template with a length of: ' + str(length))
-        template_size = length + 14 #Magic number 
+        # template_size = length + 14 #Magic number 
 
-        TemplateToGen = np.zeros(shape=[template_size,template_size], dtype=np.uint8)
+        TemplateToGen = np.zeros(shape=template_size, dtype=np.uint8)
         TemplateToGen = SetBackground(TemplateToGen)
         for Template_Points in Template_Square:
             x = 5 + Template_Points[0] * length
@@ -71,10 +71,11 @@ where x is the position of the scale in the length array"""
 def genQuincunxTemplate(length_array):
     count = 0
     for length in length_array:
+        length = int(length*0.5)
         # print('Generating Quincunx template with a length of: ' + str(length))
-        template_size = length * 2 + 13
+        # template_size = length * 2 + 13
 
-        TemplateToGen = np.zeros(shape=[template_size,template_size], dtype=np.uint8)
+        TemplateToGen = np.zeros(shape=template_size, dtype=np.uint8)
         TemplateToGen = SetBackground(TemplateToGen)
 
         #1
@@ -108,8 +109,8 @@ where x is the position of the scale in the length array"""
 def genEquilateralTriangleTemplate(length_array):
     count = 0
     for length in length_array:
-        template_size = (length) + 14
-        TemplateToGen = np.zeros(shape=[template_size,length+14], dtype=np.uint8)
+        # template_size = (length) + 14
+        TemplateToGen = np.zeros(shape=template_size, dtype=np.uint8)
         TemplateToGen = SetBackground(TemplateToGen)
         y = 5
         x = 5
@@ -138,8 +139,8 @@ def genIsoscelesTriangleTemplate(len_x, len_y):
     for length in len_x:
         for width in len_y:
             if length > 1.5*width:
-                template_size = (length) + 14
-                TemplateToGen = np.zeros(shape=[template_size,length+14], dtype=np.uint8)
+                # template_size = (length) + 14
+                TemplateToGen = np.zeros(shape=template_size, dtype=np.uint8)
                 TemplateToGen = SetBackground(TemplateToGen)
                 y = 5
                 x = 5
@@ -157,10 +158,10 @@ def genIsoscelesTriangleTemplate(len_x, len_y):
                 imageio.imsave(file_name, TemplateToGen)
                 count += 1
     if count == 0:       
-        width = len_x[0]
-        length = width*2
-        template_size = (length) + 14
-        TemplateToGen = np.zeros(shape=[template_size,length+14], dtype=np.uint8)
+        length = len_x[0]
+        width = int(length/2)
+        # template_size = (length) + 14
+        TemplateToGen = np.zeros(shape=template_size, dtype=np.uint8)
         TemplateToGen = SetBackground(TemplateToGen)
         y = 5
         x = 5
@@ -185,16 +186,17 @@ All images are saved as TemplateRectangleX.png
 where x is the position of the scale in the length array"""      
 def genRectangleTemplate(len_x, len_y):
     count = 0
-    for Height in len_x:
-        for Width in len_y:
+    for Height in len_y:
+        for Width in len_x:
+            print(Height,Width)
             if Height > 1.5*Width:
                 # Gen the rectangle
                 # print('Generating Rectangle template with a Height of: ' + str(Height) + ' and a width of : ' + str(Width))
-                TemplateToGen = np.zeros(shape=[(Height + 14),(Width + 14)], dtype=np.uint8)
+                TemplateToGen = np.zeros(shape=template_size, dtype=np.uint8)
                 TemplateToGen = SetBackground(TemplateToGen)
                 for Template_Points in Template_Square:
-                    x = 5 + Template_Points[0] * Height
-                    y = 5 + Template_Points[1] * Width
+                    y = 5 + Template_Points[0] * Height
+                    x = 5 + Template_Points[1] * Width
                     drawGuassianNoise(x, y, TemplateToGen)
                 
                 file_name = 'Images/TemplateRectangle' + str(count) + '.png'
@@ -202,9 +204,9 @@ def genRectangleTemplate(len_x, len_y):
                 count += 1
 
     if count == 0:
-        Width = len_y[0]
-        Height = Width*2
-        TemplateToGen = np.zeros(shape=[(Height + 14),(Width + 14)], dtype=np.uint8)
+        Height = len_y[0]
+        Width = int(Height/2)
+        TemplateToGen = np.zeros(shape=template_size, dtype=np.uint8)
         TemplateToGen = SetBackground(TemplateToGen)
         for Template_Points in Template_Square:
             x = 5 + Template_Points[0] * Height
@@ -230,39 +232,47 @@ def genDoubleHedgeTemplate(len_x, len_y):
                 # Gen the rectangle
                 # print('Generating Hedge Row template with a intra spacing of: ' + str(min_length) + ' and a inter spacing of: ' + str(max_length))
                 size = min_length + max_length + 14 + min_length
-        
-                TemplateToGen = np.zeros(shape=[11,size], dtype=np.uint8)
+
+                temp_size = template_size
+                temp_size[1] = size 
+                TemplateToGen = np.zeros(shape=template_size, dtype=np.uint8)
                 TemplateToGen = SetBackground(TemplateToGen)
+                x, y = TemplateToGen.shape
+                mid_point = int(0.5*x)
                 size = 5
-                drawGuassianNoise(3, size, TemplateToGen) # First point
+                drawGuassianNoise(mid_point, size, TemplateToGen) # First point
                 size += min_length
-                drawGuassianNoise(3, size, TemplateToGen) # First point
+                drawGuassianNoise(mid_point, size, TemplateToGen) # First point
                 size += max_length
-                drawGuassianNoise(3, size, TemplateToGen) # First point
+                drawGuassianNoise(mid_point, size, TemplateToGen) # First point
                 size += min_length
-                drawGuassianNoise(3, size, TemplateToGen) # First point
+                drawGuassianNoise(mid_point, size, TemplateToGen) # First point
                 
                 file_name = 'Images/TemplateDoubleHedge' + str(count) + '.png'
                 imageio.imsave(file_name, TemplateToGen)
                 count += 1
 
     if count == 0:
-        min_length = Width
-        max_length = min_length * 2
+        max_length = Width
+        min_length = int(max_length/2)
         # Gen the rectangle
         # print('Generating Hedge Row template with a intra spacing of: ' + str(min_length) + ' and a inter spacing of: ' + str(max_length))
         size = min_length + max_length + 14 + min_length
 
-        TemplateToGen = np.zeros(shape=[11,size], dtype=np.uint8)
+        temp_size = template_size
+        temp_size[1] = size
+        TemplateToGen = np.zeros(shape=template_size, dtype=np.uint8)
         TemplateToGen = SetBackground(TemplateToGen)
+        x, y = TemplateToGen.shape
+        mid_point = int(0.5*x)
         size = 5
-        drawGuassianNoise(3, size, TemplateToGen) # First point
+        drawGuassianNoise(mid_point, size, TemplateToGen) # First point
         size += min_length
-        drawGuassianNoise(3, size, TemplateToGen) # First point
+        drawGuassianNoise(mid_point, size, TemplateToGen) # First point
         size += max_length
-        drawGuassianNoise(3, size, TemplateToGen) # First point
+        drawGuassianNoise(mid_point, size, TemplateToGen) # First point
         size += min_length
-        drawGuassianNoise(3, size, TemplateToGen) # First point
+        drawGuassianNoise(mid_point, size, TemplateToGen) # First point
         
         file_name = 'Images/TemplateDoubleHedge' + str(count) + '.png'
         imageio.imsave(file_name, TemplateToGen)

@@ -60,6 +60,9 @@ def Run_File(filename):
     scale_intra_row = ParameterCalculations.calcScaleIntra(PointSet, dataset)
 
     test1, test2 = ParameterCalculations.calcScaleInter(PointSet, angle_to_out)
+    print("is it worth it")
+    print(inter_spacing, test1)
+    print(angle_to_out, test2)
 ####################################################### Send extracted parameters to output object ###########################################
     Data_out = DataOutput.DataOut()
     #Intra-row spacing
@@ -423,6 +426,8 @@ def addNoise(filename):
 
 
 if __name__ == '__main__':
+    # genImages.genRectangleTemplate([21,23,34,37],[40,42,43,45])
+
     print('The program has started.')   
     file_input_name = input("What is the image name(0 for default)?\n")
     start_time = time.time()

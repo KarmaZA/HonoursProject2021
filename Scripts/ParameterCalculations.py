@@ -116,7 +116,7 @@ def calcScaleInter(PointSet, angle):
             angle_curr = DataCalculations.calcLineRotation(PointSet[nearest_ind[i][0]], PointSet[nearest_ind[i][j]])
             angle_curr = angle_curr - angle
             # print(angle_curr, angle)
-            angle_curr = angle_curr % 180
+            # angle_curr = angle_curr % 180
             # print(angle_curr)
             if DataCalculations.AnglesInRange(angle_curr,90,10) or DataCalculations.AnglesInRange(angle_curr,60,10):
                 inter_list.append(nearest_dist[i][j])
