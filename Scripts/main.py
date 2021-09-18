@@ -134,6 +134,7 @@ def Run_File(filename):
                 squareL = count
 
         for x in range(len(template_image_rectangle_list)):
+            # print(x)
             count = TemplateMatch.templateMatching_correlation(source_image, template_image_rectangle_list[x])
             rectangle_score, flag = EvaluateData.scoreMatches(count, rectangle_score)
             if flag:

@@ -68,8 +68,9 @@ def normaliseData(PointSet, dataset):
     nearest_dist, nearest_ind = dataset.query(PointSet, k=4)
     
     sampled_points = []
+    row_count = 0
     weighted_average_angles = []
-    for k in range(10):
+    while row_count < 10:
         angle_list = []
         point_list = []
         # If for values not in point line angle is not in range make false
@@ -136,15 +137,17 @@ def normaliseData(PointSet, dataset):
                 count += 1          
         for point in point_list:
             sampled_points.append(point)
-        weighted_average_angles.append(AverageAngle(angle_list))#, len(point_list)])
+        if len(point_list) > 10:
+            weighted_average_angles.append(AverageAngle(angle_list))#, len(point_list)])
+            row_count += 1
         if len(point_list) > max_Tree_per_Row:
             max_Tree_per_Row = len(point_list)
         
     for coords in sampled_points:
         row_list.append(Point(PointSet[coords].x, PointSet[coords].y))  
-    row_list2 = [] 
-    for coords in nearest_ind[point_list[-1]]:
-        row_list2.append(Point(PointSet[coords].x, PointSet[coords].y))   
+    # row_list2 = [] 
+    # for coords in nearest_ind[point_list[-1]]:
+    #     row_list2.append(Point(PointSet[coords].x, PointSet[coords].y))   
     
     # xs = [point.x for point in PointSet]
     # ys = [point.y for point in PointSet]
@@ -160,6 +163,7 @@ def normaliseData(PointSet, dataset):
     # plt.scatter(x2s,y2s, color = 'blue')
     # plt.show()
     point_list.append(z)
+    print(weighted_average_angles)
     return (PointSet, weighted_average_angles, max_Tree_per_Row)
 
 
@@ -192,8 +196,6 @@ def getCommonAngle(angle_list):
     count = 0
     sum_Arr = []
     final_Arr = []
-    # print("Angle List")
-    # print(angle_list)
     for x in range(len(angle_list)-1):
         sum_Arr.append(angle_list[x])
         if AnglesInRange(angle_list[x], angle_list[x+1], 10):

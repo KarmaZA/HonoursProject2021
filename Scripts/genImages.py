@@ -188,15 +188,16 @@ def genRectangleTemplate(len_x, len_y):
     count = 0
     for Height in len_y:
         for Width in len_x:
-            print(Height,Width)
-            if Height > 1.5*Width:
+            # print(Height,Width)
+            if Height < 1.5*Width:
                 # Gen the rectangle
                 # print('Generating Rectangle template with a Height of: ' + str(Height) + ' and a width of : ' + str(Width))
+                # print("here")
                 TemplateToGen = np.zeros(shape=template_size, dtype=np.uint8)
                 TemplateToGen = SetBackground(TemplateToGen)
                 for Template_Points in Template_Square:
-                    y = 5 + Template_Points[0] * Height
-                    x = 5 + Template_Points[1] * Width
+                    x = 5 + Template_Points[0] * Height
+                    y = 5 + Template_Points[1] * Width
                     drawGuassianNoise(x, y, TemplateToGen)
                 
                 file_name = 'Images/TemplateRectangle' + str(count) + '.png'
