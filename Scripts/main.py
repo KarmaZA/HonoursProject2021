@@ -61,7 +61,7 @@ def Run_File(filename):
     TreeCoords = ParameterCalculations.CornerTreeCoords(PointSet)
     scale_intra_row = ParameterCalculations.calcScaleIntra(PointSet, dataset)
 
-    test1, test2 = ParameterCalculations.calcScaleInter(PointSet, angle_to_out)
+    # test1, test2 = ParameterCalculations.calcScaleInter(PointSet, angle_to_out)
     # print("is it worth it")
     # print(inter_spacing, test1)
     # print(angle_to_out, test2)
@@ -122,6 +122,10 @@ def Run_File(filename):
                 image_scale_array.append(scales)
         if len(image_scale_inter) == 0 or len(image_scale_intra) == 0:
             pass
+        if len(image_scale_intra) < 1:
+            image_scale_intra = image_scale_inter 
+        if len(image_scale_inter) < 1:
+            image_scale_inter = image_scale_intra 
         double_rectangle_count = genImages.genAllTemplate(image_scale_intra, image_scale_inter, image_scale_array)
         image_count = len(image_scale_array)
         # print(image_count)
@@ -434,24 +438,25 @@ def addNoise(filename):
                 coords = line.split()
                 x = float(coords[0])
                 y = float(coords[1])
-                if count == 6:
-                    x += (random.randint(-10,10)/10)
-                    print(x)
-                elif count == 7:
-                    y += (random.randint(-10,10)/10)
-                    print(y)
+                y*= 2
+                # if count == 6:
+                #     x += (random.randint(-10,10)/10)
+                #     print(x)
+                # elif count == 7:
+                #     y += (random.randint(-10,10)/10)
+                #     print(y)
                 # point_set.append(Point(x,y))            
                 f.write(str(x) + ' ' + str(y) + '\n')
 
 
 if __name__ == '__main__':
-    # genImages.genRectangleTemplate([21,23,34,37],[40,42,43,45])
+    # addNoise('IsoscelesIdeal.txt')
 
     print('The program has started.')   
     file_input_name = input("What is the image name(0 for default)?\n")
     start_time = time.time()
     if file_input_name == '0':
-        file_input_name = 'SquareIdeal.txt'
+        file_input_name = 'DoubleRowIdeal.txt'
         print("Using default")
         print()
         Run_File(file_input_name)

@@ -236,6 +236,7 @@ def genDoubleHedgeTemplate(len_x, len_y):
 
                 temp_size = template_size
                 temp_size[1] = size 
+                temp_size[0] = 11
                 TemplateToGen = np.zeros(shape=template_size, dtype=np.uint8)
                 TemplateToGen = SetBackground(TemplateToGen)
                 x, y = TemplateToGen.shape
