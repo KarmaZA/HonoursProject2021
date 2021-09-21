@@ -100,9 +100,13 @@ def Run_File(filename):
     image_count = 1
     double_rectangle_count = 1
     evaluation_array = []
+
+    some_count_small = 0
+    some_count_big = 0
  
 #     ################################################# Generate Images ################################################################################
     for x in range(source_image_number):
+        print('Calculating image ' + str(x))
         source_image = importData.loadImageFromFile('Images/MainImage' + str(x) + '.png', 0)
         source_image = TemplateMatch.cleanTheGraph(source_image) 
         
@@ -129,8 +133,10 @@ def Run_File(filename):
             image_scale_inter = image_scale_intra 
         double_rectangle_count = genImages.genAllTemplate(image_scale_intra, image_scale_inter, image_scale_array)
         image_count = len(image_scale_array)
-        # print(image_count)
-        # print(image_scale_array)
+        if some_count_small < image_count:
+            some_count_small = image_count
+        if some_count_big < double_rectangle_count:
+            some_count_big = double_rectangle_count
 
 ################################################# Load Images into array at different scales #####################################################
 
@@ -216,19 +222,25 @@ def Run_File(filename):
     Data_out.writeDataToFile(outFileName)
 
 #################################################### Memory Clean Up ##########################################################################
-    for x in range(double_rectangle_count):
+    for x in range(some_count_big):
         if x < source_image_number:
+            # print(source_image_number, x)
             os.remove('Images/MainImage' + str(x) + '.png')
-        if x < image_count:
+        if x < some_count_small:
             os.remove('Images/TemplateSquare' + str(x) + '.png')
             os.remove('Images/TemplateEquilateralTriangle' + str(x) + '.png')
             os.remove('Images/TemplateQuincunx' + str(x) + '.png')
-            os.remove('Images/TemplateTriangle' + str(x) + '.png')
+        os.remove('Images/TemplateTriangle' + str(x) + '.png')
         os.remove('Images/TemplateRectangle' + str(x) + '.png')
         os.remove('Images/TemplateDoubleHedge' + str(x) + '.png')
-    if(source_image_number > double_rectangle_count):
-        for x in range(double_rectangle_count, source_image_number,1):
+    if(some_count_small > some_count_big):
+        for x in range(some_count_big, some_count_small,1):
+            if x < some_count_small:
+                os.remove('Images/TemplateSquare' + str(x) + '.png')
+                os.remove('Images/TemplateEquilateralTriangle' + str(x) + '.png')
+                os.remove('Images/TemplateQuincunx' + str(x) + '.png')
             if x < source_image_number:
+                    # print(source_image_number, x)
                 os.remove('Images/MainImage' + str(x) + '.png')
 
 #################################################### Completed ################################################################################
@@ -457,7 +469,7 @@ if __name__ == '__main__':
     file_input_name = input("What is the image name(0 for default)?\n")
     start_time = time.time()
     if file_input_name == '0':
-        file_input_name = 'DoubleRowIdeal.txt'
+        file_input_name = 'RectIdeal.txt'
         print("Using default")
         print()
         Run_File(file_input_name)
