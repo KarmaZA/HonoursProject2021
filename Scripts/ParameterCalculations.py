@@ -30,17 +30,17 @@ def CornerTreeCoords(PointSet):
     set_to_return.append(Point(point_max_x.x, point_max_x.y))
     set_to_return.append(Point(point_max_y.x, point_max_y.y))
 
-    # xs = [point.x for point in PointSet]
-    # ys = [point.y for point in PointSet]
-    # plt.scatter(xs,ys, color = 'black')
-    # x1s = [point.x for point in set_to_return]
-    # y1s = [point.y for point in set_to_return]
-    # # colors = cm.rainbow(np.linspace(0, 1, len(y1s)))
-    # # for x, y, c in zip(x1s, y1s, colors):
-    # #     plt.scatter(x, y, color=c)
-    # plt.scatter(x1s,y1s, color = 'red')
-    # plt.title("Are these acceptable corner trees(y/n)?")
-    # plt.show()
+    xs = [point.x for point in PointSet]
+    ys = [point.y for point in PointSet]
+    plt.scatter(xs,ys, color = 'black')
+    x1s = [point.x for point in set_to_return]
+    y1s = [point.y for point in set_to_return]
+    # colors = cm.rainbow(np.linspace(0, 1, len(y1s)))
+    # for x, y, c in zip(x1s, y1s, colors):
+    #     plt.scatter(x, y, color=c)
+    plt.scatter(x1s,y1s, color = 'red')
+    plt.title("Corner Trees?")
+    plt.show()
 
     return set_to_return
 
@@ -52,7 +52,7 @@ def countRowNumbers(PointSet, angle, dataset):
     point_list = []
     angle_perp_1 = (angle + 90)
     angle_perp_2 = (angle - 90)
-    print(angle, angle_perp_1, angle_perp_2)
+    # print(angle, angle_perp_1, angle_perp_2)
     nearest_dist, nearest_ind = dataset.query(PointSet, k=8)
 
     for z in range(10):
@@ -138,8 +138,8 @@ def calcScaleInter(PointSet, angle):
         inter_val += spac
     inter_val /= len(inter_list)
     angle_curr = DataCalculations.AverageAngle(angle_list)
-    print('out')
-    print(inter_val, angle_curr)
+    # print('out')
+    # print(inter_val, angle_curr)
     return (inter_val, angle_curr)
 
 def appAngleRange(angle):

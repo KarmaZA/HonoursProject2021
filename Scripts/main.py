@@ -41,14 +41,15 @@ def Run_File(filename):
         exit()
     print("Data loaded")
 
-    # import matplotlib.pyplot as plt
-    # xs = [point.x for point in PointSet]
-    # ys = [point.y for point in PointSet]
-    # plt.gca().set_aspect('equal')
-    # plt.scatter(xs,ys, color = 'black')
-    # # plt.axis('off') # So the image only has points
+    import matplotlib.pyplot as plt
+    xs = [point.x for point in PointSet]
+    ys = [point.y for point in PointSet]
+    plt.gca().set_aspect('equal')
+    plt.scatter(xs,ys, color = 'black')
+    # plt.axis('off') # So the image only has points
     # print(len(PointSet))
-    # plt.show()
+    plt.title("Dataset Visualization")
+    plt.show()
  
 ###################################################### Functions to calc parameters and TM problem values #############################################
     dataset = KDTree(PointSet)
@@ -233,7 +234,7 @@ def Run_File(filename):
 #################################################### Completed ################################################################################
 
     print("The program has completed running")
-    print("The most likely pattern is " + str(pattern_out_array[0]))
+    # print("The most likely pattern is " + str(pattern_out_array[0]))
     print("See " + str(outFileName) + ".txt for more information")
     with open("TM" + str(outFileName), 'w') as f:
         f.write(str(pattern_out_array) + '\n')

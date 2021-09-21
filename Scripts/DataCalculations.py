@@ -149,18 +149,19 @@ def rowDetection(PointSet, dataset):
     for coords in nearest_ind[point_list[-1]]:
         row_list2.append(Point(PointSet[coords].x, PointSet[coords].y))   
     
-    # xs = [point.x for point in PointSet]
-    # ys = [point.y for point in PointSet]
-    # plt.scatter(xs,ys, color = 'black')
-    # x1s = [point.x for point in row_list]
-    # y1s = [point.y for point in row_list]
-    # plt.scatter(x1s,y1s, color = 'red')
-    # # x2s = [point.x for point in row_list2]
-    # # y2s = [point.y for point in row_list2]
-    # # plt.scatter(x2s,y2s, color = 'blue')
-    # plt.show()
+    xs = [point.x for point in PointSet]
+    ys = [point.y for point in PointSet]
+    plt.scatter(xs,ys, color = 'black')
+    x1s = [point.x for point in row_list]
+    y1s = [point.y for point in row_list]
+    plt.scatter(x1s,y1s, color = 'red')
+    # x2s = [point.x for point in row_list2]
+    # y2s = [point.y for point in row_list2]
+    # plt.scatter(x2s,y2s, color = 'blue')
+    plt.title("Row Detection")
+    plt.show()
     point_list.append(z)
-    print(weighted_average_angles)
+    # print(weighted_average_angles)
     return (PointSet, weighted_average_angles, max_Tree_per_Row)
 
 
@@ -203,7 +204,7 @@ def getCommonAngle(angle_list):
                 max_count = count
                 count = 0
             sum_Arr = []
-    print(final_Arr, max_count)
+    # print(final_Arr, max_count)
     for angle in final_Arr:
         curr_angle += angle
     max_count = len(final_Arr)
