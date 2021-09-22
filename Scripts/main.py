@@ -18,25 +18,18 @@ import EvaluateData
 
 Image_scale_array = []
 
-
+"""The main method of the program. This executes the pipeline and and managed all the other methods in the program."""
 def Run_File(filename):
     RWdata = False
 ################################################# Step 1 ###################################################################################
 ############################################ Import Data ###################################################################################
     if filename.find('.txt') != -1:
-        # print('Running for for idealised data')
         PointSet = importData.importIdealisedData(filename)
     elif filename.find('geo') != -1: # GeoJSON file
         somevar = ''
         threshold = 0.4
         RWdata = True
-        # while somevar == '':
-            # print('Loading GeoJSON file')
         PointSet = importData.importGeoJSonAsPoints("Data/RealWorldData/" + str(filename), threshold)  
-            # importData.displayPolygonSet(PolygonSet)
-            # PointSet = importData.convertPolygonsToCentroids(PolygonSet) 
-            # somevar = ' a'#input('Lower the threshold?(Enter) Continue?(Press any key)')
-            # threshold -= 0.05
     else: 
         exit()
     print("Data loaded")
@@ -63,9 +56,6 @@ def Run_File(filename):
     scale_intra_row = ParameterCalculations.calcScaleIntra(PointSet, dataset)
 
     # test1, test2 = ParameterCalculations.calcScaleInter(PointSet, angle_to_out)
-    # print("is it worth it")
-    # print(inter_spacing, test1)
-    # print(angle_to_out, test2)
 ####################################################### Send extracted parameters to output object ###########################################
     Data_out = DataOutput.DataOut()
     
@@ -108,17 +98,10 @@ def Run_File(filename):
     for x in range(source_image_number):
         print('Calculating image ' + str(x))
         source_image = importData.loadImageFromFile('Images/MainImage' + str(x) + '.png', 0)
-        source_image = TemplateMatch.cleanTheGraph(source_image) 
-        
+        source_image = TemplateMatch.cleanTheGraph(source_image)         
         source_image = imutils.rotate(source_image, angle=(abs(angle_to_out)-90))
-        # cv2.imshow('test', source_image)
-        # print(angle_to_out)
-        # cv2.waitKey(0)
-
         image_scale_intra, image_scale_inter = TemplateMatch.CalcScale(source_image)
-         
-
-        
+                
         for scales in image_scale_intra:
             if not(scales in image_scale_array):
                 image_scale_array.append(scales)
@@ -139,7 +122,6 @@ def Run_File(filename):
             some_count_big = double_rectangle_count
 
 ################################################# Load Images into array at different scales #####################################################
-
         template_image_square_list = importData.loadImageFromFile('TemplateSquare', image_count)
         template_image_rectangle_list = importData.loadImageFromFile('TemplateRectangle', double_rectangle_count)
         template_image_isosceles_triangle_list = importData.loadImageFromFile('TemplateTriangle', double_rectangle_count)
@@ -148,8 +130,6 @@ def Run_File(filename):
         template_image_double_hedgerow_list = importData.loadImageFromFile('TemplateDoubleHedge', double_rectangle_count)
     
 ################################################ Template Matching ################################################################################
-        
-
         for x in range(len(template_image_square_list)):
             # print(x)
             count = TemplateMatch.templateMatching_correlation(source_image, template_image_square_list[x])
@@ -165,8 +145,6 @@ def Run_File(filename):
             if flag:
                 flag = False
                 rectangleL = count
-            # if rectangle_score > 152700:
-            #     TemplateMatch.templateMatching_display(source_image, template_image_rectangle_list[x])
 
         for x in range(len(template_image_isosceles_triangle_list)):
             # print(len(template_image_isosceles_triangle_list))
@@ -207,7 +185,6 @@ def Run_File(filename):
         # print("Rect pantly")
         rectangle_score *= 0.5
         dblhdg_score *= 0.5
-
 
 #####Evaluation methods
     pattern_out_array = [square_score, rectangle_score, isostri_score, equitri_score, quincunx_score, dblhdg_score]
@@ -258,6 +235,7 @@ def Run_File(filename):
         f.write('Dbl ' + str(dblhdg_score) + ' ' + str(dblhdg)  + '\n')
 
     
+"""Runs the test Ideal data used for initial development and MVP demo"""
 def RunTestCases():
     file_input_name = 'TestIdealData/SquareIdeal3.txt'
     print("Square Template")
@@ -319,7 +297,7 @@ def RunTestCases():
     file_input_name = 'TestIdealData/DoubleHedgeNoise3.txt'
     Run_File(file_input_name)
 
-
+"""Runs the high volume Idealised data that mimic real world data volume with minimal noise"""
 def IdealisedExp():
     timeArray = []
     try:
@@ -375,7 +353,8 @@ def IdealisedExp():
     with open("performance.txt", 'w') as f:
         f.write(str(timeArray))   
 
-
+"""Runs all the GeoJSON data supplied by Aerobotics for this project
+This data is too big to be stored in a github repo so the folders must be extracted to the real-world data folder"""
 def runGeoJSON():    
     timeArray = []
     try:
@@ -439,7 +418,7 @@ def runGeoJSON():
     with open("performance.txt", 'w') as f:
         f.write(str(timeArray)) 
              
-
+"""Used to add noise to perfectly generated Idealized data"""
 def addNoise(filename):
     import random
     count = 0
@@ -461,7 +440,8 @@ def addNoise(filename):
                 # point_set.append(Point(x,y))            
                 f.write(str(x) + ' ' + str(y) + '\n')
 
-
+"""Start method of the program that takes user input to know which dataset to deal with. 
+Certain defaults methods for testing use"""
 if __name__ == '__main__':
     # addNoise('IsoscelesIdeal.txt')
 

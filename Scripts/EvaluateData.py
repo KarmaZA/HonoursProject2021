@@ -1,6 +1,8 @@
 # File for the data evaluation
 # 
 
+"""Reads the scoring list and outputs a string of the patterns with the highest scores. 
+Any pattern with a score greater than 75% of the high score is returned"""
 def Evaluate(Patterns_list):
     max_val = max(Patterns_list)
     patterns = ''
@@ -23,6 +25,9 @@ def Evaluate(Patterns_list):
 
     return patterns
 
+"""Implements the basic scoring on the match count array. 
+If the score is higher then returns the new score and true
+else returns old score and false."""
 def scoreMatches(match_array, current_score):
     modifier = 2000
     point_score = 0

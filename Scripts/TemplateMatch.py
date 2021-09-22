@@ -6,7 +6,8 @@ import numpy as np
 from shapely.geometry import Point, MultiPoint
 import imageio
 
-# Template matching using normalized Cross Correlation
+"""Implementation of OpenCV template matching method. Input is the source image and desired template.
+Returns a list of matches in 0.1 correlation decrements starting from 1"""
 def templateMatching_correlation(source_image, template_image):
     threshold = 0.9
     source_image_gray = source_image
@@ -27,7 +28,7 @@ def templateMatching_correlation(source_image, template_image):
         threshold -= 0.1
     return correlation_array
 
-
+"""Used to display the match points of the template. adjust line 42. Only used in experiments"""
 def templateMatching_display(source_image, template_image):
     threshold = 0.5
     source_image_gray = source_image
@@ -42,7 +43,7 @@ def templateMatching_display(source_image, template_image):
             cv2.imshow("Displayed Match", source_image_gray)
             cv2.waitKey(0)
 
-
+"""Make all non-black pixels white. if value not 0 then 255"""
 def cleanTheGraph(source_image):
     width, height = source_image.shape
     for x in range(width):
@@ -51,7 +52,9 @@ def cleanTheGraph(source_image):
                 source_image[x][y] = 255
     return source_image
 
-#Calc Scale will return an array of mean distances. These could number from 1 to several
+"""calculates the scale parameters for the template matching method.
+Assumes the rows are aligned to one of the axes.
+returns most commonly detected scales"""
 def CalcScale(image):
     dict = {}
     min_pixel_value = 0
