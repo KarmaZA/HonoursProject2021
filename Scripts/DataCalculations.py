@@ -62,7 +62,8 @@ def GenerateSubImages(PointSet):
         x_min -= (delta_x*max_image_number)
     return count
 
-
+"""Row detection method that displays the detected rows
+and the returns max trees per row and a list of the detected angles"""
 def rowDetection(PointSet, dataset):
     max_Tree_per_Row = 0
     nearest_dist, nearest_ind = dataset.query(PointSet, k=4)
@@ -164,8 +165,8 @@ def rowDetection(PointSet, dataset):
     # print(weighted_average_angles)
     return (PointSet, weighted_average_angles, max_Tree_per_Row)
 
-
-
+"""Calculates the most common angle range in a list
+or if no most common returns the average of the list"""
 def calcWeightedAverageAngle(angle_list):
     count = 0
     angle_avg = 0
@@ -186,7 +187,8 @@ def calcWeightedAverageAngle(angle_list):
     else:
         return angle_avgneg/countneg
 
-
+"""Calculates the most common angle range in a list
+or if no most common returns the average of the list"""
 def getCommonAngle(angle_list):
     angle_list.sort()
     curr_angle = 0

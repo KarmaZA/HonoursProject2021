@@ -8,6 +8,7 @@ import matplotlib.pyplot as plt
 import DataCalculations
 import random
 
+"""Finds the tree coordinates with min and max x and y positions for the corner trees"""
 def CornerTreeCoords(PointSet):
     min_x, min_y, max_x, max_y = (400,400,-400,-400)
     for point in PointSet:
@@ -44,6 +45,7 @@ def CornerTreeCoords(PointSet):
 
     return set_to_return
 
+"""Implements a variation of the row detection algorithm in an attempt to count rows"""
 def countRowNumbers(PointSet, angle, dataset):
     row_count = 0
     max_row_count = 0
@@ -107,7 +109,7 @@ def countRowNumbers(PointSet, angle, dataset):
                         road_count +=1   
     return (row_count, inter_spacing, road_count)
 
-
+"""Calculates the differences between the nearest points in a KD Tree to detect intra-row spacing"""
 def calcScaleIntra(PointSet, dataset):
     nearest_dist, nearest_ind = dataset.query(PointSet, k=4)
     scale_intra = 0   
@@ -118,6 +120,7 @@ def calcScaleIntra(PointSet, dataset):
     # print("Average scale: " + str(scale_intra))
     return scale_intra
 
+"""Calculates the spacing between rows by calculating the distance between points when the angle is perpendicular to the row"""
 def calcScaleInter(PointSet, angle):
     dataset = KDTree(PointSet)
     nearest_dist, nearest_ind = dataset.query(PointSet, k=20) #high k to account for noise

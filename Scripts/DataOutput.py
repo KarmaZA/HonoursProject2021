@@ -42,7 +42,7 @@ class DataOut:
 
     def setRoadCount(self, Rcount):
         road_count = Rcount
-
+"""Outputs data to a file and the terminal"""
     def writeDataToFile(self, filename):
         print()
         print("The intra-row spacing mean value is: " + str(self.intra_spacing))
