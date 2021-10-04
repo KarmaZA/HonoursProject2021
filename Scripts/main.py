@@ -34,15 +34,16 @@ def Run_File(filename):
         exit()
     print("Data loaded")
 
-    import matplotlib.pyplot as plt
-    xs = [point.x for point in PointSet]
-    ys = [point.y for point in PointSet]
-    plt.gca().set_aspect('equal')
-    plt.scatter(xs,ys, color = 'black')
-    # plt.axis('off') # So the image only has points
-    # print(len(PointSet))
-    plt.title("Dataset Visualization")
-    plt.show()
+    # import matplotlib.pyplot as plt
+    # xs = [point.x for point in PointSet]
+    # ys = [point.y for point in PointSet]
+    # plt.gca().set_aspect('equal')
+    # plt.scatter(xs,ys, color = 'black')
+    # plt.axis('equal')
+    # # plt.axis('off') # So the image only has points
+    # # print(len(PointSet))
+    # plt.title("Dataset Visualization")
+    # plt.show()
  
 ###################################################### Functions to calc parameters and TM problem values #############################################
     dataset = KDTree(PointSet)
@@ -231,7 +232,7 @@ def Run_File(filename):
         f.write('Rectangle ' + str(rectangle_score) + ' ' + str(rectangleL)  + '\n')
         f.write('Isos ' + str(isostri_score) + ' ' + str(isostri)  + '\n')
         f.write('Equi ' + str(equitri_score) + ' ' + str(equitri)  + '\n')
-        f.write('Quin ' + str(quincunx_score) + ' ' + str(quincunxL)  + '\n')
+        # f.write('Quin ' + str(quincunx_score) + ' ' + str(quincunxL)  + '\n')
         f.write('Dbl ' + str(dblhdg_score) + ' ' + str(dblhdg)  + '\n')
 
     
@@ -449,7 +450,7 @@ if __name__ == '__main__':
     file_input_name = input("What is the image name(0 for default)?\n")
     start_time = time.time()
     if file_input_name == '0':
-        file_input_name = 'RectIdeal.txt'
+        file_input_name = '36507/raw_detections.geojson'
         print("Using default")
         print()
         Run_File(file_input_name)
